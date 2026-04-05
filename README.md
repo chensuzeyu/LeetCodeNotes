@@ -17,6 +17,7 @@
 - [学习方法](#学习方法)
 - [仓库目录结构](#仓库目录结构)
 - [笔记模板](#笔记模板)
+- [从力扣页面提取原题文案](#从力扣页面提取原题文案)
 
 ---
 
@@ -25,6 +26,8 @@
 ```
 LeetCodeNote/
 ├── README.md
+├── scripts/
+│   └── extract_lc_cn_meta.py   # 从力扣 CN 题目页 HTML 提取 meta 中的原题摘要（可复用）
 └── notes/
     └── 第一阶段-基础数据结构/
         └── 数组与双指针/
@@ -423,6 +426,15 @@ LeetCodeNote/
 
 ---
 
+## 从力扣页面提取原题文案
+
+写笔记里的「原题（力扣中文版）」时，可与站内对照：先用浏览器或 `curl` 保存题目描述页 HTML，再运行仓库中的 [`scripts/extract_lc_cn_meta.py`](scripts/extract_lc_cn_meta.py)，从 `<meta name="description">` 里抽出题干、示例、提示等正文（不含 LaTeX 渲染，可能含站内超链接片段，粘贴后按需删改；提示里的指数在 meta 里有时会被压成普通数字，宜与网页逐字核对）。
+
+```bash
+curl.exe -L -o two-sum.html "https://leetcode.cn/problems/two-sum/description/"
+python scripts/extract_lc_cn_meta.py two-sum.html -o two-sum-meta.txt
+```
+
 ## 笔记模板
 
 与现有示例（如 [`001-两数之和.md`](notes/第一阶段-基础数据结构/数组与双指针/001-两数之和.md)）保持一致，每题**单独一个** Markdown 文件，路径见上文 [仓库目录结构](#仓库目录结构)。
@@ -439,7 +451,7 @@ LeetCodeNote/
 | 6 | `## 复杂度分析` | 多做法时用 **表格**（方法 / 时间 / 空间）；单做法可用列表 |
 | 7 | `## 易错点 / 收获` | 边界、循环不变量、可与哪题类比 |
 
-**说明：** 若题目只需一种解法，可将「思路（多解法）」改为「思路」，复杂度用列表即可。
+**说明：** 若题目只需一种解法，可将「思路（多解法）」改为「思路」，复杂度用列表即可。若希望笔记中带与力扣一致的原题、示例与提示，可在元信息列表之后增加 `## 原题（力扣中文版）` 小节；摘录时可复用 [`scripts/extract_lc_cn_meta.py`](scripts/extract_lc_cn_meta.py)，用法见 [从力扣页面提取原题文案](#从力扣页面提取原题文案)。
 
 ### 可复制骨架
 
