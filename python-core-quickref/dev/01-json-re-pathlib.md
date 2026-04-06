@@ -4,7 +4,7 @@
 运行：`python 01_json_re_pathlib.py`（在 `dev/scripts` 目录）
 
 偏**本地脚本、小工具、读配置**；与力扣 IDE 无直接关系，但日常开发极常用。  
-下文「预期输出」与脚本一致；改脚本时请同步更新本文（见 [../README.md](../README.md) 维护约定）。
+下文各「输入输出示例」与脚本中的赋值及 `print` **一一对应**；改脚本时请同步更新本文（见 [../README.md](../README.md) 维护约定）。
 
 ## json
 
@@ -13,12 +13,22 @@
 | `json.loads(s)` | 字符串 → Python 对象 |
 | `json.dumps(obj)` | Python 对象 → 字符串；常配 `ensure_ascii=False`（中文不转 `\uXXXX`）、`indent=2`（多行可读） |
 
-### 参数与示例
+### 参数说明
 
 - **`ensure_ascii=False`**：`"你好"` 在 dumps 结果里仍是可读中文，否则会变成 `\u4f60\u597d` 形式。
 - **`indent=2`**：美化缩进，便于肉眼 diff / 提交到仓库的配置样例。
 
-**预期输出摘录**：
+**输入输出示例**
+
+**输入**（`01_json_re_pathlib.py`）：
+
+```python
+raw = '{"x": 1, "msg": "你好"}'
+obj = json.loads(raw)
+out = json.dumps(obj, ensure_ascii=False, indent=2)
+```
+
+**输出**（`stdout`，与脚本 `print` 一致）：
 
 ```text
 loads -> {'x': 1, 'msg': '你好'}
@@ -43,11 +53,26 @@ dumps(ensure_ascii=False, indent=2):
 - **`findall`**：返回所有匹配串（或分组元组，视模式而定）。
 - **`search`**：找到一个就停：`m.group(1)` 取**第一个捕获组**。
 
-**预期输出摘录**：
+**输入输出示例**
+
+**输入**（`01_json_re_pathlib.py`）：
+
+```python
+s = "abc 12 def 345"
+re.findall(r"\d+", s)
+re.search(r"def\s+(\d+)", s)
+re.match(r"\d+", s)
+re.match(r"abc", s)
+re.compile(r"[a-z]+").findall(s)
+```
+
+**输出**（`stdout`）：
 
 ```text
 digits: ['12', '345']
 search 分组: 345
+match 从开头（首字符非数字）: None
+match abc: abc
 compile.findall -> ['abc', 'def']
 ```
 
@@ -64,13 +89,26 @@ compile.findall -> ['abc', 'def']
 
 - 与 [刷题分册 `open`](../leetcode/01-builtins.md) 同理：Windows 上**显式 `utf-8`** 更稳。
 
-**预期输出形态**（临时目录路径因本机而异）：
+**输入输出示例**
+
+**输入**（`01_json_re_pathlib.py`，在 `tempfile.TemporaryDirectory()` 内）：
+
+```python
+cfg = base / "conf" / "app.json"
+cfg.write_text('{"ok": true}\n', encoding="utf-8")
+cfg.read_text(encoding="utf-8")
+Path.cwd()
+```
+
+**输出**（`stdout`；`写入:` 一行为临时目录，因本机路径不同而变化）：
 
 ```text
-写入: ...\conf\app.json
+写入: C:\Users\...\AppData\Local\Temp\...\conf\app.json
 read_text -> '{"ok": true}\n'
-cwd = ...\dev\scripts
+cwd = E:\develop\LeetCodeNotes\python-core-quickref\dev\scripts
 ```
+
+（第三行 `cwd` 为运行时的当前工作目录；在 `dev/scripts` 下执行上式时即该目录。）
 
 ## 官方文档
 

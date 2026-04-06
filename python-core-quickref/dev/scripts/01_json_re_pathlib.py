@@ -31,6 +31,10 @@ def main() -> None:
     print("digits:", re.findall(r"\d+", s))
     m = re.search(r"def\s+(\d+)", s)
     print("search 分组:", m.group(1) if m else None)
+    m_head = re.match(r"\d+", s)
+    print("match 从开头（首字符非数字）:", m_head)
+    m_ok = re.match(r"abc", s)
+    print("match abc:", m_ok.group(0) if m_ok else None)
     pat = re.compile(r"[a-z]+")
     print("compile.findall ->", pat.findall(s))
 

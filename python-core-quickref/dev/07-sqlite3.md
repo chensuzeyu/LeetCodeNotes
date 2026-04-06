@@ -4,7 +4,7 @@
 运行：`python 07_sqlite3.py`（在 `dev/scripts` 目录）
 
 本地缓存、小到中型工具、原型持久化：**零服务**即可用；SQL 与事务概念与其他 DB 相通。  
-下文「预期输出」与脚本一致（见 [../README.md](../README.md) 维护约定）。
+下文「输入输出示例」与脚本 **一一对应**（见 [../README.md](../README.md) 维护约定）。
 
 ## 要点
 
@@ -20,7 +20,21 @@
 
 - 示例：`INSERT INTO users(name) VALUES (?)`，参数为 `("Ada",)` 元组。
 
-**预期输出摘录**：
+**输入输出示例**
+
+**输入**（`07_sqlite3.py`）：
+
+```python
+with sqlite3.connect(":memory:") as conn:
+    conn.row_factory = sqlite3.Row
+    conn.execute("CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT NOT NULL)")
+    conn.execute("INSERT INTO users(name) VALUES (?)", ("Ada",))
+    conn.execute("INSERT INTO users(name) VALUES (?)", ("Bob",))
+    conn.commit()
+    conn.execute("SELECT id, name FROM users ORDER BY id").fetchall()
+```
+
+**输出**（`stdout`；每行一次 `print(dict(row))`）：
 
 ```text
 {'id': 1, 'name': 'Ada'}

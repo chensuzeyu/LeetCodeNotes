@@ -18,7 +18,17 @@
 
 - 规范允许 `?q=1&q=2`；故 `parse_qs` 默认 `{'q': ['1', '2']}`。
 
-**预期输出摘录**：
+**输入输出示例**
+
+**输入**（`06_urllib.py`）：
+
+```python
+u = urlparse("https://example.com/path?q=hello&tag=py&lang=zh")
+parse_qs(u.query)
+urlencode([("q", "space value"), ("page", 2)])
+```
+
+**输出**（`stdout`）：
 
 ```text
 scheme https netloc example.com path /path
@@ -35,7 +45,56 @@ urlencode -> q=space+value&page=2
 
 **异常**：`URLError`、`HTTPError`（后者亦为 `URLError` 子类）。
 
-**预期输出**：成功时含 `status` 与响应片段；失败时类似 `(离线或网络不可用，跳过 urlopen ) URLError ...`（以本机为准）。
+**输入输出示例（urlopen example.com）**
+
+**输入**（`06_urllib.py`）：
+
+```python
+req = Request(
+    "https://example.com/",
+    headers={"User-Agent": "python-core-quickref-demo/0.1"},
+    method="GET",
+)
+with urlopen(req, timeout=5) as resp:
+    resp.read(200)
+```
+
+**输出**（`stdout`，成功时；`snippet[:80]` 随 example.com 页面字节变化，下列为一次真实抓取）：
+
+```text
+status 200 前 200 字节: b'<!doctype html><html lang="en"><head><title>Example Domain</title><meta name="vi' ...
+```
+
+**输出**（`stdout`，TLS/超时/离线时）：
+
+```text
+(离线或网络不可用，跳过 urlopen ) URLError <urlopen error _ssl.c:1112: The handshake operation timed out>
+```
+
+**输入输出示例（HTTPError 404）**
+
+**输入**（`06_urllib.py`）：
+
+```python
+req404 = Request(
+    "https://httpbin.org/status/404",
+    headers={"User-Agent": "python-core-quickref-demo/0.1"},
+    method="GET",
+)
+urlopen(req404, timeout=8)
+```
+
+**输出**（`stdout`，成功连上 httpbin 时）：
+
+```text
+HTTPError.code: 404
+```
+
+**输出**（`stdout`，无法访问 httpbin 时）：
+
+```text
+(无法访问 httpbin，跳过 HTTPError 演示) URLError <urlopen error ...>
+```
 
 ## 官方文档
 

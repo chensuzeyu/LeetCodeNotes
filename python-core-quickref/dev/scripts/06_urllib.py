@@ -40,6 +40,20 @@ def main() -> None:
     except URLError as e:
         print("(离线或网络不可用，跳过 urlopen )", type(e).__name__, e)
 
+    section("urllib.request：HTTPError（非 2xx，需单独捕获）")
+    req404 = Request(
+        "https://httpbin.org/status/404",
+        headers={"User-Agent": "python-core-quickref-demo/0.1"},
+        method="GET",
+    )
+    try:
+        with urlopen(req404, timeout=8) as resp:
+            print("status 404 演示意外成功:", getattr(resp, "status", "?"))
+    except HTTPError as e:
+        print("HTTPError.code:", e.code)
+    except URLError as e:
+        print("(无法访问 httpbin，跳过 HTTPError 演示)", type(e).__name__, e)
+
 
 if __name__ == "__main__":
     main()

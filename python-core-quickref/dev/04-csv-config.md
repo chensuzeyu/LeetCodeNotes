@@ -4,7 +4,7 @@
 运行：`python 04_csv_config.py`（在 `dev/scripts` 目录）
 
 **ETL 小工具、批处理、服务读本地配置**三类场景极常见。  
-下文「预期输出」与脚本一致；改脚本时请同步更新本文（见 [../README.md](../README.md) 维护约定）。
+下文各「输入输出示例」与脚本 **一一对应**；改脚本时请同步更新本文（见 [../README.md](../README.md) 维护约定）。
 
 ## csv
 
@@ -17,7 +17,37 @@
 
 - **单元格一律是字符串**；需要整数要自己 `int(row["score"])`。
 
-**预期输出摘录**（`DictWriter` 默认 `\r\n` 行尾，显示时可能看到 `␤` 或裸 `\r`）：
+**输入输出示例（writer / reader）**
+
+**输入**（`04_csv_config.py`）：
+
+```python
+buf_rw = io.StringIO()
+w0 = csv.writer(buf_rw)
+w0.writerow(["a", "b"])
+w0.writerow(["1", "2"])
+raw_rows = buf_rw.getvalue()
+list(csv.reader(io.StringIO(raw_rows)))
+```
+
+**输出**（`stdout`；Windows 下 `writer` 默认 `\r\n` 行尾）：
+
+```text
+writer -> repr: 'a,b\r\n1,2\r\n'
+reader rows: [['a', 'b'], ['1', '2']]
+```
+
+**输入输出示例（DictWriter / DictReader）**
+
+**输入**（`04_csv_config.py`）：
+
+```python
+rows = [{"name": "Ann", "score": "92"}, {"name": "Bob", "score": "88"}]
+# DictWriter(buf, fieldnames=["name", "score"]); writeheader; writerows
+# DictReader(io.StringIO(text))
+```
+
+**输出**（`stdout`；`print(text.strip())` 含表头与两行数据）：
 
 ```text
 name,score
@@ -34,12 +64,31 @@ read back: [{'name': 'Ann', 'score': '92'}, {'name': 'Bob', 'score': '88'}]
 | `read(["a.ini", "b.ini"])` | 多文件后者可覆盖前者（按设计） |
 | `get(section, key)` / `getint` / `getboolean` | 带类型转换 |
 
-**预期输出摘录**：
+**输入输出示例（read_string + 临时文件）**
+
+**输入**（`04_csv_config.py`）：
+
+```python
+ini = """\
+[app]
+debug = yes
+port = 8080
+
+[db]
+url = sqlite:///./app.db
+"""
+cp.read_string(ini)
+# 另：Path(td)/"local.ini" 写入同上字符串后 cp2.read(p)
+# 多文件：a.ini port=8080，override.ini port=9090，cp3.read([a_ini, b_ini])
+```
+
+**输出**（`stdout`）：
 
 ```text
 getboolean(app, debug) = True
 getint(app, port)      = 8080
 read file [db].url = sqlite:///./app.db
+read([base, override]) [app].port = 9090
 ```
 
 ## tomllib（标准库 TOML，Python 3.11+）
@@ -49,7 +98,36 @@ read file [db].url = sqlite:///./app.db
 | `tomllib.loads(s)` / `tomllib.load(f)` | **只读**；`load` 时 `f` 须**二进制**打开 `rb` |
 | 3.9–3.10 | 标准库无 `tomllib`；常用第三方 `tomli`（只读）或 `toml` |
 
-**预期输出**：3.11+ 为 `tomllib.loads -> {'title': 'demo', 'nested': {'count': 3}}`；低版本为脚本中的提示行（以本机 `python --version` 为准）。
+**输入输出示例（Python 3.11+）**
+
+**输入**（`04_csv_config.py`）：
+
+```python
+toml_b = b'''
+title = "demo"
+[nested]
+count = 3
+'''
+tomllib.loads(toml_b.decode())
+```
+
+**输出**（`stdout`）：
+
+```text
+tomllib.loads -> {'title': 'demo', 'nested': {'count': 3}}
+```
+
+**输入输出示例（Python 3.9–3.10）**
+
+**输入**：`sys.version_info < (3, 11)` 分支。
+
+**输出**（`stdout`）：
+
+```text
+当前 Python 3.9.13 无 stdlib tomllib；可读 INI 或用第三方 tomli。
+```
+
+（版本号随本机解释器变化。）
 
 ## 官方文档
 

@@ -31,7 +31,7 @@ def main() -> None:
     with ThreadPoolExecutor(max_workers=3) as ex:
         futures = [ex.submit(slow_square, i) for i in (5, 6)]
         for fut in as_completed(futures):
-            print("done:", fut.result())
+            print("done:", fut.result(timeout=2))
 
     section("threading：Lock / Event")
     lock = threading.Lock()

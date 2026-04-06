@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import logging
 import sys
+import tempfile
 from pathlib import Path
 
 from _io_util import utf8_stdout
@@ -15,12 +16,12 @@ def section(title: str) -> None:
     print("=" * 60)
     print(title)
     print("=" * 60)
+    sys.stdout.flush()
 
 
 def main() -> None:
     utf8_stdout()
     section("logging：basicConfig、命名 logger、级别")
-    sys.stdout.flush()
     # 在 utf8_stdout() 之后配置，以便 StreamHandler 面向已设为 UTF-8 的 stderr
     logging.basicConfig(
         level=logging.DEBUG,
@@ -30,6 +31,23 @@ def main() -> None:
     log.debug("调试信息")
     log.info("普通信息")
     log.warning("告警")
+    sys.stderr.flush()
+
+    section("logging：FileHandler（追加到根 logger，演示完移除）")
+    root = logging.getLogger()
+    with tempfile.NamedTemporaryFile(mode="w+", encoding="utf-8", delete=False, suffix=".log") as tf:
+        log_path = Path(tf.name)
+    try:
+        fh = logging.FileHandler(log_path, encoding="utf-8")
+        fh.setFormatter(logging.Formatter("%(levelname)s %(message)s"))
+        root.addHandler(fh)
+        logging.error("仅写入文件的一条")
+        root.removeHandler(fh)
+        fh.close()
+        lines = log_path.read_text(encoding="utf-8").strip().splitlines()
+        print("FileHandler 末行:", lines[-1] if lines else "")
+    finally:
+        log_path.unlink(missing_ok=True)
 
     section("argparse：parse_args（演示用固定参数，避免依赖 sys.argv）")
     parser = argparse.ArgumentParser(description="演示 argparse")

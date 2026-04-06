@@ -21,6 +21,15 @@ def section(title: str) -> None:
 
 def main() -> None:
     utf8_stdout()
+    section("csv：writer / reader（行列表；写磁盘时 open(..., newline='')）")
+    buf_rw = io.StringIO()
+    w0 = csv.writer(buf_rw)
+    w0.writerow(["a", "b"])
+    w0.writerow(["1", "2"])
+    raw_rows = buf_rw.getvalue()
+    print("writer -> repr:", repr(raw_rows))
+    print("reader rows:", list(csv.reader(io.StringIO(raw_rows))))
+
     section("csv：DictWriter / DictReader（写磁盘时 open 建议 newline=''）")
     buf = io.StringIO()
     rows = [{"name": "Ann", "score": "92"}, {"name": "Bob", "score": "88"}]
@@ -51,6 +60,14 @@ url = sqlite:///./app.db
         cp2 = ConfigParser()
         cp2.read(p)
         print("read file [db].url =", cp2.get("db", "url"))
+
+        a_ini = Path(td) / "base.ini"
+        b_ini = Path(td) / "override.ini"
+        a_ini.write_text("[app]\nport = 8080\n", encoding="utf-8")
+        b_ini.write_text("[app]\nport = 9090\n", encoding="utf-8")
+        cp3 = ConfigParser()
+        cp3.read([a_ini, b_ini])
+        print("read([base, override]) [app].port =", cp3.getint("app", "port"))
 
     section("tomllib：仅 Python 3.11+ 标准库")
     if sys.version_info >= (3, 11):

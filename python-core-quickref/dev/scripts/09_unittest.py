@@ -20,8 +20,14 @@ def add(a: int, b: int) -> int:
 
 
 class TestAdd(unittest.TestCase):
+    def setUp(self) -> None:
+        self.left = 2
+
+    def tearDown(self) -> None:
+        pass
+
     def test_add(self) -> None:
-        self.assertEqual(add(2, 3), 5)
+        self.assertEqual(add(self.left, 3), 5)
 
     def test_raises(self) -> None:
         with self.assertRaises(TypeError):

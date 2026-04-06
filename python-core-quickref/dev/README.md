@@ -35,4 +35,6 @@ python run_all.py
 
 新增日常向主题：在本目录加 `0x-*.md` 与 `scripts/0x_*.py`，并更新 `scripts/run_all.py` 的 `demos`。
 
-各课 Markdown 中的「预期输出」应与对应脚本输出保持一致；改了脚本请同步更新文档（总约定见 [上层 README.md](../README.md)）。
+各课 Markdown 中的「**输入输出示例**」（脚本内精确输入 + 对应完整输出）应与当前脚本保持一致；改了脚本请同步更新文档（总约定见 [上层 README.md](../README.md)）。
+
+**Windows 脚本注意**：若使用 `tempfile.TemporaryDirectory()`，在**退出该上下文之前**必须把进程的当前目录 `chdir` 到目录外；否则删除临时目录时常见 `PermissionError: [WinError 32]`（目录被占用）。`05_os_sys_subprocess_shutil.py` 中 `os.chdir` 演示采用 `try`/`finally` 恢复。

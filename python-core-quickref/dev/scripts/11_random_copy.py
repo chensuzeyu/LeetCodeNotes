@@ -18,10 +18,12 @@ def section(title: str) -> None:
 
 def main() -> None:
     utf8_stdout()
-    section("random：seed、randint、choice、shuffle、sample")
+    section("random：seed、randint、randrange、choices、choice、shuffle、sample")
     random.seed(42)
     print("seed(42) 后 random() 两次:", round(random.random(), 6), round(random.random(), 6))
     print("randint(1, 6) 三次:", [random.randint(1, 6) for _ in range(3)])
+    print("randrange(0, 10, 2) 两次:", [random.randrange(0, 10, 2) for _ in range(2)])
+    print("choices 可重复 5 次:", random.choices(["a", "b", "c"], k=5))
     print("choice(['a', 'b', 'c']):", random.choice(["a", "b", "c"]))
     xs = [1, 2, 3, 4, 5]
     random.shuffle(xs)

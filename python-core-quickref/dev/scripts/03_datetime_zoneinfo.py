@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import date, datetime, timedelta, timezone
+from datetime import date, datetime, time, timedelta, timezone
 
 from _io_util import utf8_stdout
 
@@ -16,7 +16,9 @@ def section(title: str) -> None:
 
 def main() -> None:
     utf8_stdout()
-    section("datetime：now(UTC)、timedelta、fromisoformat")
+    section("datetime：date / time / datetime、now(UTC)、timedelta、fromisoformat")
+    print("time(14, 30):", time(14, 30))
+    print("datetime.now()（未带 tz，本地语义依环境）:", datetime.now())
     utc_now = datetime.now(timezone.utc)
     print("UTC now:", utc_now)
     print("加 2 天:", utc_now + timedelta(days=2))

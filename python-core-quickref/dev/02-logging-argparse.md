@@ -4,7 +4,7 @@
 运行：`python 02_logging_argparse.py`（在 `dev/scripts` 目录）
 
 脚本从「能跑」到「能维护」，通常要先有**分级日志**与**规范 CLI**。  
-下文「预期输出」与脚本一致；改脚本时请同步更新本文（见 [../README.md](../README.md) 维护约定）。
+下文各「输入输出示例」与脚本 **一一对应**；`logging` 默认写 `stderr`，`section()` 与 `print` 写 `stdout`（见 [../README.md](../README.md) 维护约定）。
 
 ## logging
 
@@ -21,12 +21,46 @@
 
 **与 `print`**：`print` 难过滤级别、难统一格式；**库代码**优先用 `logging`，仅在极简一次性脚本可 `print`。
 
-**预期输出摘录**：
+**输入输出示例（basicConfig + 三条日志）**
+
+**输入**（`02_logging_argparse.py`）：
+
+```python
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="%(levelname)s %(name)s: %(message)s",
+)
+log = logging.getLogger(__name__)
+log.debug("调试信息")
+log.info("普通信息")
+log.warning("告警")
+```
+
+**输出**（`stderr`；直接运行本文件时 `name` 为 `__main__`；由 `run_all` 动态加载时为 `02_logging_argparse`）：
 
 ```text
 DEBUG __main__: 调试信息
 INFO __main__: 普通信息
 WARNING __main__: 告警
+```
+
+**输入输出示例（FileHandler）**
+
+**输入**（`02_logging_argparse.py`）：
+
+```python
+root = logging.getLogger()
+# 临时文件路径由 NamedTemporaryFile(delete=False, suffix=".log") 生成
+fh = logging.FileHandler(log_path, encoding="utf-8")
+root.addHandler(fh)
+logging.error("仅写入文件的一条")
+# 随后读文件取末行打印
+```
+
+**输出**（`stdout`）：
+
+```text
+FileHandler 末行: ERROR 仅写入文件的一条
 ```
 
 ## argparse
@@ -41,15 +75,35 @@ WARNING __main__: 告警
 
 ### 演示参数含义
 
-- **`demo_argv`**：`--verbose`、`--out build/result.txt`、以及两个输入文件；`inputs` 收集剩余位置参数，`out` 为 `Path`（Windows 下打印可能是 `build\result.txt`）。
+- **`demo_argv`**：`--verbose`、`--out build/result.txt`、以及两个输入文件；`inputs` 收集剩余位置参数，`out` 为 `Path`（Windows 下 `print(args.out)` 为 `build\result.txt`）。
 
-**预期输出摘录**：
+**输入输出示例**
+
+**输入**（`02_logging_argparse.py`）：
+
+```python
+demo_argv = ["--verbose", "--out", "build/result.txt", "a.csv", "b.csv"]
+args = parser.parse_args(demo_argv)
+```
+
+**输出**（`stdout`）：
 
 ```text
 解析 demo argv: ['--verbose', '--out', 'build/result.txt', 'a.csv', 'b.csv']
   inputs = ['a.csv', 'b.csv']
   out    = build\result.txt
   verbose= True
+```
+
+**输入输出示例（与 run_all 共存说明）**
+
+**输入**：无额外解析；脚本打印 `sys.argv` 前若干项。
+
+**输出**（`stdout`，由 `run_all` 调用时首参为 `run_all.py`）：
+
+```text
+由 run_all 调用时，真实 sys.argv 来自上层；此处已用 demo_argv 固定演示。
+单独运行本文件时 sys.argv = ['02_logging_argparse.py']
 ```
 
 ## 官方文档

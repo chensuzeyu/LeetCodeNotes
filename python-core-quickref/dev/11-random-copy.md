@@ -4,7 +4,7 @@
 运行：`python 11_random_copy.py`（在 `dev/scripts` 目录）
 
 写评测脚本、造数据、对拍时离不开 **随机**；调试图/嵌套结构时常要用 **浅拷贝 / 深拷贝**。  
-下文数字与 `secrets` 一行**除 `token_hex` 外**在固定 `seed(42)` 下与脚本一致；`token_hex` 每次不同（见 [../README.md](../README.md) 维护约定）。
+下文「输入输出示例」与脚本 **一一对应**；`random.seed(42)` 之后除 `secrets.token_hex` 外，**与当前脚本版本**一致；`token_hex` 每次不同（见 [../README.md](../README.md) 维护约定）。
 
 ## random
 
@@ -21,18 +21,47 @@
 
 **安全随机**（令牌、密码学）：用 **`secrets`**，不要用 `random`。
 
-**预期输出摘录**（`seed(42)` 后）：
+**输入输出示例**
+
+**输入**（`11_random_copy.py`）：
+
+```python
+random.seed(42)
+round(random.random(), 6), round(random.random(), 6)
+[random.randint(1, 6) for _ in range(3)]
+[random.randrange(0, 10, 2) for _ in range(2)]
+random.choices(["a", "b", "c"], k=5)
+random.choice(["a", "b", "c"])
+xs = [1, 2, 3, 4, 5]; random.shuffle(xs)
+random.sample(range(10), k=4)
+```
+
+**输出**（`stdout`；`random()` 两次已 `round(..., 6)`）：
 
 ```text
 seed(42) 后 random() 两次: 0.639427 0.025011
 randint(1, 6) 三次: [3, 2, 2]
+randrange(0, 10, 2) 两次: [2, 0]
+choices 可重复 5 次: ['c', 'c', 'a', 'b', 'a']
 choice(['a', 'b', 'c']): a
-shuffle 后: [4, 2, 3, 5, 1]
-sample(不重复): [0, 9, 1, 7]
+shuffle 后: [5, 4, 3, 1, 2]
+sample(不重复): [8, 6, 3, 7]
 ```
 
+（若在 `seed(42)` 之后、`shuffle` 之前增加或减少随机调用，其后 `shuffle`/`sample` 数值会整体变化，以脚本为准。）
+
+**输入输出示例（secrets）**
+
+**输入**（`11_random_copy.py`）：
+
+```python
+secrets.token_hex(8)
+```
+
+**输出**（`stdout`；长度为 16 的十六进制小写字符串，**每次运行不同**）：
+
 ```text
-token_hex(8) = <每次不同>
+token_hex(8) = <每次不同，例如 a1b2c3d4e5f67890>
 ```
 
 ## copy
@@ -42,7 +71,18 @@ token_hex(8) = <每次不同>
 | `copy.copy(x)` | **浅拷贝**：外层 dict 是新对象，**内层**仍与源共享引用 |
 | `copy.deepcopy(x)` | **深拷贝**：递归复制；内层列表互不影响（注意循环引用与开销） |
 
-**预期输出摘录**：
+**输入输出示例**
+
+**输入**（`11_random_copy.py`）：
+
+```python
+nested = {"outer": {"x": [1, 2]}}
+shallow = copy.copy(nested)
+deep = copy.deepcopy(nested)
+nested["outer"]["x"].append(99)
+```
+
+**输出**（`stdout`）：
 
 ```text
 改 nested 内层列表后 shallow["outer"]["x"] = [1, 2, 99]

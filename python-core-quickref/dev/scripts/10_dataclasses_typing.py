@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Callable, Optional
+from typing import Callable, Optional, Protocol
 
 from _io_util import utf8_stdout
 
@@ -22,6 +22,28 @@ class User:
     score: Optional[float] = None
 
 
+@dataclass(frozen=True)
+class Point:
+    x: int
+    y: int
+
+
+class HasArea(Protocol):
+    def area(self) -> float: ...
+
+
+class Square:
+    def __init__(self, side: float) -> None:
+        self.side = side
+
+    def area(self) -> float:
+        return self.side * self.side
+
+
+def total_area(shape: HasArea) -> float:
+    return shape.area()
+
+
 def main() -> None:
     utf8_stdout()
     section("dataclass：default_factory、实例")
@@ -30,6 +52,9 @@ def main() -> None:
     v = User("Bob")
     v.tags.append("new")
     print(v)
+    p = Point(3, 4)
+    print("frozen Point:", p)
+    print("Protocol total_area(Square(2)):", total_area(Square(2)))
 
     section("typing：Callable 粗略标注")
     twice: Callable[[int], int] = lambda x: x * 2
