@@ -30,7 +30,7 @@ LeetCodeNote/
 ├── python-core-quickref/       # Python 3 速查：刷题（leetcode）与日常（dev）分册
 │   ├── README.md
 │   ├── leetcode/               # 力扣/竞赛常用 API（01～07 + scripts）
-│   └── dev/                    # 日常脚本向（01-json… + scripts）
+│   └── dev/                    # 日常开发向（01～10 + scripts）
 ├── scripts/
 │   └── extract_lc_cn_meta.py   # 从力扣 CN 题目页 HTML 提取 meta 中的原题摘要（可复用）
 └── notes/

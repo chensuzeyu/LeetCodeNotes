@@ -29,6 +29,15 @@ def main() -> None:
 
     demos = [
         "01_json_re_pathlib",
+        "02_logging_argparse",
+        "03_datetime_zoneinfo",
+        "04_csv_config",
+        "05_os_sys_subprocess_shutil",
+        "06_urllib",
+        "07_sqlite3",
+        "08_concurrent_threading",
+        "09_unittest",
+        "10_dataclasses_typing",
     ]
     print("Python:", sys.version.split()[0])
     print("【日常开发速查】工作目录:", Path(__file__).resolve().parent)
