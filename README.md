@@ -8,6 +8,7 @@
 
 ## 目录
 
+- [Python 3 核心速查（刷题 / 日常分册）](python-core-quickref/README.md)
 - [第一阶段 · 基础数据结构](#第一阶段--基础数据结构4-5-周--29-题)
 - [第二阶段 · 滑动窗口 & 二分查找 & 前缀和](#第二阶段--滑动窗口--二分查找--前缀和2-3-周--16-题)
 - [第三阶段 · 树 & 图 & 矩阵](#第三阶段--树--图--矩阵3-4-周--28-题)
@@ -26,6 +27,10 @@
 ```
 LeetCodeNote/
 ├── README.md
+├── python-core-quickref/       # Python 3 速查：刷题（leetcode）与日常（dev）分册
+│   ├── README.md
+│   ├── leetcode/               # 力扣/竞赛常用 API（01～07 + scripts）
+│   └── dev/                    # 日常脚本向（01-json… + scripts）
 ├── scripts/
 │   └── extract_lc_cn_meta.py   # 从力扣 CN 题目页 HTML 提取 meta 中的原题摘要（可复用）
 └── notes/
