@@ -29,7 +29,8 @@ python run_all.py
 
 - 刷题新增：只动 `leetcode/` 与 `leetcode/scripts/run_all.py`。  
 - 日常新增：只动 `dev/` 与 `dev/scripts/run_all.py`。  
-- 两套 scripts 各自带一份 `_io_util.py`，互不依赖，避免跨目录 import。
+- 两套 scripts 各自带一份 `_io_util.py`，互不依赖，避免跨目录 import。  
+- **文档与脚本对齐**：各课 `*.md` 中的「预期输出」块应与对应 `scripts/*.py` 当前打印一致；若修改演示脚本的分节输出、文案或关键数字，请同步更新该课 Markdown（避免读者对照跑不通）。
 
 ---
 

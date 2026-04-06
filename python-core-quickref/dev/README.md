@@ -34,3 +34,5 @@ python run_all.py
 ## 维护
 
 新增日常向主题：在本目录加 `0x-*.md` 与 `scripts/0x_*.py`，并更新 `scripts/run_all.py` 的 `demos`。
+
+各课 Markdown 中的「预期输出」应与对应脚本输出保持一致；改了脚本请同步更新文档（总约定见 [上层 README.md](../README.md)）。

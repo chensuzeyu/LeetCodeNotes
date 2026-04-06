@@ -26,8 +26,12 @@ def main() -> None:
     print("list(range(4, 1, -1)) = step=-1 ->", list(range(4, 1, -1)))
 
     section("enumerate(iterable, start=0)")
-    for i, x in enumerate(["a", "b", "c"], start=1):
-        print(f"  start=1 -> i={i}, x={x!r}")
+    items = ["a", "b", "c"]
+    print("items =", items)
+    for start in (0, 1, 2):
+        print(f"  start={start}:")
+        for i, x in enumerate(items, start=start):
+            print(f"    i={i}, x={x!r}")  # !r：repr(x)，字符串带引号
 
     section("zip：并行遍历；长度以最短为准（尾部丢弃）")
     a = [1, 2, 3]

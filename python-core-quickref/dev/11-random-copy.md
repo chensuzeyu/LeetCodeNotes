@@ -1,9 +1,10 @@
 # 11 · random / copy（实验复现与结构拷贝）
 
-完整演示：`scripts/11_random_copy.py`  
-运行：`python 11_random_copy.py`（在 `dev/scripts` 目录下）
+完整演示：[scripts/11_random_copy.py](scripts/11_random_copy.py)  
+运行：`python 11_random_copy.py`（在 `dev/scripts` 目录）
 
-写评测脚本、造数据、对拍时离不开 **随机**；调试图/嵌套结构时常要用 **浅拷贝 / 深拷贝**。
+写评测脚本、造数据、对拍时离不开 **随机**；调试图/嵌套结构时常要用 **浅拷贝 / 深拷贝**。  
+下文数字与 `secrets` 一行**除 `token_hex` 外**在固定 `seed(42)` 下与脚本一致；`token_hex` 每次不同（见 [../README.md](../README.md) 维护约定）。
 
 ## random
 
@@ -20,12 +21,33 @@
 
 **安全随机**（令牌、密码学）：用 **`secrets`**，不要用 `random`。
 
+**预期输出摘录**（`seed(42)` 后）：
+
+```text
+seed(42) 后 random() 两次: 0.639427 0.025011
+randint(1, 6) 三次: [3, 2, 2]
+choice(['a', 'b', 'c']): a
+shuffle 后: [4, 2, 3, 5, 1]
+sample(不重复): [0, 9, 1, 7]
+```
+
+```text
+token_hex(8) = <每次不同>
+```
+
 ## copy
 
 | 用法 | 说明 |
 |------|------|
-| `copy.copy(x)` | **浅拷贝**：一层新容器，内层对象仍共享引用 |
-| `copy.deepcopy(x)` | **深拷贝**：递归复制；内层可变对象互不影响（注意循环引用与开销） |
+| `copy.copy(x)` | **浅拷贝**：外层 dict 是新对象，**内层**仍与源共享引用 |
+| `copy.deepcopy(x)` | **深拷贝**：递归复制；内层列表互不影响（注意循环引用与开销） |
+
+**预期输出摘录**：
+
+```text
+改 nested 内层列表后 shallow["outer"]["x"] = [1, 2, 99]
+深拷贝不受影响 deep["outer"]["x"] = [1, 2]
+```
 
 ## 官方文档
 

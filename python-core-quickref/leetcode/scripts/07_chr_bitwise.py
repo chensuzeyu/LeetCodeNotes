@@ -36,7 +36,7 @@ def main() -> None:
     section("二进制中 1 的个数")
     x11 = 0b1011
     portable = bin(x11).count("1")
-    print(f"popcount(0b1011) = bin(x).count('1') = {portable}", end="")
+    print(f"popcount(0b1011) = {portable}（写法: bin(n).count('1')）", end="")
     if hasattr(x11, "bit_count"):
         print(f" ；int.bit_count() = {x11.bit_count()}")
     else:

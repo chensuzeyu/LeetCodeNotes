@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import sys
 import unittest
 
 from _io_util import utf8_stdout
@@ -31,7 +32,7 @@ def main() -> None:
     utf8_stdout()
     section("unittest：TextTestRunner 运行 Sample")
     suite = unittest.defaultTestLoader.loadTestsFromTestCase(TestAdd)
-    runner = unittest.TextTestRunner(verbosity=2)
+    runner = unittest.TextTestRunner(verbosity=2, stream=sys.stdout)
     result = runner.run(suite)
     print("wasSuccessful:", result.wasSuccessful())
 
