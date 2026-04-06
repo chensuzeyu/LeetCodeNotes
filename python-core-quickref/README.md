@@ -5,7 +5,7 @@
 | 分册 | 路径 | 用途 |
 |------|------|------|
 | **刷题** | [leetcode/README.md](leetcode/README.md) | 力扣 / 竞赛常见：`heapq`、`bisect`、`Counter`、记忆化、位运算等（`01`～`07`） |
-| **日常开发** | [dev/README.md](dev/README.md) | 脚本与工程打底：`01`～`10`（`json`/`pathlib`、日志与 CLI、时间、CSV/配置、进程与文件、`urllib`、`sqlite3`、并发、`unittest`、`dataclasses`/`typing` 等） |
+| **日常开发** | [dev/README.md](dev/README.md) | 脚本与工程打底：`01`～`11`（含 `random`/`copy` 等） |
 
 ## 快速运行
 

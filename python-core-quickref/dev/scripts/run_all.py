@@ -38,6 +38,7 @@ def main() -> None:
         "08_concurrent_threading",
         "09_unittest",
         "10_dataclasses_typing",
+        "11_random_copy",
     ]
     print("Python:", sys.version.split()[0])
     print("【日常开发速查】工作目录:", Path(__file__).resolve().parent)

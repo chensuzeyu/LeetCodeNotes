@@ -2,7 +2,7 @@
 
 **与刷题分离**：脚本、小服务、批处理、测试打底用的**标准库**速查；算法题常用库见 [leetcode/README.md](../leetcode/README.md)。
 
-目标：**覆盖日常 Python 脚本/小工程中最常碰到的标准库场景**（I/O、配置、进程、网络客户端、数据库、并发、测试、类型与数据类）。第三方（如 `requests`、`pytest`、`httpx`）不做全集，仅在个别文档中点到为止。
+目标：**覆盖日常 Python 脚本/小工程中最常碰到的标准库场景**（I/O、配置、进程、网络客户端、数据库、并发、测试、类型与数据类、**随机与拷贝**）。第三方（如 `requests`、`pytest`、`httpx`）不做全集，仅在个别文档中点到为止。
 
 ## 怎么用
 
@@ -29,6 +29,7 @@ python run_all.py
 | [08-concurrent-threading.md](08-concurrent-threading.md) | [scripts/08_concurrent_threading.py](scripts/08_concurrent_threading.py) | `concurrent.futures`、`threading` |
 | [09-unittest.md](09-unittest.md) | [scripts/09_unittest.py](scripts/09_unittest.py) | `unittest` |
 | [10-dataclasses-typing.md](10-dataclasses-typing.md) | [scripts/10_dataclasses_typing.py](scripts/10_dataclasses_typing.py) | `dataclasses`、`typing` |
+| [11-random-copy.md](11-random-copy.md) | [scripts/11_random_copy.py](scripts/11_random_copy.py) | `random`、`copy`（另：`secrets` 一行） |
 
 ## 维护
 

@@ -20,7 +20,7 @@ python run_all.py
 |------|----------|------|
 | [01-builtins.md](01-builtins.md) | [scripts/01_builtins.py](scripts/01_builtins.py) | `len` `range` `enumerate` `zip` `sorted` `min/max` `sum` `any/all` `open` |
 | [02-containers.md](02-containers.md) | [scripts/02_containers.py](scripts/02_containers.py) | `list` `dict` `str` `set` |
-| [03-math-rounding.md](03-math-rounding.md) | [scripts/03_math_rounding.py](scripts/03_math_rounding.py) | `math`、`round`、`decimal` |
+| [03-math-rounding.md](03-math-rounding.md) | [scripts/03_math_rounding.py](scripts/03_math_rounding.py) | 取整/`round`、`gcd`/`lcm`/`pow(..., mod)`/`isqrt`/`comb`/`perm`、`decimal` |
 | [04-collections-itertools.md](04-collections-itertools.md) | [scripts/04_collections_itertools.py](scripts/04_collections_itertools.py) | `Counter` `deque`、`itertools` |
 | [05-heapq-bisect.md](05-heapq-bisect.md) | [scripts/05_heapq_bisect.py](scripts/05_heapq_bisect.py) | `heapq`、`bisect` |
 | [06-defaultdict-functools.md](06-defaultdict-functools.md) | [scripts/06_defaultdict_functools.py](scripts/06_defaultdict_functools.py) | `defaultdict`、`cache` / `lru_cache`、`reduce` |

@@ -1,4 +1,4 @@
-"""对应 03-math-rounding.md：math 取整、round、decimal"""
+"""对应 03-math-rounding.md：math 取整、数论小表、round、decimal"""
 
 from __future__ import annotations
 
@@ -30,6 +30,16 @@ def main() -> None:
 
     v = 12.3456
     print(f"round({v}, 2) = {round(v, 2)}  round({v}, 3) = {round(v, 3)}")
+
+    section("数论：gcd / lcm / pow(a,b,m) / isqrt / comb / perm / factorial")
+    a, b, m = 54, 24, 10**9 + 7
+    print(f"gcd({a}, {b}) = {math.gcd(a, b)}")
+    print(f"lcm(12, 18) = {math.lcm(12, 18)}")
+    print(f"pow(7, 1000, {m}) = {pow(7, 1000, m)}  （三参数内置，模幂）")
+    n = 17
+    print(f"isqrt({n}) = {math.isqrt(n)}  （floor(sqrt(n))）")
+    print(f"comb(5, 2) = {math.comb(5, 2)}  perm(5, 2) = {math.perm(5, 2)}")
+    print(f"factorial(6) = {math.factorial(6)}")
 
     section("Decimal：精确表示 + quantize + ROUND_HALF_UP【见 5 进一位】")
     u = Decimal("2.5")

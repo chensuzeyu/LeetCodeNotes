@@ -4,6 +4,12 @@
 >
 > **语言：** 本仓库刷题路线与笔记中的「核心代码」一律采用 **Python 3**（类型标注等按 Python 3.9+ 习惯书写）。
 
+### 核心原则：标准库速查与 NumPy
+
+1. **速查定位**：[Python 3 核心速查](python-core-quickref/README.md) 只圈 **刷题 + 日常脚本** 里最常打交道的标准库片段，**不是**标准库全集；谈覆盖面时，心里有数的是「你会反复用到的 API」，不是「模块有多少个」。  
+2. **怎么学省事**：**分册**（`leetcode` / `dev`）+ **短表 + 可跑脚本**，优先换「写得动、查得到、跑得通」。  
+3. **再学 NumPy**：先语言与 `dev` 这类**胶水代码**顺手，再攻向量化；读文件、参数、日志会轻松一截。
+
 ---
 
 ## 目录
@@ -30,7 +36,7 @@ LeetCodeNote/
 ├── python-core-quickref/       # Python 3 速查：刷题（leetcode）与日常（dev）分册
 │   ├── README.md
 │   ├── leetcode/               # 力扣/竞赛常用 API（01～07 + scripts）
-│   └── dev/                    # 日常开发向（01～10 + scripts）
+│   └── dev/                    # 日常开发向（01～11 + scripts）
 ├── scripts/
 │   └── extract_lc_cn_meta.py   # 从力扣 CN 题目页 HTML 提取 meta 中的原题摘要（可复用）
 └── notes/
