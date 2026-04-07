@@ -14,20 +14,35 @@ def section(title: str) -> None:
 
 def main() -> None:
     utf8_stdout()
-    section("list：append / pop / insert / 切片 / 反转切片")
-    nums = [1, 2, 3]
-    nums.append(4)
-    print("append(4) ->", nums)
+    section("list：append / extend / pop / remove / insert / reverse / clear / 切片")
+    nums = [1, 2]
+    nums.append(3)
+    print("append(3) ->", nums)
+    nums.extend([4, 5])
+    print("extend([4, 5]) ->", nums)
     last = nums.pop()
     print("pop() ->", last, " nums ->", nums)
-    nums.insert(0, 9)
-    print("insert(0, 9) ->", nums)
     mid = nums.pop(1)
     print("pop(1) ->", mid, " nums ->", nums)
-    print("nums[1:3]（左闭右开）->", nums[1:3])
-    print("nums[::-1]（新序列，原列表不变）->", nums[::-1], " nums 仍为", nums)
+    nums.remove(4)
+    print("remove(4) ->", nums)
+    try:
+        nums.remove(99)
+    except ValueError as e:
+        print("remove(99) -> ValueError:", e)
+    nums.insert(1, 8)
+    print("insert(1, 8) ->", nums)
+    rev = [9, 2, 3]
+    rev.reverse()
+    print("reverse() 后 ->", rev)
+    cleared = [7, 8]
+    cleared.clear()
+    print("clear() 后 ->", cleared)
+    sliced = [9, 2, 3, 4]
+    print("nums[1:3]（左闭右开）->", sliced[1:3])
+    print("nums[::-1]（新序列，原列表不变）->", sliced[::-1], " 原 nums =", sliced)
 
-    section("dict：[] / KeyError / get / setdefault / in / items")
+    section("dict：[] / get / setdefault / pop / popitem / update / keys / values / items / copy / clear")
     d: dict[str, int] = {"a": 1}
     print("d =", d)
     print("d['a'] =", d["a"])
@@ -36,40 +51,61 @@ def main() -> None:
     except KeyError as e:
         print("d['missing'] -> KeyError:", e)
     print("d.get('b', 0) =", d.get("b", 0))
-    d.setdefault("b", 2)
-    print("setdefault('b', 2) 后 d =", d)
+    print("setdefault('b', 2) ->", d.setdefault("b", 2), " d ->", d)
     print("'a' in d =", "a" in d, "  'z' in d =", "z" in d)
+    print("pop('b') ->", d.pop("b"), " d ->", d)
+    print("pop('missing', -1) ->", d.pop("missing", -1), " d ->", d)
+    d.update({"b": 2, "c": 3})
+    print("update({'b': 2, 'c': 3}) 后 d ->", d)
+    print("list(d.keys()) ->", list(d.keys()))
+    print("list(d.values()) ->", list(d.values()))
+    print("list(d.items()) ->", list(d.items()))
+    print("copy() ->", d.copy())
+    print("popitem() ->", d.popitem(), " d ->", d)
     for k, v in d.items():
         print(f"  item: {k!r} -> {v}")
+    d.clear()
+    print("clear() 后 ->", d)
 
-    section("str：split（默认空白 / 指定分隔符）/ strip / 切片")
+    section("str：split / strip / join / 切片")
     s = "  a,b, c  \n"
-    print("原字符串 repr:", repr(s))
-    print("split()（任意空白）->", "hello   world\nfoo".split())
-    print("split(',') ->", s.split(","))
-    print("strip() -> repr:", repr(s.strip()))
+    print("repr(s) =", repr(s))
+    print("'hello   world\\nfoo'.split() ->", "hello   world\nfoo".split())
+    print("s.split(',') ->", s.split(","))
+    print("s.strip() ->", repr(s.strip()))
     print(repr("  abc\n") + ".lstrip() ->", repr("  abc\n".lstrip()))
     print(repr("abc  \n") + ".rstrip() ->", repr("abc  \n".rstrip()))
+    print("'--'.join(['x', 'y', 'z']) ->", "--".join(["x", "y", "z"]))
     print("'hello'[1:4]（左闭右开）->", "hello"[1:4])
 
-    section("set：add / remove / discard；交 | 并 | 差")
+    section("set：add / remove / discard / update / union / intersection / difference / copy / clear")
     A = {1, 2, 3}
     B = {2, 3, 4}
     print("A =", A, " B =", B)
     S = {1}
     S.add(2)
-    print("从 {1} 出发 add(2) ->", S)
+    print("add(2) 后 sorted(S) ->", sorted(S))
     S.remove(2)
-    print("remove(2) 后 ->", S)
+    print("remove(2) 后 sorted(S) ->", sorted(S))
     try:
         S.remove(99)
     except KeyError:
         print("remove(不存在的元素) -> KeyError")
     S.discard(99)
-    print("discard(99)（不存在也不报错）->", S)
-    print("A & B =", A & B)
-    print("A | B =", A | B)
-    print("A - B =", A - B)
+    print("discard(99)（不存在也不报错）后 sorted(S) ->", sorted(S))
+    print("sorted(A & B) ->", sorted(A & B))
+    print("sorted(A | B) ->", sorted(A | B))
+    print("sorted(A - B) ->", sorted(A - B))
+    S2 = {1}
+    S2.update({2, 3})
+    print("update({2, 3}) 后 sorted(S2) ->", sorted(S2))
+    print("sorted(A.union(B)) ->", sorted(A.union(B)))
+    print("sorted(A.intersection(B)) ->", sorted(A.intersection(B)))
+    print("sorted(A.difference(B)) ->", sorted(A.difference(B)))
+    copy_s = A.copy()
+    print("copy() ->", sorted(copy_s))
+    copy_s.clear()
+    print("clear() 后 sorted(copy_s) ->", sorted(copy_s))
 
 
 if __name__ == "__main__":

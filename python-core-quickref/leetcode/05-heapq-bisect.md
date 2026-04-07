@@ -1,38 +1,77 @@
 # 05 · heapq 与 bisect
 
 完整演示：[scripts/05_heapq_bisect.py](scripts/05_heapq_bisect.py)  
-运行：`python 05_heapq_bisect.py`
+运行：`python3 05_heapq_bisect.py`
 
-下文「预期输出」与脚本一致；改脚本时请同步更新本文（见 [../README.md](../README.md) 维护约定）。
+下文各「输入代码 / 输出结果」与脚本逐段对应；改脚本时请同步更新本文（见 [../README.md](../README.md) 维护约定）。
 
 ## heapq（小顶堆）
 
 | 要点 | 说明 |
 |------|------|
-| 语义 | **最小堆**：`heappop` 总是弹出当前最小元素 |
+| 语义 | `heappop` 总是弹出当前最小元素 |
 | 常用 API | `heapify`、`heappush`、`heappop`、`heapreplace`、`nlargest`、`nsmallest` |
-| 元组压栈 | `heappush(h, (priority, seq, item))` 用多余字段**破平手**、携带真实数据 |
-| 大顶堆 | 压入 `(-x)`；或压入 `(-priority, item)`，等价于「按原 key 取最大」 |
+| 元组压栈 | `heappush(h, (priority, seq, item))` 可破平手、携带真实数据 |
+| 大顶堆 | 压入 `(-x)`；或压入 `(-priority, item)` |
 
-### 堆列表形态与 `heapify`
+### `heappush` / `heappop` / `heapify` / `heapreplace`
 
-- 内部用列表存堆，**整体不一定升序**；**`h[0]`** 始终是当前最小元。
+- 堆的内部列表不要求全局有序，但 `h[0]` 永远是当前最小值。
 
-**预期输出摘录**：
+**输入代码**：
+
+```python
+h = []
+heapq.heappush(h, 3)
+heapq.heappush(h, 1)
+heapq.heappush(h, 2)
+
+data = [9, 5, 7, 1]
+heapq.heapify(data)
+
+tmp = [1, 3, 5]
+heapq.heapreplace(tmp, 2)
+```
+
+**输出结果**：
 
 ```text
 堆中依次 push 3,1,2 -> list 形态（非全局有序）: [1, 3, 2]
 heappop x3 -> 1 2 3
 heapify([9,5,7,1]) 后首元素（最小）: 1  整堆: [1, 5, 7, 9]
+heapreplace([1,3,5], 2) -> 返回 1  新堆: [2, 3, 5]
 ```
 
 ### 元组破平手
+
+**输入代码**：
+
+```python
+h2 = []
+heapq.heappush(h2, (2, "b"))
+heapq.heappush(h2, (2, "a"))
+heapq.heappush(h2, (1, "z"))
+[heapq.heappop(h2) for _ in range(len(h2))]
+```
+
+**输出结果**：
 
 ```text
 按 (代价, 附加信息) pop 顺序: [(1, 'z'), (2, 'a'), (2, 'b')]
 ```
 
-### 用负数模拟大顶堆（单键）
+### 用负数模拟大顶堆
+
+**输入代码**：
+
+```python
+big = [1, 5, 3]
+neg_h = [-x for x in big]
+heapq.heapify(neg_h)
+[-heapq.heappop(neg_h) for _ in range(len(neg_h))]
+```
+
+**输出结果**：
 
 ```text
 原 big = [1, 5, 3]  大顶 pop 等价于 -heappop(neg_h): [5, 3, 1]
@@ -40,11 +79,21 @@ heapify([9,5,7,1]) 后首元素（最小）: 1  整堆: [1, 5, 7, 9]
 
 ### `nlargest` / `nsmallest` / `merge`
 
-- **`heapq.merge(*iterables)`**：各输入序列须**已排序**，结果惰性合并为有序迭代。
+- `heapq.merge(*iterables)` 要求每个输入序列本身已按升序排列。
 
-**预期输出摘录**：
+**输入代码**：
+
+```python
+arr = [3, 1, 4, 1, 5, 9, 2]
+heapq.nlargest(3, arr)
+heapq.nsmallest(3, arr)
+list(heapq.merge([1, 4, 7], [2, 5]))
+```
+
+**输出结果**：
 
 ```text
+arr = [3, 1, 4, 1, 5, 9, 2]
 nlargest(3, arr) = [9, 5, 4]
 nsmallest(3, arr) = [1, 1, 2]
 merge([1,4,7], [2,5]) -> [1, 2, 4, 5, 7]
@@ -54,18 +103,32 @@ merge([1,4,7], [2,5]) -> [1, 2, 4, 5, 7]
 
 | 函数 | 作用 |
 |------|------|
-| `bisect_left(a, x)` | 在升序列表 `a` 中，`x` 插在左侧以保持有序 → **第一个 `>= x` 的下标**（若全 `< x` 则 `len(a)`） |
-| `bisect_right` / `bisect` | 插右侧 → **第一个 `> x` 的下标** |
-| `insort_left` / `insort` | 在插入位置**原地**插入（比手写 `list.insert` 找位更语义化） |
+| `bisect_left(a, x)` | 第一个 `>= x` 的下标 |
+| `bisect_right` / `bisect` | 第一个 `> x` 的下标 |
+| `insort_left` / `insort` | 在有序列表中原地插入 |
 
-前提一般是 **`a` 已按升序**；降序题可手写二分或对 key 取反后再想映射。
+### `bisect_left` / `bisect_right` / `insort`
 
-**预期输出摘录**：
+**输入代码**：
+
+```python
+a_sorted = [1, 2, 2, 2, 6, 7]
+x = 2
+bisect.bisect_left(a_sorted, x)
+bisect.bisect_right(a_sorted, x)
+bisect.bisect_left(a_sorted, 5)
+
+tmp = [1, 3, 5]
+bisect.insort(tmp, 4)
+```
+
+**输出结果**：
 
 ```text
 a = [1, 2, 2, 2, 6, 7]  x = 2
 bisect_left(a, x)  = 1
 bisect_right(a, x) = 4
+应插入以保持有序的下标（左/右）即上二值
 bisect_left(a, 5)（不存在：落在第一个 >5 或 len）= 4
 insort([1,3,5], 4) -> [1, 3, 4, 5]
 ```

@@ -1,28 +1,24 @@
 # 07 · sqlite3（单机嵌入式数据库）
 
 完整演示：[scripts/07_sqlite3.py](scripts/07_sqlite3.py)  
-运行：`python 07_sqlite3.py`（在 `dev/scripts` 目录）
+运行：`python3 07_sqlite3.py`（在 `dev/scripts` 目录）
 
-本地缓存、小到中型工具、原型持久化：**零服务**即可用；SQL 与事务概念与其他 DB 相通。  
-下文「输入输出示例」与脚本 **一一对应**（见 [../README.md](../README.md) 维护约定）。
+本地缓存、小到中型工具、原型持久化时，`sqlite3` 可以做到零服务启动。  
+下文各「输入代码 / 输出结果」与脚本逐段对应（见 [../README.md](../README.md) 维护约定）。
 
 ## 要点
 
 | 用法 | 说明 |
 |------|------|
 | `sqlite3.connect(":memory:")` / `connect("app.db")` | 内存库或文件库 |
-| `conn.execute(sql, params)` | **请用占位符** `?`，不要拼接字符串防注入 |
+| `conn.execute(sql, params)` | 用 `?` 占位符传参，避免拼接 SQL |
 | `conn.commit()` | 写操作后提交 |
-| `conn.row_factory = sqlite3.Row` | 行可按键名索引；`dict(row)` 转普通字典便于打印 |
-| 上下文：`with conn:` | 自动 commit / rollback（按版本与用法约定） |
+| `conn.row_factory = sqlite3.Row` | 行可按键名索引；`dict(row)` 便于打印 |
+| `with conn:` | 让连接生命周期更清晰 |
 
-### 占位符
+### 占位符、`Row` 与 `fetchall()`
 
-- 示例：`INSERT INTO users(name) VALUES (?)`，参数为 `("Ada",)` 元组。
-
-**输入输出示例**
-
-**输入**（`07_sqlite3.py`）：
+**输入代码**：
 
 ```python
 with sqlite3.connect(":memory:") as conn:
@@ -31,10 +27,10 @@ with sqlite3.connect(":memory:") as conn:
     conn.execute("INSERT INTO users(name) VALUES (?)", ("Ada",))
     conn.execute("INSERT INTO users(name) VALUES (?)", ("Bob",))
     conn.commit()
-    conn.execute("SELECT id, name FROM users ORDER BY id").fetchall()
+    rows = conn.execute("SELECT id, name FROM users ORDER BY id").fetchall()
 ```
 
-**输出**（`stdout`；每行一次 `print(dict(row))`）：
+**输出结果**（`stdout`）：
 
 ```text
 {'id': 1, 'name': 'Ada'}

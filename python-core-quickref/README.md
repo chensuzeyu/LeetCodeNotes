@@ -13,14 +13,14 @@
 
 ```bash
 cd python-core-quickref/leetcode/scripts
-python run_all.py
+python3 run_all.py
 ```
 
 **日常向：**
 
 ```bash
 cd python-core-quickref/dev/scripts
-python run_all.py
+python3 run_all.py
 ```
 
 环境：**Python 3.9+**。Windows 下若中文乱码，可先 `chcp 65001` 或设置 `PYTHONIOENCODING=utf-8`。
@@ -30,7 +30,21 @@ python run_all.py
 - 刷题新增：只动 `leetcode/` 与 `leetcode/scripts/run_all.py`。  
 - 日常新增：只动 `dev/` 与 `dev/scripts/run_all.py`。  
 - 两套 scripts 各自带一份 `_io_util.py`，互不依赖，避免跨目录 import。  
-- **文档与脚本对齐**：各课 `*.md` 中的「输入输出示例」（脚本中的赋值/参数/SQL 等与终端输出成对出现）应与对应 `scripts/*.py` 当前行为一致；若修改演示脚本，请同步更新该课 Markdown（避免读者对照跑不通）。
+- **文档与脚本对齐**：各课 `*.md` 中的「输入代码 / 输出结果」必须与对应 `scripts/*.py` 当前行为一致；若修改演示脚本，请同步更新该课 Markdown（避免读者对照跑不通）。
+
+## 文档规范（两册共用）
+
+- 文档是脚本输出的**说明层**，不是脱离脚本单独编写的示意文本。
+- 表格是“**脚本可验证清单**”，不是“意图清单”；表格中写到的用法，必须能在对应脚本里找到真实演示。
+- 一个表格行若同时列出多个变体，例如 `pop()` / `pop(i)`、`split()` / `split(",")`，脚本必须逐个跑到。
+- 每个知识点默认包含三部分：
+  - **输入代码**：与脚本中的真实变量、参数、调用一致。
+  - **输出结果**：来自当前脚本真实运行结果。
+  - **注意点**：仅在容易误解或容易踩坑时补一行。
+- 默认不再使用“**预期输出摘录**”作为主展示形式；优先写完整、可对照的输入与输出。
+- 修改已有主题时，先补或修 `scripts/*.py`，再同步更新对应 Markdown。
+- 新增主题时，先写可运行脚本，再写文档；不要先写一份与脚本脱节的说明文。
+- 动态输出的占位规则见各分册 README：`leetcode` 以确定性输出为主，`dev` 允许对少量环境敏感片段做占位规范化。
 
 ---
 

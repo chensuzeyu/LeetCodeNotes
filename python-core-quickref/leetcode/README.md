@@ -7,10 +7,10 @@
 
 ```bash
 cd python-core-quickref/leetcode/scripts
-python run_all.py
+python3 run_all.py
 ```
 
-或单课：`python 05_heapq_bisect.py`  
+或单课：`python3 05_heapq_bisect.py`  
 
 要求：**Python 3.9+**。Windows 终端乱码见上层总 [README.md](../README.md)。
 
@@ -36,4 +36,20 @@ python run_all.py
 
 新增刷题向主题：在本目录加 `0x-*.md`，在 `scripts/` 加 `0x_*.py`，并更新 `scripts/run_all.py` 的 `demos` 列表。
 
-各课 Markdown 中的「预期输出」应与对应脚本输出保持一致；改了脚本请同步更新文档（总约定见 [本册上级 README.md](../README.md)）。
+## 编写规范
+
+- 各课 Markdown 是对应脚本的说明层；读者应能从文档直接对照到 `scripts/*.py` 的真实输入与真实输出。
+- 每个表格项都必须能在对应脚本中找到演示。表格若写了多个变体，脚本必须逐个跑到。
+- 每个知识点默认包含：
+  - **输入代码**：与脚本变量、参数、调用一致。
+  - **输出结果**：来自当前脚本真实运行结果。
+  - **注意点**：只在容易误解时补充。
+- 本册默认不使用“**预期输出摘录**”作为主展示形式，优先写完整的“输入代码 / 输出结果”。
+- 输出应尽量确定、可复现；若只是为了稳定展示某个集合/映射结果，可在脚本中做最小限度的规范化打印。
+- 修改脚本时必须同步更新对应 Markdown；若表格新增了用法，先补脚本，再补文档。
+
+## 维护
+
+- 新增刷题向主题：先补 `scripts/0x_*.py`，再写 `0x-*.md`，最后更新 `scripts/run_all.py`。
+- 旧文档若仍保留“预期输出摘录”写法，应逐步迁移到完整的“输入代码 / 输出结果”格式。
+- 文档与脚本的总约定见 [上级 README.md](../README.md)。

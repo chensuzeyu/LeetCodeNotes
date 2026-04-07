@@ -1,10 +1,10 @@
 # 02 · logging / argparse（可观测与命令行入口）
 
 完整演示：[scripts/02_logging_argparse.py](scripts/02_logging_argparse.py)  
-运行：`python 02_logging_argparse.py`（在 `dev/scripts` 目录）
+运行：`python3 02_logging_argparse.py`（在 `dev/scripts` 目录）
 
 脚本从「能跑」到「能维护」，通常要先有**分级日志**与**规范 CLI**。  
-下文各「输入输出示例」与脚本 **一一对应**；`logging` 默认写 `stderr`，`section()` 与 `print` 写 `stdout`（见 [../README.md](../README.md) 维护约定）。
+下文各「输入代码 / 输出结果」与脚本 **一一对应**；`logging` 默认写 `stderr`，`section()` 与 `print` 写 `stdout`（见 [../README.md](../README.md) 维护约定）。
 
 ## logging
 
@@ -21,9 +21,7 @@
 
 **与 `print`**：`print` 难过滤级别、难统一格式；**库代码**优先用 `logging`，仅在极简一次性脚本可 `print`。
 
-**输入输出示例（basicConfig + 三条日志）**
-
-**输入**（`02_logging_argparse.py`）：
+**输入代码**（`02_logging_argparse.py`）：
 
 ```python
 logging.basicConfig(
@@ -36,7 +34,7 @@ log.info("普通信息")
 log.warning("告警")
 ```
 
-**输出**（`stderr`；直接运行本文件时 `name` 为 `__main__`；由 `run_all` 动态加载时为 `02_logging_argparse`）：
+**输出结果**（`stderr`；直接运行本文件时 `name` 为 `__main__`；由 `run_all` 动态加载时为 `02_logging_argparse`）：
 
 ```text
 DEBUG __main__: 调试信息
@@ -44,9 +42,7 @@ INFO __main__: 普通信息
 WARNING __main__: 告警
 ```
 
-**输入输出示例（FileHandler）**
-
-**输入**（`02_logging_argparse.py`）：
+**输入代码**（`02_logging_argparse.py`）：
 
 ```python
 root = logging.getLogger()
@@ -57,7 +53,7 @@ logging.error("仅写入文件的一条")
 # 随后读文件取末行打印
 ```
 
-**输出**（`stdout`）：
+**输出结果**（`stdout`；同时 root logger 仍会往 `stderr` 打出一行 `ERROR root: 仅写入文件的一条`）：
 
 ```text
 FileHandler 末行: ERROR 仅写入文件的一条
@@ -77,16 +73,14 @@ FileHandler 末行: ERROR 仅写入文件的一条
 
 - **`demo_argv`**：`--verbose`、`--out build/result.txt`、以及两个输入文件；`inputs` 收集剩余位置参数，`out` 为 `Path`（Windows 下 `print(args.out)` 为 `build\result.txt`）。
 
-**输入输出示例**
-
-**输入**（`02_logging_argparse.py`）：
+**输入代码**（`02_logging_argparse.py`）：
 
 ```python
 demo_argv = ["--verbose", "--out", "build/result.txt", "a.csv", "b.csv"]
 args = parser.parse_args(demo_argv)
 ```
 
-**输出**（`stdout`）：
+**输出结果**（`stdout`）：
 
 ```text
 解析 demo argv: ['--verbose', '--out', 'build/result.txt', 'a.csv', 'b.csv']
@@ -95,15 +89,13 @@ args = parser.parse_args(demo_argv)
   verbose= True
 ```
 
-**输入输出示例（与 run_all 共存说明）**
+**输入代码**：无额外解析；脚本打印 `sys.argv` 前若干项。
 
-**输入**：无额外解析；脚本打印 `sys.argv` 前若干项。
-
-**输出**（`stdout`，由 `run_all` 调用时首参为 `run_all.py`）：
+**输出结果**（`stdout`，单独运行本文件时首参为当前脚本路径；由 `run_all` 调用时首参来自上层）：
 
 ```text
 由 run_all 调用时，真实 sys.argv 来自上层；此处已用 demo_argv 固定演示。
-单独运行本文件时 sys.argv = ['02_logging_argparse.py']
+单独运行本文件时 sys.argv = ['<ARGV0>']
 ```
 
 ## 官方文档

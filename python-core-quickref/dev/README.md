@@ -8,10 +8,10 @@
 
 ```bash
 cd python-core-quickref/dev/scripts
-python run_all.py
+python3 run_all.py
 ```
 
-或单课：`python 04_csv_config.py`
+或单课：`python3 04_csv_config.py`
 
 要求：**Python 3.9+**（`tomllib` 仅在 **3.11+** 有标准库实现，见 `04`）。Windows 终端乱码见 [上层 README](../README.md)。
 
@@ -35,6 +35,27 @@ python run_all.py
 
 新增日常向主题：在本目录加 `0x-*.md` 与 `scripts/0x_*.py`，并更新 `scripts/run_all.py` 的 `demos`。
 
-各课 Markdown 中的「**输入输出示例**」（脚本内精确输入 + 对应完整输出）应与当前脚本保持一致；改了脚本请同步更新文档（总约定见 [上层 README.md](../README.md)）。
+## 编写规范
+
+- 各课 Markdown 是对应脚本的说明层，默认以“**输入代码 / 输出结果**”组织内容。
+- 表格不是概念清单，而是脚本可验证清单；表格中出现的用法，应能在对应脚本中找到真实演示。
+- 一个表格行若列出多个变体，脚本必须逐个跑到，文档也要能逐条对照。
+- 默认结构：
+  - **输入代码**：与脚本变量、参数、调用一致。
+  - **输出结果**：来自当前脚本真实运行结果。
+  - **注意点**：仅在编码、平台差异、异常分支等容易踩坑处补充。
+- 本册允许对少量环境敏感片段做占位规范化，但只限无法稳定复现的部分。常用占位符：
+  - `<TMP_PATH>`
+  - `<PY_VERSION>`
+  - `<CWD>`
+  - `<NETWORK_ERROR>`
+- 若输出来自 `stderr`，文档中需显式标明；`stdout` / `stderr` 不要混写成一个未标注的结果块。
+- 固定结果仍应逐字对齐脚本，不要把本可确定的输出写成模糊描述。
+
+## 维护
+
+- 新增日常向主题：先补 `scripts/0x_*.py`，再写 `0x-*.md`，最后更新 `scripts/run_all.py`。
+- 各课 Markdown 中的「输入代码 / 输出结果」应与当前脚本保持一致；改了脚本请同步更新文档（总约定见 [上层 README.md](../README.md)）。
+- 对联网、临时目录、解释器版本等动态输出，优先在脚本中保持真实行为，在文档中用上面的占位规则规范化。
 
 **Windows 脚本注意**：若使用 `tempfile.TemporaryDirectory()`，在**退出该上下文之前**必须把进程的当前目录 `chdir` 到目录外；否则删除临时目录时常见 `PermissionError: [WinError 32]`（目录被占用）。`05_os_sys_subprocess_shutil.py` 中 `os.chdir` 演示采用 `try`/`finally` 恢复。

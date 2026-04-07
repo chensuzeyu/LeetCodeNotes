@@ -1,10 +1,10 @@
 # 10 · dataclasses / typing（结构化数据与类型标注）
 
 完整演示：[scripts/10_dataclasses_typing.py](scripts/10_dataclasses_typing.py)  
-运行：`python 10_dataclasses_typing.py`（在 `dev/scripts` 目录）
+运行：`python3 10_dataclasses_typing.py`（在 `dev/scripts` 目录）
 
 日常开发里用 **dataclass** 减少样板代码；**typing** 提升可读性并可配合编辑器/静态检查（`mypy` 等）。  
-下文「输入输出示例」与脚本 **一一对应**（见 [../README.md](../README.md) 维护约定）。
+下文各「输入代码 / 输出结果」与脚本 **一一对应**（见 [../README.md](../README.md) 维护约定）。
 
 ## dataclasses
 
@@ -24,9 +24,7 @@ class User:
     score: Optional[float] = None
 ```
 
-**输入输出示例**
-
-**输入**（`10_dataclasses_typing.py`；`Point`/`Square`/`HasArea`/`total_area` 定义见脚本）：
+**输入代码**（`10_dataclasses_typing.py`；`Point` / `Square` / `HasArea` / `total_area` 定义见脚本）：
 
 ```python
 u = User("Ann", tags=["dev", "py"], score=97.5)
@@ -36,7 +34,7 @@ Point(3, 4)
 total_area(Square(2))  # Square(2).area() -> 4.0
 ```
 
-**输出**（`stdout`）：
+**输出结果**（`stdout`）：
 
 ```text
 User(name='Ann', tags=['dev', 'py'], score=97.5)
@@ -56,16 +54,14 @@ Protocol total_area(Square(2)): 4
 | `Callable[[int, str], bool]` | 函数类型粗略描述 |
 | `Protocol` | 结构化子类型（duck typing 正规化） |
 
-**输入输出示例**
-
-**输入**（`10_dataclasses_typing.py`）：
+**输入代码**（`10_dataclasses_typing.py`）：
 
 ```python
 twice: Callable[[int], int] = lambda x: x * 2
 twice(21)
 ```
 
-**输出**（`stdout`）：
+**输出结果**（`stdout`）：
 
 ```text
 twice(21) = 42

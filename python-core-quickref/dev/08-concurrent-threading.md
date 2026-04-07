@@ -1,23 +1,23 @@
 # 08 · concurrent.futures / threading（并发入门）
 
 完整演示：[scripts/08_concurrent_threading.py](scripts/08_concurrent_threading.py)  
-运行：`python 08_concurrent_threading.py`（在 `dev/scripts` 目录）
+运行：`python3 08_concurrent_threading.py`（在 `dev/scripts` 目录）
 
-**I/O 等待**（读盘、请求网络）常用线程池；**CPU 密集**在 CPython 中线程帮助有限，可考虑 `ProcessPoolExecutor` 或多进程（各有代价）。  
-下文「输入输出示例」与脚本 **一一对应**；`as_completed` 打印顺序**随任务完成先后而变**（见 [../README.md](../README.md) 维护约定）。
+I/O 等待场景常用线程池；线程间共享状态则需要最小限度的同步原语。  
+下文各「输入代码 / 输出结果」与脚本逐段对应；`as_completed(...)` 的完成顺序不固定，可写作 `<DONE_A>` / `<DONE_B>` 两种排列。
 
 ## concurrent.futures
 
 | 用法 | 说明 |
 |------|------|
-| `ThreadPoolExecutor(max_workers=4)` | 线程池；`with` 管理生命周期 |
-| `executor.map(fn, iterable)` | **保序**、惰性迭代；结果是按输入顺序 |
-| `as_completed(futures)` | **谁先完成谁先回调**；打印顺序不一定与提交顺序一致 |
-| `future.result(timeout=...)` | 取结果；异常会在此抛出 |
+| `ThreadPoolExecutor(max_workers=4)` | 线程池；`with` 自动管理生命周期 |
+| `executor.map(fn, iterable)` | 保序返回结果 |
+| `as_completed(futures)` | 谁先完成先返回 |
+| `future.result(timeout=...)` | 取结果；异常会在这里抛出 |
 
-**输入输出示例**
+### `map(...)` 与 `as_completed(...)`
 
-**输入**（`08_concurrent_threading.py`）：
+**输入代码**：
 
 ```python
 def slow_square(x: int) -> int:
@@ -33,7 +33,15 @@ with ThreadPoolExecutor(max_workers=3) as ex:
         fut.result(timeout=2)
 ```
 
-**输出**（`stdout`；`done` 两行顺序可能为 `25` / `36` 互换）：
+**输出结果**（`stdout`）：
+
+```text
+map -> [1, 4, 9, 16]
+done: 25
+done: 36
+```
+
+或
 
 ```text
 map -> [1, 4, 9, 16]
@@ -45,19 +53,26 @@ done: 25
 
 | 用法 | 说明 |
 |------|------|
-| `Lock` | 互斥；`with lock:` |
-| `Event` | `wait()` / `set()` 简易信号 |
+| `Lock` | 互斥；建议配合 `with lock:` |
+| `Event` | `wait()` / `set()` 做简易信号同步 |
 
-**输入输出示例**
+### `Lock` 与 `Event`
 
-**输入**（`08_concurrent_threading.py`）：
+**输入代码**：
 
 ```python
-# 两线程各 bump 1000 次，with lock: counter["n"] += 1
-# Event：waiter 线程 evt.wait(timeout=2)；主线程 sleep(0.05) 后 evt.set()
+lock = threading.Lock()
+counter = {"n": 0}
+
+def bump() -> None:
+    for _ in range(1000):
+        with lock:
+            counter["n"] += 1
+
+evt = threading.Event()
 ```
 
-**输出**（`stdout`）：
+**输出结果**（`stdout`）：
 
 ```text
 Lock 后 counter = 2000

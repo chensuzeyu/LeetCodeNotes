@@ -17,7 +17,7 @@ def section(title: str) -> None:
 
 def main() -> None:
     utf8_stdout()
-    section("heapq：heappush / heappop / heapify")
+    section("heapq：heappush / heappop / heapify / heapreplace")
     h: list[int] = []
     heapq.heappush(h, 3)
     heapq.heappush(h, 1)
@@ -28,6 +28,9 @@ def main() -> None:
     data = [9, 5, 7, 1]
     heapq.heapify(data)
     print("heapify([9,5,7,1]) 后首元素（最小）:", data[0], " 整堆:", data)
+    tmp2 = [1, 3, 5]
+    removed = heapq.heapreplace(tmp2, 2)
+    print("heapreplace([1,3,5], 2) -> 返回", removed, " 新堆:", tmp2)
 
     section("heapq：元组破平手（先比较第一域）")
     h2: list[tuple[int, str]] = []

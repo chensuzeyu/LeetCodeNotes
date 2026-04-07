@@ -25,6 +25,7 @@ def main() -> None:
     a, b = 0b1100, 0b1010
     print(f"a={a:#06b} b={b:#06b}")
     print(f"a&b = {a & b:#06b}", f"a|b = {a | b:#06b}", f"a^b = {a ^ b:#06b}")
+    print("~a =", ~a)
     print("a << 1 =", a << 1, bin(a << 1), " a >> 1 =", a >> 1, bin(a >> 1))
 
     section("lowbit / 去掉最低 1")
