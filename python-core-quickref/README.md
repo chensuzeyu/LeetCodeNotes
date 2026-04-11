@@ -1,11 +1,12 @@
 # Python 3 核心速查（分册）
 
-本仓库将速查拆成两册，避免刷题与日常开发混在同一目录里：
+本仓库将速查拆成三册，避免刷题、日常开发与量化阅读混在同一目录里：
 
 | 分册 | 路径 | 用途 |
 |------|------|------|
 | **刷题** | [leetcode/README.md](leetcode/README.md) | 力扣 / 竞赛常见：`heapq`、`bisect`、`Counter`、记忆化、位运算等（`01`～`07`） |
 | **日常开发** | [dev/README.md](dev/README.md) | 脚本与工程打底：`01`～`11`（含 `random`/`copy` 等） |
+| **量化阅读** | [quant/README.md](quant/README.md) | 围绕 `1_ETF轮动` 的 `pandas`、`numpy`、`backtrader`、`hkcodex` 速查（`01`～`10`） |
 
 ## 快速运行
 
@@ -23,16 +24,24 @@ cd python-core-quickref/dev/scripts
 python3 run_all.py
 ```
 
+**量化向：**
+
+```bash
+cd python-core-quickref/quant/scripts
+python3 run_all.py
+```
+
 环境：**Python 3.9+**。Windows 下若中文乱码，可先 `chcp 65001` 或设置 `PYTHONIOENCODING=utf-8`。
 
 ## 维护约定
 
 - 刷题新增：只动 `leetcode/` 与 `leetcode/scripts/run_all.py`。  
 - 日常新增：只动 `dev/` 与 `dev/scripts/run_all.py`。  
-- 两套 scripts 各自带一份 `_io_util.py`，互不依赖，避免跨目录 import。  
+- 量化新增：只动 `quant/` 与 `quant/scripts/run_all.py`。  
+- 三套 scripts 各自带一份 `_io_util.py`，互不依赖，避免跨目录 import。  
 - **文档与脚本对齐**：各课 `*.md` 中的「输入代码 / 输出结果」必须与对应 `scripts/*.py` 当前行为一致；若修改演示脚本，请同步更新该课 Markdown（避免读者对照跑不通）。
 
-## 文档规范（两册共用）
+## 文档规范（三册共用）
 
 - 文档是脚本输出的**说明层**，不是脱离脚本单独编写的示意文本。
 - 表格是“**脚本可验证清单**”，不是“意图清单”；表格中写到的用法，必须能在对应脚本里找到真实演示。
