@@ -25,10 +25,11 @@ python3 run_all.py
 | [05-heapq-bisect.md](05-heapq-bisect.md) | [scripts/05_heapq_bisect.py](scripts/05_heapq_bisect.py) | `heapq`、`bisect` |
 | [06-defaultdict-functools.md](06-defaultdict-functools.md) | [scripts/06_defaultdict_functools.py](scripts/06_defaultdict_functools.py) | `defaultdict`、`cache` / `lru_cache`、`reduce` |
 | [07-chr-bitwise.md](07-chr-bitwise.md) | [scripts/07_chr_bitwise.py](scripts/07_chr_bitwise.py) | `ord`/`chr`、位运算 |
+| [08-loops.md](08-loops.md) | [scripts/08_loops.py](scripts/08_loops.py) | `for` / `while`、`break` / `continue`、`enumerate`、`zip`、倒序遍历 |
 
 ## 学习顺序
 
-`01` → `02` → `04` →（按需 `03`）→ `05` → `06` → `07`
+`01` → `08` → `02` → `04` →（按需 `03`）→ `05` → `06` → `07`
 
 **日常写脚本、JSON/正则/路径**见并列目录 [dev/README.md](../dev/README.md)。
 

@@ -1,4 +1,4 @@
-"""依次运行本目录全部「刷题向」演示脚本（01～07）。"""
+"""依次运行本目录全部「刷题向」演示脚本（01～08）。"""
 
 from __future__ import annotations
 
@@ -35,6 +35,7 @@ def main() -> None:
         "05_heapq_bisect",
         "06_defaultdict_functools",
         "07_chr_bitwise",
+        "08_loops",
     ]
     print("Python:", sys.version.split()[0])
     print("【刷题速查】工作目录:", Path(__file__).resolve().parent)

@@ -4,7 +4,7 @@
 
 | 分册 | 路径 | 用途 |
 |------|------|------|
-| **刷题** | [leetcode/README.md](leetcode/README.md) | 力扣 / 竞赛常见：`heapq`、`bisect`、`Counter`、记忆化、位运算等（`01`～`07`） |
+| **刷题** | [leetcode/README.md](leetcode/README.md) | 力扣 / 竞赛常见：`heapq`、`bisect`、`Counter`、记忆化、位运算等（`01`～`08`） |
 | **日常开发** | [dev/README.md](dev/README.md) | 脚本与工程打底：`01`～`11`（含 `random`/`copy` 等） |
 | **量化阅读** | [quant/README.md](quant/README.md) | 围绕 `1_ETF轮动` 的 `pandas`、`numpy`、`backtrader`、`hkcodex` 速查（`01`～`10`） |
 
