@@ -21,6 +21,9 @@
 
 ### `seed` / `random` / `randint` / `randrange` / `choices` / `choice` / `shuffle` / `sample`
 
+- `seed(42)` 这类固定种子最适合教学、测试和复现；不固定时每次结果都会变。
+- `shuffle(xs)` 是**原地打乱**，返回值是 `None`；别把它当成“返回新列表”的函数。
+
 **输入代码**：
 
 ```python
@@ -71,6 +74,9 @@ token_hex(8) = <TOKEN_HEX_16>
 | `copy.deepcopy(x)` | 深拷贝：递归复制，内层对象也独立 |
 
 ### `copy.copy(...)` 与 `copy.deepcopy(...)`
+
+- 浅拷贝只复制外层壳；内层可变对象仍然共享。
+- 深拷贝会递归复制，所以嵌套结构里最能看出两者差别。
 
 **输入代码**：
 

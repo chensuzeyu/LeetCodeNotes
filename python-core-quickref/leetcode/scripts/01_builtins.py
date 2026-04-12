@@ -98,8 +98,11 @@ def main() -> None:
     # 用 / 拼路径；Path 会按当前系统自动处理分隔符。
     sample_dir = project_root / ".tmp" / "leetcode"
     print("sample_dir =", sample_dir)
-    # 若目录不存在就创建；已存在也不报错。
-    sample_dir.mkdir(parents=True, exist_ok=True)
+    # mkdir() 用来创建目录；
+    # parents=True 表示上级目录不存在时也一起创建；
+    # exist_ok=True 表示目录已存在时不报错。
+    mkdir_result = sample_dir.mkdir(parents=True, exist_ok=True)
+    print("sample_dir.mkdir(parents=True, exist_ok=True) ->", mkdir_result)
     print("sample_dir.exists() =", sample_dir.exists())
     sample_file = sample_dir / "sample.txt"
     print("sample_file =", sample_file)

@@ -13,6 +13,8 @@
 | `pd.read_csv(...)` | 读入 CSV，默认给整数索引 |
 | `index_col="trade_date"` | 直接把某一列设为索引 |
 
+- `read_csv` 会尽量自动推断类型，所以纯数字日期列常会先被读成整数。
+
 **输入代码**：
 
 ```python
@@ -36,6 +38,8 @@ index_col 后首行 -> {'etf': '510180.SH', 'score': 0.91}
 | `df.set_index("trade_date")` | 把列变成索引 |
 | `df.reset_index()` | 把索引还原成普通列 |
 
+- `set_index` 返回的是新表；如果不重新赋值，原来的 `df_plain` 不会自动改变。
+
 **输入代码**：
 
 ```python
@@ -57,6 +61,8 @@ reset_index() -> [{'trade_date': 20240108, 'etf': '510180.SH', 'score': 0.91}, {
 |------|------|
 | `df.to_csv(path)` | 写出 CSV；默认把索引也写出去 |
 | 再 `read_csv(..., index_col=...)` | 很常见的“写盘再读回”套路 |
+
+- `to_csv` 默认会把索引写成第一列；后面读回时常要显式告诉 pandas 哪一列是索引。
 
 **输入代码**：
 

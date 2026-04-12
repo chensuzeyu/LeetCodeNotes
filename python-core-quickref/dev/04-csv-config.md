@@ -16,6 +16,7 @@
 ### `DictReader` 读回的值
 
 - **单元格一律是字符串**；需要整数要自己 `int(row["score"])`。
+- 写磁盘文件时常配 `open(..., newline="")`，这样 `csv.writer` 才不会在某些平台写出多余空行。
 
 **输入代码**（`04_csv_config.py`）：
 
@@ -60,6 +61,8 @@ read back: [{'name': 'Ann', 'score': '92'}, {'name': 'Bob', 'score': '88'}]
 | `read(["a.ini", "b.ini"])` | 多文件后者可覆盖前者（按设计） |
 | `get(section, key)` / `getint` / `getboolean` | 带类型转换 |
 
+- `getboolean` / `getint` 这类方法很适合把配置值直接转成业务需要的类型。
+
 **输入代码**（`04_csv_config.py`）：
 
 ```python
@@ -91,6 +94,8 @@ read([base, override]) [app].port = 9090
 |------|------|
 | `tomllib.loads(s)` / `tomllib.load(f)` | **只读**；`load` 时 `f` 须**二进制**打开 `rb` |
 | 3.9–3.10 | 标准库无 `tomllib`；常用第三方 `tomli`（只读）或 `toml` |
+
+- `tomllib` 是标准库里的“读 TOML”方案，但**不负责写回**。
 
 **输入代码**（Python 3.11+，`04_csv_config.py`）：
 

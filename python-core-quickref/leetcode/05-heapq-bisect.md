@@ -17,6 +17,8 @@
 ### `heappush` / `heappop` / `heapify` / `heapreplace`
 
 - 堆的内部列表不要求全局有序，但 `h[0]` 永远是当前最小值。
+- `heapify` 会**原地**把现有列表改造成堆，时间复杂度通常比一个个 `heappush` 更合适。
+- `heapreplace` 会“先弹最小、再压新值”；它适合堆非空且你确定要替换堆顶的场景。
 
 **输入代码**：
 
@@ -44,6 +46,9 @@ heapreplace([1,3,5], 2) -> 返回 1  新堆: [2, 3, 5]
 
 ### 元组破平手
 
+- 堆比较元组时会先比第 0 项；第 0 项相同时再继续比第 1 项。
+- 所以刷题里常见 `(priority, seq, item)`：`priority` 决定主顺序，`seq` 用来稳定破平手。
+
 **输入代码**：
 
 ```python
@@ -61,6 +66,8 @@ heapq.heappush(h2, (1, "z"))
 ```
 
 ### 用负数模拟大顶堆
+
+- `heapq` 只有小顶堆语义；想取“最大值优先”时，最常见写法就是压入负数。
 
 **输入代码**：
 
@@ -80,6 +87,7 @@ heapq.heapify(neg_h)
 ### `nlargest` / `nsmallest` / `merge`
 
 - `heapq.merge(*iterables)` 要求每个输入序列本身已按升序排列。
+- `merge` 返回的是迭代器；不立刻 `list(...)` 时，它会按需逐个产出元素。
 
 **输入代码**：
 
@@ -108,6 +116,9 @@ merge([1,4,7], [2,5]) -> [1, 2, 4, 5, 7]
 | `insort_left` / `insort` | 在有序列表中原地插入 |
 
 ### `bisect_left` / `bisect_right` / `insort`
+
+- `bisect_left(a, x)` 找的是第一个 `>= x` 的位置；`bisect_right(a, x)` 找的是第一个 `> x` 的位置。
+- `insort` 会保持列表有序，但底层仍是 `list.insert`，插入本身不是 O(1)。
 
 **输入代码**：
 

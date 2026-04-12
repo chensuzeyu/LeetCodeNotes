@@ -16,6 +16,9 @@
 
 ### `urlparse` / `parse_qs` / `urlencode`
 
+- `parse_qs` 返回的是“键 -> 值列表”，因为同一个查询参数本来就可能出现多次。
+- `urlencode` 默认会把空格编码成 `+`；这在 query string 里很常见。
+
 **输入代码**：
 
 ```python
@@ -40,6 +43,9 @@ urlencode -> q=space+value&page=2
 | `urlopen(req, timeout=10)` | 读响应；可能抛 `URLError` / `HTTPError` |
 
 ### `urlopen(...)`
+
+- `urlopen` 读到的是字节流；真实项目里通常还会再按响应头或约定编码去 `.decode(...)`。
+- 即使是 GET，请求失败也不一定是 HTTP 状态码，网络、DNS、TLS 问题都可能先抛 `URLError`。
 
 **输入代码**：
 
@@ -66,6 +72,8 @@ status 200 前 200 字节: <BYTES_PREVIEW> ...
 ```
 
 ### `HTTPError`
+
+- `HTTPError` 是 `URLError` 的子类之一，表示“已经连到服务端，但服务端返回了 4xx/5xx 之类的 HTTP 错误”。
 
 **输入代码**：
 

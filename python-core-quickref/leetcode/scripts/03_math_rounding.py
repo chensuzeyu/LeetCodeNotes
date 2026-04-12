@@ -30,6 +30,7 @@ def main() -> None:
 
     v = 12.3456
     print(f"round({v}, 2) = {round(v, 2)}  round({v}, 3) = {round(v, 3)}")
+    print("round(2.675, 2) =", round(2.675, 2), "（float 二进制表示会影响结果）")
 
     section("数论：gcd / lcm / pow(a,b,m) / isqrt / comb / perm / factorial")
     a, b, m = 54, 24, 10**9 + 7
@@ -50,6 +51,12 @@ def main() -> None:
         f'Decimal("2.675").quantize(Decimal("0.01"), ROUND_HALF_UP) ->',
         v2.quantize(Decimal("0.01"), rounding=ROUND_HALF_UP),
         "（应用字符串构造，避免 float 二进制误差）",
+    )
+    print(
+        "Decimal(2.675) 与 Decimal('2.675') 不同 ->",
+        Decimal(2.675),
+        "vs",
+        Decimal("2.675"),
     )
 
 

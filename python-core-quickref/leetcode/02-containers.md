@@ -20,18 +20,18 @@
 | `nums[i:j]` | 切片，**左闭右开** |
 | `nums[::-1]` | 反转副本（新序列） |
 
-### 切片与复制反转
-
-- **`nums[i:j]`**：含 `i`，**不含** `j`；省略端点表示从头到尾。
-- **`nums[::-1]`**：得到反转后的**新**序列，**原列表不变**。
-
 ### `append(x)` 与 `extend(iterable)`
+
+- `append(x)` 是“把 **x 整个对象** 追加进去”；如果 `x` 本身是列表，也会作为**一个元素**放进去。
+- `extend(iterable)` 是“把 iterable 里的元素**逐个展开**后追加进去”。
 
 **输入代码**（`02_containers.py`）：
 
 ```python
 nums = [1, 2]
 nums.append(3)
+nums_append = [1, 2]
+nums_append.append([4, 5])
 nums.extend([4, 5])
 ```
 
@@ -39,16 +39,22 @@ nums.extend([4, 5])
 
 ```text
 append(3) -> [1, 2, 3]
+append([4, 5]) -> [1, 2, [4, 5]]
 extend([4, 5]) -> [1, 2, 3, 4, 5]
 ```
 
 ### `pop()` 与 `pop(i)`
+
+- `pop()` / `pop(i)` 都是**按下标删除**，并且**返回被删掉的值**。
+- `pop()` 默认删最后一个元素；`pop(i)` 删第 `i` 个元素。
+- 下标越界会报 `IndexError`。
 
 **输入代码**：
 
 ```python
 last = nums.pop()
 mid = nums.pop(1)
+nums.pop(99)
 ```
 
 **输出结果**：
@@ -56,33 +62,47 @@ mid = nums.pop(1)
 ```text
 pop() -> 5  nums -> [1, 2, 3, 4]
 pop(1) -> 2  nums -> [1, 3, 4]
+pop(99) -> IndexError: pop index out of range
 ```
 
 ### `remove(x)` 与 `insert(i, x)`
 
+- `remove(x)` 是**按值删除**，不是按下标删除。
+- 它只会删掉**第一个**匹配到的值；后面相同的值不会一次性全删掉。
+- `remove()` 只接受**一个参数**；如果想删多个值，通常用循环或列表推导。
+
 **输入代码**：
 
 ```python
-nums.remove(4)
-nums.remove(99)
-nums.insert(1, 8)
+removed = [1, 4, 4, 2]
+removed.remove(4)
+removed.remove(4)
+removed.remove(99)
+removed.remove(1, 2)
+removed.insert(1, 8)
 ```
 
 **输出结果**：
 
 ```text
-remove(4) -> [1, 3]
+初始 removed = [1, 4, 4, 2]
+remove(4) -> [1, 4, 2]
+再次 remove(4) -> [1, 2]
 remove(99) -> ValueError: list.remove(x): x not in list
-insert(1, 8) -> [1, 8, 3]
+remove(1, 2) -> TypeError: list.remove() takes exactly one argument (2 given)
+insert(1, 8) -> [1, 8, 2]
 ```
 
 ### `reverse()` 与 `clear()`
+
+- `reverse()` 是**原地修改**列表，返回值是 `None`。
+- `clear()` 会把列表清空。
 
 **输入代码**：
 
 ```python
 rev = [9, 2, 3]
-rev.reverse()
+reverse_result = rev.reverse()
 cleared = [7, 8]
 cleared.clear()
 ```
@@ -90,11 +110,14 @@ cleared.clear()
 **输出结果**：
 
 ```text
-reverse() 后 -> [3, 2, 9]
+rev.reverse() 返回 -> None  rev -> [3, 2, 9]
 clear() 后 -> []
 ```
 
 ### `nums[i:j]` 与 `nums[::-1]`
+
+- `nums[i:j]` 含 `i`，**不含** `j`；省略端点表示从头到尾。
+- 切片会返回**新列表**；`nums[::-1]` 也是新列表，原列表不变。
 
 **输入代码**：
 
@@ -158,9 +181,9 @@ min([[1, 9], [5, 2], [3, 7]]) -> [1, 9]
 
 ### `[]` 与 `get` / `setdefault`
 
-- **`d[k]`**：键不存在时抛 **`KeyError`**，适合「键必定存在」的路径。
-- **`d.get(k, default)`**：缺失时返回 `default`，不修改字典。
-- **`setdefault(k, default)`**：缺失时写入 `default` 再返回（一次访问完成「若没有则建」）。
+- `d[k]`：键不存在时抛 **`KeyError`**，适合“键必定存在”的路径。
+- `d.get(k, default)`：缺失时返回 `default`，**不修改**字典。
+- `d.setdefault(k, default)`：缺失时写入 `default` 再返回；如果键已存在，就返回旧值，**不会覆盖原值**。
 
 ### `d[key]`、`get`、`setdefault` 与 `key in d`
 
@@ -171,6 +194,7 @@ d = {"a": 1}
 d["a"]
 d["missing"]
 d.get("b", 0)
+d.setdefault("a", 99)
 d.setdefault("b", 2)
 "a" in d
 "z" in d
@@ -182,12 +206,17 @@ d.setdefault("b", 2)
 d = {'a': 1}
 d['a'] = 1
 d['missing'] -> KeyError: 'missing'
-d.get('b', 0) = 0
+d.get('b', 0) = 0  d -> {'a': 1}
+setdefault('a', 99) -> 1  d -> {'a': 1}
 setdefault('b', 2) -> 2  d -> {'a': 1, 'b': 2}
 'a' in d = True   'z' in d = False
 ```
 
 ### `pop(key[, default])` 与 `update(mapping)`
+
+- `pop(key)` 会**删除并返回**该键的值；键不存在时会报错。
+- `pop(key, default)` 在键不存在时返回 `default`，并且不会报 `KeyError`。
+- `update(mapping)` 会把传入映射里的键值**写回原字典**。
 
 **输入代码**：
 
@@ -206,6 +235,9 @@ update({'b': 2, 'c': 3}) 后 d -> {'a': 1, 'b': 2, 'c': 3}
 ```
 
 ### `keys()`、`values()`、`items()` 与 `copy()`
+
+- `keys()` / `values()` / `items()` 返回的是“视图”；为了稳定展示，脚本里通常会包一层 `list(...)`。
+- `copy()` 是**浅拷贝**：外层字典是新的，但内部可变对象不会递归复制。
 
 **输入代码**：
 
@@ -226,6 +258,9 @@ copy() -> {'a': 1, 'b': 2, 'c': 3}
 ```
 
 ### `popitem()`、`for k, v in d.items()` 与 `clear()`
+
+- `popitem()` 会删除并返回**最后插入**的一对 `(key, value)`。
+- `for k, v in d.items()` 是最常见的字典遍历写法。
 
 **输入代码**：
 
@@ -262,8 +297,8 @@ clear() 后 -> {}
 
 ### 说明：`split()` 与 `split(",")`
 
-- **无参 `split()`**：按**任意空白**切分，且丢弃首尾空白段。
-- **`split(",")`**：按**字面逗号**切分，**不会**自动去掉段内空格。
+- **无参 `split()`**：按**任意空白**切分，连续空白会被合并，首尾空白也会被忽略。
+- **`split(",")`**：按**字面逗号**切分；连续分隔符会保留空串，段内空格也不会自动去掉。
 
 ### `split()` 与 `split(",")`
 
@@ -272,6 +307,7 @@ clear() 后 -> {}
 ```python
 s = "  a,b, c  \n"
 "hello   world\nfoo".split()
+"a,,b".split(",")
 s.split(",")
 ```
 
@@ -280,15 +316,19 @@ s.split(",")
 ```text
 repr(s) = '  a,b, c  \n'
 'hello   world\nfoo'.split() -> ['hello', 'world', 'foo']
+'a,,b'.split(',') -> ['a', '', 'b']
 s.split(',') -> ['  a', 'b', ' c  \n']
 ```
 
 ### `strip()` / `lstrip()` / `rstrip()`
 
+- `strip()` / `lstrip()` / `rstrip()` 只处理**两端**空白，不处理中间内容。
+
 **输入代码**：
 
 ```python
 s.strip()
+"  a  b  \n".strip()
 "  abc\n".lstrip()
 "abc  \n".rstrip()
 ```
@@ -297,16 +337,21 @@ s.strip()
 
 ```text
 s.strip() -> 'a,b, c'
+'  a  b  \n'.strip() -> 'a  b'
 '  abc\n'.lstrip() -> 'abc\n'
 'abc  \n'.rstrip() -> 'abc'
 ```
 
 ### `join(iterable)` 与 `s[i:j]`
 
+- `join(iterable)` 要求 iterable 里的元素都是字符串；混入整数等其他类型会报 `TypeError`。
+- 字符串切片也是**左闭右开**，并且返回**新字符串**。
+
 **输入代码**：
 
 ```python
 "--".join(["x", "y", "z"])
+"--".join(["x", 1])
 "hello"[1:4]
 ```
 
@@ -314,6 +359,7 @@ s.strip() -> 'a,b, c'
 
 ```text
 '--'.join(['x', 'y', 'z']) -> x--y--z
+'--'.join(['x', 1]) -> TypeError: sequence item 1: expected str instance, int found
 'hello'[1:4]（左闭右开）-> ell
 ```
 
@@ -330,8 +376,8 @@ s.strip() -> 'a,b, c'
 
 ### `remove` 与 `discard`
 
-- **`remove(x)`**：`x` 不在集合中报 **`KeyError`**。
-- **`discard(x)`**：不存在时**静默**成功，适合「可能没有」的场景。
+- `remove(x)`：`x` 不在集合中报 **`KeyError`**。
+- `discard(x)`：不存在时**静默成功**，适合“可能没有”的场景。
 
 ### `add` / `remove` / `discard`
 
@@ -356,6 +402,8 @@ discard(99)（不存在也不报错）后 sorted(S) -> [1]
 
 ### `&` / `|` / `-`
 
+- `&` / `|` / `-` 都会返回**新集合**，不会改动原集合。
+
 **输入代码**：
 
 ```python
@@ -377,6 +425,9 @@ sorted(A - B) -> [1]
 
 ### `update` / `union` / `intersection` / `difference`
 
+- `update(other)` 会把元素并入**原集合**。
+- `union()` / `intersection()` / `difference()` 返回**新集合**，原集合不变。
+
 **输入代码**：
 
 ```python
@@ -391,9 +442,9 @@ sorted(A.difference(B))
 
 ```text
 update({2, 3}) 后 sorted(S2) -> [1, 2, 3]
-sorted(A.union(B)) -> [1, 2, 3, 4]
-sorted(A.intersection(B)) -> [2, 3]
-sorted(A.difference(B)) -> [1]
+sorted(A.union(B)) -> [1, 2, 3, 4]  原 A 仍为 [1, 2, 3]
+sorted(A.intersection(B)) -> [2, 3]  原 A 仍为 [1, 2, 3]
+sorted(A.difference(B)) -> [1]  原 A 仍为 [1, 2, 3]
 ```
 
 ### `copy()` 与 `clear()`

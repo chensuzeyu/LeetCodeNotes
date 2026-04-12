@@ -18,6 +18,7 @@
 ### 级别与格式
 
 - **`level=DEBUG`**：低于该级别的日志不会输出；脚本演示里 `DEBUG`/`INFO`/`WARNING` 都会出现在 `stderr`。
+- `basicConfig(...)` 通常只应在程序入口集中配一次；库代码里一般不自己反复配 root logger。
 
 **与 `print`**：`print` 难过滤级别、难统一格式；**库代码**优先用 `logging`，仅在极简一次性脚本可 `print`。
 
@@ -72,6 +73,7 @@ FileHandler 末行: ERROR 仅写入文件的一条
 ### 演示参数含义
 
 - **`demo_argv`**：`--verbose`、`--out build/result.txt`、以及两个输入文件；`inputs` 收集剩余位置参数，`out` 为 `Path`（Windows 下 `print(args.out)` 为 `build\result.txt`）。
+- `parse_args(argv)` 这种写法对教学和测试都很友好，因为它不依赖真实命令行环境。
 
 **输入代码**（`02_logging_argparse.py`）：
 

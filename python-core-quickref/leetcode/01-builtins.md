@@ -227,19 +227,18 @@ all([1, 2, 0]) = False
 
 ## `open(path, mode, encoding="utf-8")`
 
-- `utf-8` 是一种**文本编码规则**，可以理解成“程序怎样把文字变成字节保存到文件里，以及再怎样从字节还原回文字”。现在它几乎是最通用的文本编码；显式写上 `encoding="utf-8"`，能减少中文乱码。
-- `with open(...) as f:` 可以理解为“打开文件，暂时命名为 `f` 来使用”；离开 `with` 代码块后，文件会自动关闭。
-- 如果不用 `with`，通常就要自己手动写 `f.close()`；忘记关文件时，可能会出现资源没及时释放、内容没及时刷到磁盘、Windows 下文件暂时被占用等问题。
+- `utf-8` 是常用的文本编码。显式写 `encoding="utf-8"`，可以减少乱码。
+- `with open(...) as f:` 表示“打开文件，并把文件对象命名为 `f`”；离开 `with` 代码块后，文件会自动关闭。
+- 如果不用 `with`，通常就要手动写 `f.close()`；否则可能出现资源没及时释放、内容没及时写入、文件被占用等问题。
 - 本课示例会把文件写到仓库内固定学习目录 `.tmp/leetcode/sample.txt`，方便运行后直接查看；该目录已加入根 `.gitignore`。
-- 这一节把路径准备过程也直接展开写出来，方便你把脚本和讲义逐行对照着看。
-- 其中 `resolve()` 可以先理解成“把当前文件路径变成完整的绝对路径”；`parents[2]` 可以先理解成“再往上回退两级目录”；parents[0] 是“当前文件所在目录”。
-- `Path(...) / "a" / "b"` 这种写法是在拼路径；它会按当前系统自动使用合适的路径分隔符，所以 Windows 和 Linux 都能用。
-- `mkdir(parents=True, exist_ok=True)` 可以先记成：需要的话就把目录建出来；如果目录已经存在，也不要报错。
-- 这些写法**不只适用于 Windows**。`with`、`open(...)`、`encoding="utf-8"` 这些都是 Python 的跨平台基础用法，在 Linux / macOS 下同样成立。
-- 真正常见的差异主要有三类：
-  - 路径显示：Windows 常见 `\`，Linux / macOS 常见 `/`；但示例里用的是 `Path` 拼路径，写法本身可以跨平台。
-  - 默认编码：如果你不写 `encoding=...`，不同系统和环境的默认值可能不同；显式写 `encoding="utf-8"` 就更稳。
-  - 换行符：本例写了 `newline="\n"`，表示按 `\n` 写入文本，这样在不同系统上更一致。
+- 这一节把路径准备过程直接展开写出来，方便脚本和讲义逐行对照。
+- `resolve()` 可以先理解成“把当前文件路径变成绝对路径”；`parents[0]` 是当前文件所在目录，`parents[2]` 表示再往上退两级目录。
+- `Path(...) / "a" / "b"` 是拼路径的写法，会按当前系统自动处理路径分隔符。
+- `mkdir()` 用来创建目录；`parents=True` 表示缺失的上级目录也一起创建，`exist_ok=True` 表示目录已存在时不报错。
+- `mkdir()` 一般没有有用的返回值，这里打印出来是 `None`；真正关心的是目录是否创建成功。
+- 这些写法不只适用于 Windows，在 Linux / macOS 下也同样成立。
+- 常见差异主要有三类：路径显示形式不同、默认编码可能不同、换行符处理可能不同。本例显式写了 `encoding="utf-8"` 和 `newline="\n"`，就是为了让结果更稳定。
+
 
 **输入代码**：
 
@@ -253,8 +252,11 @@ print("project_root =", project_root)
 # 用 / 拼路径；Path 会按当前系统自动处理分隔符
 sample_dir = project_root / ".tmp" / "leetcode"
 print("sample_dir =", sample_dir)
-# 若目录不存在就创建；已存在也不报错
-sample_dir.mkdir(parents=True, exist_ok=True)
+# mkdir() 用来创建目录
+# parents=True 表示上级目录不存在时也一起创建
+# exist_ok=True 表示目录已存在时不报错
+mkdir_result = sample_dir.mkdir(parents=True, exist_ok=True)
+print("sample_dir.mkdir(parents=True, exist_ok=True) ->", mkdir_result)
 print("sample_dir.exists() =", sample_dir.exists())
 sample_file = sample_dir / "sample.txt"
 print("sample_file =", sample_file)
@@ -262,6 +264,7 @@ print("sample_file =", sample_file)
 # "w" 表示写入：文件不存在就新建，已存在就覆盖原内容
 # encoding="utf-8" 表示按 UTF-8 规则保存文本，尽量避免中文乱码
 # newline="\n" 表示按 \n 写入换行，让不同系统下的结果更一致
+# as f 表示把打开后的文件对象命名为 f，下面就能写 f.write(...)
 with open(sample_file, "w", encoding="utf-8", newline="\n") as f:
     f.write("hello\nworld\n")
 print("写入(mode=w, encoding=utf-8):", sample_file)
@@ -279,6 +282,7 @@ print("readlines() ->", lines)
 script_path = <PROJECT_ROOT>/leetcode/scripts/01_builtins.py
 project_root = <PROJECT_ROOT>
 sample_dir = <PROJECT_ROOT>/.tmp/leetcode
+sample_dir.mkdir(parents=True, exist_ok=True) -> None
 sample_dir.exists() = True
 sample_file = <PROJECT_ROOT>/.tmp/leetcode/sample.txt
 写入(mode=w, encoding=utf-8): <PROJECT_ROOT>/.tmp/leetcode/sample.txt

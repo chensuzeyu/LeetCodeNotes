@@ -19,6 +19,7 @@
 
 - **`int(x)`**（float）：向 0 截断。
 - **`math.floor(x)`**：向负无穷取整；负数时常与 `int` 不同。
+- 对已经是整数值的数，`floor` / `ceil` / `trunc` 结果会一致；差异主要出现在带小数部分时。
 
 **输入代码**：
 
@@ -50,6 +51,7 @@ for v in [2.5, 3.5, 4.5, -2.5]:
 
 round(12.3456, 2)
 round(12.3456, 3)
+round(2.675, 2)
 ```
 
 **输出结果**：
@@ -60,6 +62,7 @@ round(3.5) = 4
 round(4.5) = 4
 round(-2.5) = -2
 round(12.3456, 2) = 12.35  round(12.3456, 3) = 12.346
+round(2.675, 2) = 2.67 （float 二进制表示会影响结果）
 ```
 
 需要“0.5 一律进位”这类业务规则时，用 **`Decimal`**，不要硬套 `round()`。
@@ -78,6 +81,9 @@ round(12.3456, 2) = 12.35  round(12.3456, 3) = 12.346
 | 阶乘 | `math.factorial(n)` |
 
 ### `gcd` / `lcm` / `pow(..., mod)` / `isqrt` / `comb` / `perm` / `factorial`
+
+- `pow(a, b, m)` 是**内置函数**的三参数版本，效率和语义都比先算 `a ** b` 再 `% m` 更合适。
+- `isqrt(n)` 返回的是整数平方根，不会像 `sqrt` 那样先进入浮点数世界。
 
 **输入代码**：
 
@@ -109,6 +115,8 @@ factorial(6) = 720
 
 ### `Decimal` 与 `quantize`
 
+- `Decimal("2.675")` 这种**字符串构造**最稳；`Decimal(2.675)` 会把 float 误差原样带进来。
+
 **输入代码**：
 
 ```python
@@ -117,6 +125,7 @@ u.quantize(Decimal("1"), rounding=ROUND_HALF_UP)
 
 v2 = Decimal("2.675")
 v2.quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+Decimal(2.675), Decimal("2.675")
 ```
 
 **输出结果**：
@@ -124,6 +133,7 @@ v2.quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
 ```text
 Decimal("2.5").quantize(..., ROUND_HALF_UP) -> 3 -> int -> 3
 Decimal("2.675").quantize(Decimal("0.01"), ROUND_HALF_UP) -> 2.68 （应用字符串构造，避免 float 二进制误差）
+Decimal(2.675) 与 Decimal("2.675") 不同 -> 2.67499999999999982236431605997495353221893310546875 vs 2.675
 ```
 
 ## 官方文档

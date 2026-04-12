@@ -14,6 +14,8 @@
 | `s.to_dict()` | 快速看“索引 → 值”映射 |
 | `s.index` / `s.name` | 查看索引和名称 |
 
+- `Series` 可以理解成“带索引的一列数据”；量化里常拿它表示单个时点的打分序列或收益序列。
+
 **输入代码**：
 
 ```python
@@ -35,6 +37,8 @@ Series.name -> score
 | `pd.DataFrame({...}, index=...)` | 二维表，最常见的量化中间结果载体 |
 | `df.columns` / `df.index` | 看列名与索引 |
 | `df.to_dict(orient="index")` | 快速看“索引 → 一整行” |
+
+- `DataFrame` 更像二维表：行索引常是日期，列名常是字段名，如 `close`、`score`、`hold`。
 
 **输入代码**：
 
@@ -64,6 +68,8 @@ index -> ['20240108', '20240109']
 | `df["score"]` | 取单列，返回 `Series` |
 | `df[["etf", "score"]]` | 取多列，返回 `DataFrame` |
 | `df.head(1)` | 看前几行 |
+
+- 单中括号取单列，结果是 `Series`；双中括号取多列，结果还是 `DataFrame`。
 
 **输入代码**：
 

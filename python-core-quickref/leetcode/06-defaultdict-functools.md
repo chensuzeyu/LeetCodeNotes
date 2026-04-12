@@ -15,6 +15,9 @@
 
 ### `defaultdict(list)`
 
+- `defaultdict(list)` 让 `d[k].append(v)` 这种写法更自然，不用每次先判断键是否存在。
+- 第一次访问缺失键时，会先调用工厂函数 `list()` 生成默认值。
+
 **输入代码**：
 
 ```python
@@ -31,6 +34,9 @@ edges -> {'a': [1, 3], 'b': [2]}
 ```
 
 ### `defaultdict(int)` 与 `defaultdict(set)`
+
+- `defaultdict(int)` 的默认值是 `0`，很适合做计数。
+- `defaultdict(set)` 的默认值是空集合，天然适合“去重后再聚合”。
 
 **输入代码**：
 
@@ -66,6 +72,9 @@ ds["k"].add(1)
 
 ### `cache`
 
+- `cache` 适合“相同参数反复调用且结果纯由参数决定”的函数。
+- 一旦命中缓存，函数体不会重新执行；递归 DP 场景里通常能明显减少调用次数。
+
 **输入代码**：
 
 ```python
@@ -89,6 +98,7 @@ cache_info = CacheInfo(hits=4, misses=7, maxsize=None, currsize=7)
 ### `lru_cache(maxsize=...)`
 
 - 参数必须可哈希；`list` / `dict` 这类可变对象不能直接拿来做缓存键。
+- `maxsize` 有上限时，最近最少使用的旧结果会被淘汰；它更像“有限容量缓存”。
 
 **输入代码**：
 
@@ -111,6 +121,8 @@ lru_cache_info = CacheInfo(hits=4, misses=15, maxsize=32, currsize=15)
 ```
 
 ### `reduce`
+
+- `reduce` 是“把二元函数不断往前折叠”；读者不熟时，很多场景直接写 `for` 循环会更直观。
 
 **输入代码**：
 

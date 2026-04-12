@@ -16,6 +16,8 @@
 
 ### `os.environ.get(...)` 与 `getcwd()` / `chdir()`
 
+- `os.environ` 里的值都是字符串；即使你放进去的是数字语义，读出来也要自己再转型。
+
 **输入代码**：
 
 ```python
@@ -47,6 +49,8 @@ chdir 临时目录后 getcwd: <TMP_PATH>
 | `sys.exit(code)` | 以退出码结束进程；本课在子进程中演示 |
 
 ### `argv` / `path` / `version` / `executable`
+
+- `sys.path` 控制 import 搜索路径；临时插到最前面时，记得用完再恢复。
 
 **输入代码**：
 
@@ -82,6 +86,8 @@ sys.executable: <PY_EXECUTABLE>
 
 ### `subprocess.run(...)`
 
+- 传列表参数时通常比整串命令更稳，也更容易避开引号和转义问题。
+
 **输入代码**：
 
 ```python
@@ -106,6 +112,8 @@ check=True 捕获 CalledProcessError returncode: 1
 | `shutil.move` / `rmtree` | 移动；递归删目录（危险操作，先确认路径） |
 
 ### `copy2` / `move` / `rmtree`
+
+- `rmtree` 是递归删除整棵目录树的危险操作；真实项目里一定先确认目标路径。
 
 **输入代码**：
 

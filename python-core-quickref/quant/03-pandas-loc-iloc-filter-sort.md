@@ -13,6 +13,8 @@
 | `df.loc[label]` | 按索引标签取 |
 | `df.iloc[pos]` | 按位置取 |
 
+- `loc` 看的是标签语义，`iloc` 看的是物理位置语义；两者别混成“都像列表下标”。
+
 **输入代码**：
 
 ```python
@@ -36,6 +38,8 @@ df.iloc[1].to_dict() -> {'etf': '159915.SZ', 'score': 1.08}
 | `df[df["score"] > 1.0]` | 先筛行 |
 | `[..., ["etf", "score"]]` | 再裁列 |
 
+- 布尔筛选最核心的是先得到一个同长度布尔条件，再拿它筛行。
+
 **输入代码**：
 
 ```python
@@ -54,6 +58,8 @@ df[df['score'] > 1.0][['etf', 'score']] -> [{'etf': '159915.SZ', 'score': 1.08},
 |------|------|
 | `sort_values("score", ascending=False)` | 按分数从高到低排 |
 | `drop_duplicates(subset=["etf"])` | 每个 ETF 只保留一行 |
+
+- `drop_duplicates(..., keep="first")` 会保留当前顺序里的第一条，所以常和 `sort_values(...)` 连起来用。
 
 **输入代码**：
 

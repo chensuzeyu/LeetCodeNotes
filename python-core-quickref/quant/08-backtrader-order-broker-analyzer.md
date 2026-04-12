@@ -13,6 +13,8 @@
 | `cerebro.broker.setcash(1000.0)` | 设置初始资金 |
 | `broker.getcash()` / `broker.getvalue()` | 看现金和总资产 |
 
+- `cash` 是账户里的现金，`value` 是现金加上持仓市值后的总资产。
+
 **输入代码**：
 
 ```python
@@ -34,6 +36,8 @@ start cash -> 1000.0
 | `close()` | 平仓 |
 | `notify_order` | 订单成交时回调 |
 | `notify_trade` | 一笔交易闭合时回调 |
+
+- 发单、成交、平仓、结算盈亏是几件不同的事，回测里通常分散在不同回调里观察。
 
 **输入代码**：
 
@@ -62,6 +66,8 @@ notify_trade -> pnl 5.0
 |------|------|
 | `cerebro.addanalyzer(bt.analyzers.TimeReturn, _name="_TimeReturn")` | 挂收益分析器 |
 | `get_analysis()` | 取回收益序列 |
+
+- analyzer 是回测结束后统一拿结果的常见入口，不是每次 `next()` 都手动累计收益。
 
 **输入代码**：
 

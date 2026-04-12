@@ -13,6 +13,8 @@
 | 输入 | 一个带时间索引的 OHLC `DataFrame` |
 | 作用 | 把 `pandas` 行情表包装成 `backtrader` 可读的数据源 |
 
+- `backtrader` 并不直接吃任意 `DataFrame`；它需要通过 `PandasData` 这层适配。
+
 **输入代码**：
 
 ```python
@@ -41,6 +43,8 @@ input index -> ['2024-01-08', '2024-01-09', '2024-01-10']
 | `cerebro.adddata(...)` | 注册数据源 |
 | `cerebro.addstrategy(...)` | 注册策略类 |
 | `cerebro.run()` | 真正开始逐 bar 推进 |
+
+- `cerebro.run()` 前只是“把部件装好”；真正按时间推进是在 `run()` 之后才发生。
 
 **输入代码**：
 

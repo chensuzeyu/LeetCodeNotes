@@ -18,6 +18,9 @@
 
 ### `time(...)` / `datetime.now(...)` / `timedelta` / `fromisoformat`
 
+- `datetime.now()` 不带 `tz` 时通常是“naive datetime”，适合本地展示，不适合直接跨时区比较。
+- `timedelta(days=2)` 是加“持续时长”，不是单纯把日期字符串里的天数改一改。
+
 **输入代码**：
 
 ```python
@@ -48,6 +51,9 @@ fromisoformat: 2026-04-06 12:34:56+00:00
 | `astimezone(timezone.utc)` | 带时区时间与 UTC 互转 |
 
 ### `ZoneInfo(...)` 与时区转换
+
+- `astimezone(...)` 的前提是原始 `datetime` 本身带时区；否则你很难知道“它当前到底代表哪个时区的时间”。
+- `ZoneInfo("Asia/Shanghai")` 这种名字来自 IANA 时区数据库，不是随便写的任意字符串。
 
 **输入代码**：
 

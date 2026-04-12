@@ -13,6 +13,8 @@
 | `ensure_hkcodex_path.py` | 先把 `hkcodex` 的实现挂到当前解释器 |
 | `HKCODEX_HOME` | 让缓存、`token.txt`、`data/` 能被正确找到 |
 
+- 这一步本质上是在先把本地依赖环境接好；接口本身能不能跑，前提就是路径和家目录都对。
+
 **输入代码**：
 
 ```python
@@ -32,6 +34,8 @@ helper -> <HKCODEX_HELPER>
 |------|------|
 | `hx.get_trade_days(since=..., until=...)` | 返回交易日表 |
 
+- 这个结果通常是后面按交易日循环、对齐选股日期和回测日期的基础。
+
 **输入代码**：
 
 ```python
@@ -50,6 +54,8 @@ cal_date -> ['20240102', '20240103', '20240104', '20240105', '20240108', '202401
 | 用法 | 说明 |
 |------|------|
 | `hx.fund_daily(etf=..., start_date=..., end_date=..., adjust="front")` | ETF 日线 |
+
+- 即使当前示例区间下拿到空表，也先要认清它的返回类型仍然是 `DataFrame`。
 
 **输入代码**：
 
@@ -73,6 +79,8 @@ fund is empty -> True
 | 用法 | 说明 |
 |------|------|
 | `hx.index_daily(index_code=..., start_date=..., end_date=...)` | 指数收益序列 |
+
+- 这里最重要的不是数值大小，而是先确认“返回的是 `Series` 还是 `DataFrame`”。
 
 **输入代码**：
 

@@ -13,6 +13,8 @@
 | `np.polyfit(x, y, 1)` | 一次直线拟合，返回斜率和截距 |
 | `x = np.arange(y.size)` | 给价格序列配一个等间距横轴 |
 
+- 这里用 `log(close)` 再拟合，是为了把“复利增长”近似转成线性斜率来观察。
+
 **输入代码**：
 
 ```python
@@ -38,6 +40,8 @@ slope = 0.020224  intercept = 4.59967
 | `fitted = slope * x + intercept` | 直线拟合值 |
 | `r_squared` | 近似衡量“这段趋势有多直” |
 
+- `r_squared` 越接近 1，说明点越贴近这条拟合直线；越小说明走势越“弯”或噪声越大。
+
 **输入代码**：
 
 ```python
@@ -58,6 +62,8 @@ r_squared -> 0.977506
 |------|------|
 | `math.pow(math.exp(slope), 250) - 1` | 把日斜率近似年化 |
 | `annualized_returns * r_squared` | 得到最终分数 |
+
+- 这个分数本质上是在平衡“涨得快”和“走势直不直”两件事。
 
 **输入代码**：
 

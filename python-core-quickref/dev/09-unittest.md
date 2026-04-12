@@ -18,6 +18,10 @@
 
 ### `assertRaises`、`setUp` 与 `TextTestRunner`
 
+- `setUp()` 会在**每个测试方法之前**执行一次；不同测试之间不要指望共享它改过的状态。
+- `assertRaises(...)` 让“预期抛异常”也能成为可验证测试，而不是靠人工看报错。
+- `TextTestRunner(verbosity=2)` 会把每个 `test_*` 的名字和结果都打印出来，更适合教学和命令行观察。
+
 **输入代码**：
 
 ```python

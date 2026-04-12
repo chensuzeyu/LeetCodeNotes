@@ -50,6 +50,7 @@ dumps(ensure_ascii=False, indent=2):
 
 - **`findall`**：返回所有匹配串（或分组元组，视模式而定）。
 - **`search`**：找到一个就停：`m.group(1)` 取**第一个捕获组**。
+- **`match`**：默认只看字符串开头，所以常和 `search` 的行为形成对比。
 
 **输入代码**（`01_json_re_pathlib.py`）：
 
@@ -84,6 +85,7 @@ compile.findall -> ['abc', 'def']
 ### 编码
 
 - 与 [刷题分册 `open`](../leetcode/01-builtins.md) 同理：Windows 上**显式 `utf-8`** 更稳。
+- `Path(...) / "conf" / "app.json"` 这种写法会按当前系统自动处理分隔符，比手拼字符串更稳。
 
 **输入代码**（`01_json_re_pathlib.py`，在 `tempfile.TemporaryDirectory()` 内）：
 

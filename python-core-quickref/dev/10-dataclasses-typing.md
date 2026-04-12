@@ -16,6 +16,9 @@
 
 ### `default_factory` 示例
 
+- `field(default_factory=list)` 的关键不是“语法更长”，而是避免多个实例共享同一个默认列表。
+- `frozen=True` 常见于“值对象”或希望实例可哈希的场景。
+
 ```python
 @dataclass
 class User:
@@ -66,6 +69,8 @@ twice(21)
 ```text
 twice(21) = 42
 ```
+
+**注意点**：类型标注本身通常**不会在运行时自动拦截错误**；它更偏向文档、编辑器提示和静态检查工具。
 
 ## 官方文档
 

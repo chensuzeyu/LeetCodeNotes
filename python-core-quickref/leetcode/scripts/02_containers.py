@@ -14,27 +14,46 @@ def section(title: str) -> None:
 
 def main() -> None:
     utf8_stdout()
+
     section("list：append / extend / pop / remove / insert / reverse / clear / 切片")
     nums = [1, 2]
     nums.append(3)
     print("append(3) ->", nums)
+    nums_append = [1, 2]
+    nums_append.append([4, 5])
+    print("append([4, 5]) ->", nums_append)
     nums.extend([4, 5])
     print("extend([4, 5]) ->", nums)
+
     last = nums.pop()
     print("pop() ->", last, " nums ->", nums)
     mid = nums.pop(1)
     print("pop(1) ->", mid, " nums ->", nums)
-    nums.remove(4)
-    print("remove(4) ->", nums)
     try:
-        nums.remove(99)
+        nums.pop(99)
+    except IndexError as e:
+        print("pop(99) -> IndexError:", e)
+
+    removed = [1, 4, 4, 2]
+    print("初始 removed =", removed)
+    removed.remove(4)
+    print("remove(4) ->", removed)
+    removed.remove(4)
+    print("再次 remove(4) ->", removed)
+    try:
+        removed.remove(99)
     except ValueError as e:
         print("remove(99) -> ValueError:", e)
-    nums.insert(1, 8)
-    print("insert(1, 8) ->", nums)
+    try:
+        removed.remove(1, 2)
+    except TypeError as e:
+        print("remove(1, 2) -> TypeError:", e)
+    removed.insert(1, 8)
+    print("insert(1, 8) ->", removed)
+
     rev = [9, 2, 3]
-    rev.reverse()
-    print("reverse() 后 ->", rev)
+    reverse_result = rev.reverse()
+    print("rev.reverse() 返回 ->", reverse_result, " rev ->", rev)
     cleared = [7, 8]
     cleared.clear()
     print("clear() 后 ->", cleared)
@@ -55,7 +74,9 @@ def main() -> None:
     except TypeError as e:
         print("元组不可改：t[0] = 8 -> TypeError:", e)
 
-    section("dict：[] / get / setdefault / pop / popitem / update / keys / values / items / copy / clear")
+    section(
+        "dict：[] / get / setdefault / pop / popitem / update / keys / values / items / copy / clear"
+    )
     d: dict[str, int] = {"a": 1}
     print("d =", d)
     print("d['a'] =", d["a"])
@@ -63,7 +84,8 @@ def main() -> None:
         _ = d["missing"]
     except KeyError as e:
         print("d['missing'] -> KeyError:", e)
-    print("d.get('b', 0) =", d.get("b", 0))
+    print("d.get('b', 0) =", d.get("b", 0), " d ->", d)
+    print("setdefault('a', 99) ->", d.setdefault("a", 99), " d ->", d)
     print("setdefault('b', 2) ->", d.setdefault("b", 2), " d ->", d)
     print("'a' in d =", "a" in d, "  'z' in d =", "z" in d)
     print("pop('b') ->", d.pop("b"), " d ->", d)
@@ -84,11 +106,17 @@ def main() -> None:
     s = "  a,b, c  \n"
     print("repr(s) =", repr(s))
     print("'hello   world\\nfoo'.split() ->", "hello   world\nfoo".split())
+    print("'a,,b'.split(',') ->", "a,,b".split(","))
     print("s.split(',') ->", s.split(","))
     print("s.strip() ->", repr(s.strip()))
+    print(repr("  a  b  \n") + ".strip() ->", repr("  a  b  \n".strip()))
     print(repr("  abc\n") + ".lstrip() ->", repr("  abc\n".lstrip()))
     print(repr("abc  \n") + ".rstrip() ->", repr("abc  \n".rstrip()))
     print("'--'.join(['x', 'y', 'z']) ->", "--".join(["x", "y", "z"]))
+    try:
+        "--".join(["x", 1])
+    except TypeError as e:
+        print("'--'.join(['x', 1]) -> TypeError:", e)
     print("'hello'[1:4]（左闭右开）->", "hello"[1:4])
 
     section("set：add / remove / discard / update / union / intersection / difference / copy / clear")
@@ -112,9 +140,14 @@ def main() -> None:
     S2 = {1}
     S2.update({2, 3})
     print("update({2, 3}) 后 sorted(S2) ->", sorted(S2))
-    print("sorted(A.union(B)) ->", sorted(A.union(B)))
-    print("sorted(A.intersection(B)) ->", sorted(A.intersection(B)))
-    print("sorted(A.difference(B)) ->", sorted(A.difference(B)))
+    print("sorted(A.union(B)) ->", sorted(A.union(B)), " 原 A 仍为", sorted(A))
+    print(
+        "sorted(A.intersection(B)) ->",
+        sorted(A.intersection(B)),
+        " 原 A 仍为",
+        sorted(A),
+    )
+    print("sorted(A.difference(B)) ->", sorted(A.difference(B)), " 原 A 仍为", sorted(A))
     copy_s = A.copy()
     print("copy() ->", sorted(copy_s))
     copy_s.clear()
