@@ -100,6 +100,7 @@ for i, j in zip(a, b): (1+10) (2+20)
 
 - `sorted(...)` 返回新列表，不修改原对象。
 - `list.sort()` 原地排序，返回 `None`。
+- 两者默认都是**升序**；想从大到小排可传 `reverse=True`。
 - `key=f` 表示：排序前先对每个元素算一次 `f(元素)`，再按这个结果比较。
 - `lambda x: ...` 是匿名小函数，刷题里很常见，常配合 `key=` / `min(..., key=...)` / `max(..., key=...)` 使用。
 
@@ -143,12 +144,20 @@ def get_age(x):
 
 - `min(5, 2, 8)` 是多标量比较。
 - `min([5, 2, 8])` 是在单个序列里找最小值。
+- 对元组，`min(pairs)` 默认按**逐项比较**：先比第 0 位，再比第 1 位。
+- 所以 `min(pairs)` **不完全等价于** `min(pairs, key=lambda p: p[0])`；若第 0 位相同，前者会继续看第 1 位，后者只看第 0 位并保留先出现的元素。
 
 **输入代码**：
 
 ```python
 pairs = [(1, 9), (5, 2), (3, 7)]
+pairs_lex = [(1, 8), (1, 9), (5, 2), (3, 7)]
+pairs_tie = [(1, 9), (1, 8), (5, 2), (3, 7)]
 min(pairs)
+min(pairs_lex)
+min(pairs_lex, key=lambda p: p[0])
+min(pairs_tie)
+min(pairs_tie, key=lambda p: p[0])
 min(pairs, key=lambda p: p[1])
 min(5, 2, 8)
 min([5, 2, 8])
@@ -158,7 +167,14 @@ min([5, 2, 8])
 
 ```text
 pairs = [(1, 9), (5, 2), (3, 7)]
+pairs_lex = [(1, 8), (1, 9), (5, 2), (3, 7)]
 min(pairs) = (1, 9)
+pairs_lex 中，(1, 8) < (1, 9)（先比第 0 位，相同再比第 1 位）
+min(pairs_lex) = (1, 8)
+min(pairs_lex, key=lambda p: p[0]) = (1, 8)
+pairs_tie = [(1, 9), (1, 8), (5, 2), (3, 7)]
+min(pairs_tie) = (1, 8)
+min(pairs_tie, key=lambda p: p[0]) = (1, 9)
 min(pairs, key=lambda p: p[1]) = (5, 2)
 min(5, 2, 8) = 2
 min([5, 2, 8]) = 2

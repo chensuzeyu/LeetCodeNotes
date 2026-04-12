@@ -65,8 +65,16 @@ def main() -> None:
 
     section("min / max：可 key=；多标量用 min(a,b,c)；序列用 min(seq)")
     pairs = [(1, 9), (5, 2), (3, 7)]
+    pairs_lex = [(1, 8), (1, 9), (5, 2), (3, 7)]
+    pairs_tie = [(1, 9), (1, 8), (5, 2), (3, 7)]
     print("pairs =", pairs)
+    print("pairs_lex =", pairs_lex)
     print("min(pairs) =", min(pairs))
+    print("min(pairs_lex) =", min(pairs_lex))
+    print("min(pairs_lex, key=lambda p: p[0]) =", min(pairs_lex, key=lambda p: p[0]))
+    print("pairs_tie =", pairs_tie)
+    print("min(pairs_tie) =", min(pairs_tie))
+    print("min(pairs_tie, key=lambda p: p[0]) =", min(pairs_tie, key=lambda p: p[0]))
     print("min(pairs, key=lambda p: p[1]) =", min(pairs, key=lambda p: p[1]))
     print("min(5, 2, 8) =", min(5, 2, 8))
     print("min([5, 2, 8]) =", min([5, 2, 8]))
