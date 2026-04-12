@@ -32,6 +32,8 @@ def main() -> None:
         futures = [ex.submit(slow_square, i) for i in (5, 6)]
         for fut in as_completed(futures):
             print("done:", fut.result(timeout=2))
+        single = ex.submit(slow_square, 7)
+        print("future.result(timeout=2) ->", single.result(timeout=2))
 
     section("threading：Lock / Event")
     lock = threading.Lock()
@@ -51,6 +53,7 @@ def main() -> None:
     print("Lock 后 counter =", counter["n"])
 
     evt = threading.Event()
+    print("Event.wait(timeout=0.01) before set ->", evt.wait(timeout=0.01))
 
     def waiter() -> None:
         evt.wait(timeout=2)

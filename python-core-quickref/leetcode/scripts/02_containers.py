@@ -59,6 +59,7 @@ def main() -> None:
     print("clear() 后 ->", cleared)
     sliced = [9, 2, 3, 4]
     print("nums[1:3]（左闭右开）->", sliced[1:3])
+    print("nums[::2]（step=2）->", sliced[::2])
     print("nums[::-1]（新序列，原列表不变）->", sliced[::-1], " 原 nums =", sliced)
 
     section("list 与 tuple：可变 / 不可变")

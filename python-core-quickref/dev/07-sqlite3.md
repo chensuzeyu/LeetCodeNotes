@@ -14,24 +14,30 @@
 | `conn.execute(sql, params)` | 用 `?` 占位符传参，避免拼接 SQL |
 | `conn.commit()` | 写操作后提交 |
 | `conn.row_factory = sqlite3.Row` | 行可按键名索引；`dict(row)` 便于打印 |
-| `with conn:` | 让连接生命周期更清晰 |
+| `with conn:` | 管事务提交/回滚；**不等于自动关闭连接** |
+| `closing(sqlite3.connect(...))` | 需要明确关闭连接时可配合使用，文件库示例更稳 |
 
 ### 占位符、`Row` 与 `fetchall()`
 
 - SQL 参数要通过 `?` 占位符传进去，不要自己拼字符串。
 - `sqlite3.Row` 让结果既能按位置取，也能按列名取，调试和打印会舒服很多。
 - `:memory:` 只在当前连接活着时存在；一断开，数据就没了。
+- `with conn:` 结束时会提交或回滚事务，但不会替你 `conn.close()`；文件库示例若不显式关闭，Windows 上临时数据库文件可能还占用着。
 
 **输入代码**：
 
 ```python
-with sqlite3.connect(":memory:") as conn:
+from contextlib import closing
+
+with closing(sqlite3.connect(":memory:")) as conn:
     conn.row_factory = sqlite3.Row
-    conn.execute("CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT NOT NULL)")
-    conn.execute("INSERT INTO users(name) VALUES (?)", ("Ada",))
-    conn.execute("INSERT INTO users(name) VALUES (?)", ("Bob",))
-    conn.commit()
+    with conn:
+        conn.execute("CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT NOT NULL)")
+        conn.execute("INSERT INTO users(name) VALUES (?)", ("Ada",))
+        conn.execute("INSERT INTO users(name) VALUES (?)", ("Bob",))
     rows = conn.execute("SELECT id, name FROM users ORDER BY id").fetchall()
+with closing(sqlite3.connect(db_path)) as conn:
+    row = conn.execute("SELECT id, name FROM users WHERE name = ?", ("Cara",)).fetchone()
 ```
 
 **输出结果**（`stdout`）：
@@ -39,6 +45,9 @@ with sqlite3.connect(":memory:") as conn:
 ```text
 {'id': 1, 'name': 'Ada'}
 {'id': 2, 'name': 'Bob'}
+首行按键访问 row['name'] -> Ada
+file db exists -> True
+file row -> {'id': 1, 'name': 'Cara'}
 ```
 
 ## 官方文档

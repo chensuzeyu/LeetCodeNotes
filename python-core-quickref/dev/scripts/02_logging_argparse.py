@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import io
 import logging
 import sys
 import tempfile
@@ -31,9 +32,13 @@ def main() -> None:
     log.debug("调试信息")
     log.info("普通信息")
     log.warning("告警")
+    try:
+        1 / 0
+    except ZeroDivisionError:
+        log.exception("exception 会附带当前异常栈")
     sys.stderr.flush()
 
-    section("logging：FileHandler（追加到根 logger，演示完移除）")
+    section("logging：FileHandler / StreamHandler")
     root = logging.getLogger()
     with tempfile.NamedTemporaryFile(mode="w+", encoding="utf-8", delete=False, suffix=".log") as tf:
         log_path = Path(tf.name)
@@ -46,6 +51,14 @@ def main() -> None:
         fh.close()
         lines = log_path.read_text(encoding="utf-8").strip().splitlines()
         print("FileHandler 末行:", lines[-1] if lines else "")
+
+        stream_buf = io.StringIO()
+        sh = logging.StreamHandler(stream_buf)
+        sh.setFormatter(logging.Formatter("%(levelname)s %(message)s"))
+        log.addHandler(sh)
+        log.error("写到自定义流的一条")
+        log.removeHandler(sh)
+        print("StreamHandler 末行:", stream_buf.getvalue().strip().splitlines()[-1])
     finally:
         log_path.unlink(missing_ok=True)
 
@@ -60,6 +73,12 @@ def main() -> None:
     print("  inputs =", args.inputs)
     print("  out    =", args.out)
     print("  verbose=", args.verbose)
+
+    default_args = parser.parse_args([])
+    print("解析空 argv: []")
+    print("  inputs =", default_args.inputs)
+    print("  out    =", default_args.out)
+    print("  verbose=", default_args.verbose)
 
     section("与 run_all 共存")
     print("由 run_all 调用时，真实 sys.argv 来自上层；此处已用 demo_argv 固定演示。")

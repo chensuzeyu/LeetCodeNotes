@@ -29,6 +29,14 @@ def main() -> None:
     raw_rows = buf_rw.getvalue()
     print("writer -> repr:", repr(raw_rows))
     print("reader rows:", list(csv.reader(io.StringIO(raw_rows))))
+    with tempfile.TemporaryDirectory() as td:
+        csv_path = Path(td) / "rows.csv"
+        with open(csv_path, "w", encoding="utf-8", newline="") as fh:
+            w1 = csv.writer(fh)
+            w1.writerow(["a", "b"])
+            w1.writerow(["1", "2"])
+        with open(csv_path, "r", encoding="utf-8", newline="") as fh:
+            print("disk csv repr:", repr(fh.read()))
 
     section("csv：DictWriter / DictReader（写磁盘时 open 建议 newline=''）")
     buf = io.StringIO()
@@ -80,6 +88,11 @@ count = 3
 """
         obj = tomllib.loads(toml_b.decode())
         print("tomllib.loads ->", obj)
+        with tempfile.TemporaryDirectory() as td:
+            p = Path(td) / "demo.toml"
+            p.write_bytes(toml_b)
+            with open(p, "rb") as fh:
+                print("tomllib.load(rb) ->", tomllib.load(fh))
     else:
         print("当前 Python", sys.version.split()[0], "无 stdlib tomllib；可读 INI 或用第三方 tomli。")
 

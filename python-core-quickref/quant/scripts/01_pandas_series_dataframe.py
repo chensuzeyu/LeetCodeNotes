@@ -20,6 +20,7 @@ def main() -> None:
     section("Series：值、索引、name")
     s = pd.Series([0.91, 1.08, 0.97], index=["510180.SH", "159915.SZ", "513100.SH"], name="score")
     print("Series.to_dict() ->", s.to_dict())
+    print("Series.tolist() ->", s.tolist())
     print("Series.index ->", s.index.tolist())
     print("Series.name ->", s.name)
 
@@ -33,11 +34,14 @@ def main() -> None:
         index=["20240108", "20240109"],
     )
     print("DataFrame.to_dict(orient='index') ->", df.to_dict(orient="index"))
+    print("DataFrame.to_dict(orient='records') ->", df.to_dict(orient="records"))
     print("columns ->", df.columns.tolist())
     print("index ->", df.index.tolist())
 
     section("列访问 / head")
     print("df['score'].tolist() ->", df["score"].tolist())
+    print("type(df['score']) ->", type(df["score"]).__name__)
+    print("type(df[['etf', 'score']]) ->", type(df[["etf", "score"]]).__name__)
     print("df[['etf', 'score']].to_dict(orient='records') ->", df[["etf", "score"]].to_dict(orient="records"))
     print("df.head(1).to_dict(orient='index') ->", df.head(1).to_dict(orient="index"))
 

@@ -20,11 +20,14 @@ def add(a: int, b: int) -> int:
 
 
 class TestAdd(unittest.TestCase):
+    lifecycle: list[str] = []
+
     def setUp(self) -> None:
         self.left = 2
+        self.lifecycle.append("setUp")
 
     def tearDown(self) -> None:
-        pass
+        self.lifecycle.append("tearDown")
 
     def test_add(self) -> None:
         self.assertEqual(add(self.left, 3), 5)
@@ -40,6 +43,7 @@ def main() -> None:
     suite = unittest.defaultTestLoader.loadTestsFromTestCase(TestAdd)
     runner = unittest.TextTestRunner(verbosity=2, stream=sys.stdout)
     result = runner.run(suite)
+    print("lifecycle counts:", {"setUp": TestAdd.lifecycle.count("setUp"), "tearDown": TestAdd.lifecycle.count("tearDown")})
     print("wasSuccessful:", result.wasSuccessful())
 
 

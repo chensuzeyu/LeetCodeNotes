@@ -63,8 +63,25 @@ def main() -> None:
     print("path_count(3,3) =", path_count(3, 3), " 递归函数实际调用次数:", calls)
     print("lru_cache_info =", path_count.cache_info())
 
+    section("lru_cache(maxsize=None)：接口与 cache 类似")
+    calls_none = 0
+
+    @lru_cache(maxsize=None)
+    def path_count_unbounded(m: int, n: int) -> int:
+        nonlocal calls_none
+        calls_none += 1
+        if m == 0 or n == 0:
+            return 1
+        return path_count_unbounded(m - 1, n) + path_count_unbounded(m, n - 1)
+
+    calls_none = 0
+    print("path_count_unbounded(3,3) =", path_count_unbounded(3, 3), " 递归函数实际调用次数:", calls_none)
+    print("lru_cache_none_info =", path_count_unbounded.cache_info())
+
     section("reduce（偶尔一把梭）")
+    print("reduce(add, [1,2,3,4]) =", reduce(add, [1, 2, 3, 4]))
     print("reduce(add, [1,2,3,4], 0) =", reduce(add, [1, 2, 3, 4], 0))
+    print("reduce(add, [], 0) =", reduce(add, [], 0))
 
 
 if __name__ == "__main__":

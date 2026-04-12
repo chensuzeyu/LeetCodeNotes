@@ -56,6 +56,7 @@ df[df['score'] > 1.0][['etf', 'score']] -> [{'etf': '159915.SZ', 'score': 1.08},
 
 | 用法 | 说明 |
 |------|------|
+| `sort_values("score")` | 默认升序 |
 | `sort_values("score", ascending=False)` | 按分数从高到低排 |
 | `drop_duplicates(subset=["etf"])` | 每个 ETF 只保留一行 |
 
@@ -64,6 +65,7 @@ df[df['score'] > 1.0][['etf', 'score']] -> [{'etf': '159915.SZ', 'score': 1.08},
 **输入代码**：
 
 ```python
+sorted_asc = df.sort_values("score")
 sorted_df = df.sort_values("score", ascending=False)
 dedup = sorted_df.drop_duplicates(subset=["etf"], keep="first")
 ```
@@ -71,6 +73,7 @@ dedup = sorted_df.drop_duplicates(subset=["etf"], keep="first")
 **输出结果**：
 
 ```text
+sort_values('score') -> [{'trade_date': '20240110', 'etf': '159915.SZ', 'score': 0.88}, {'trade_date': '20240108', 'etf': '510180.SH', 'score': 0.91}, {'trade_date': '20240109', 'etf': '513100.SH', 'score': 1.02}, {'trade_date': '20240109', 'etf': '159915.SZ', 'score': 1.08}]
 sort_values('score', ascending=False) -> [{'trade_date': '20240109', 'etf': '159915.SZ', 'score': 1.08}, {'trade_date': '20240109', 'etf': '513100.SH', 'score': 1.02}, {'trade_date': '20240108', 'etf': '510180.SH', 'score': 0.91}, {'trade_date': '20240110', 'etf': '159915.SZ', 'score': 0.88}]
 drop_duplicates(subset=['etf']) -> [{'trade_date': '20240109', 'etf': '159915.SZ', 'score': 1.08}, {'trade_date': '20240109', 'etf': '513100.SH', 'score': 1.02}, {'trade_date': '20240108', 'etf': '510180.SH', 'score': 0.91}]
 ```

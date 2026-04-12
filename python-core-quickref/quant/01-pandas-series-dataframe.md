@@ -12,6 +12,7 @@
 |------|------|
 | `pd.Series(data, index=..., name=...)` | 一维带索引数据 |
 | `s.to_dict()` | 快速看“索引 → 值”映射 |
+| `s.tolist()` | 只看值，不看索引 |
 | `s.index` / `s.name` | 查看索引和名称 |
 
 - `Series` 可以理解成“带索引的一列数据”；量化里常拿它表示单个时点的打分序列或收益序列。
@@ -26,6 +27,7 @@ s = pd.Series([0.91, 1.08, 0.97], index=["510180.SH", "159915.SZ", "513100.SH"],
 
 ```text
 Series.to_dict() -> {'510180.SH': 0.91, '159915.SZ': 1.08, '513100.SH': 0.97}
+Series.tolist() -> [0.91, 1.08, 0.97]
 Series.index -> ['510180.SH', '159915.SZ', '513100.SH']
 Series.name -> score
 ```
@@ -36,7 +38,7 @@ Series.name -> score
 |------|------|
 | `pd.DataFrame({...}, index=...)` | 二维表，最常见的量化中间结果载体 |
 | `df.columns` / `df.index` | 看列名与索引 |
-| `df.to_dict(orient="index")` | 快速看“索引 → 一整行” |
+| `df.to_dict(orient="index")` / `orient="records"` | 快速看“索引 → 一整行”或“按行记录列表” |
 
 - `DataFrame` 更像二维表：行索引常是日期，列名常是字段名，如 `close`、`score`、`hold`。
 
@@ -57,6 +59,7 @@ df = pd.DataFrame(
 
 ```text
 DataFrame.to_dict(orient='index') -> {'20240108': {'etf': '510180.SH', 'score': 0.91, 'hold': False}, '20240109': {'etf': '159915.SZ', 'score': 1.08, 'hold': True}}
+DataFrame.to_dict(orient='records') -> [{'etf': '510180.SH', 'score': 0.91, 'hold': False}, {'etf': '159915.SZ', 'score': 1.08, 'hold': True}]
 columns -> ['etf', 'score', 'hold']
 index -> ['20240108', '20240109']
 ```
@@ -75,6 +78,8 @@ index -> ['20240108', '20240109']
 
 ```python
 df["score"].tolist()
+type(df["score"])
+type(df[["etf", "score"]])
 df[["etf", "score"]].to_dict(orient="records")
 df.head(1).to_dict(orient="index")
 ```
@@ -83,6 +88,8 @@ df.head(1).to_dict(orient="index")
 
 ```text
 df['score'].tolist() -> [0.91, 1.08]
+type(df['score']) -> Series
+type(df[['etf', 'score']]) -> DataFrame
 df[['etf', 'score']].to_dict(orient='records') -> [{'etf': '510180.SH', 'score': 0.91}, {'etf': '159915.SZ', 'score': 1.08}]
 df.head(1).to_dict(orient='index') -> {'20240108': {'etf': '510180.SH', 'score': 0.91, 'hold': False}}
 ```

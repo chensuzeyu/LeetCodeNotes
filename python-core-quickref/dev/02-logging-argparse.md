@@ -33,6 +33,10 @@ log = logging.getLogger(__name__)
 log.debug("调试信息")
 log.info("普通信息")
 log.warning("告警")
+try:
+    1 / 0
+except ZeroDivisionError:
+    log.exception("exception 会附带当前异常栈")
 ```
 
 **输出结果**（`stderr`；直接运行本文件时 `name` 为 `__main__`；由 `run_all` 动态加载时为 `02_logging_argparse`）：
@@ -41,6 +45,10 @@ log.warning("告警")
 DEBUG __main__: 调试信息
 INFO __main__: 普通信息
 WARNING __main__: 告警
+ERROR __main__: exception 会附带当前异常栈
+Traceback (most recent call last):
+  ...
+ZeroDivisionError: division by zero
 ```
 
 **输入代码**（`02_logging_argparse.py`）：
@@ -51,13 +59,17 @@ root = logging.getLogger()
 fh = logging.FileHandler(log_path, encoding="utf-8")
 root.addHandler(fh)
 logging.error("仅写入文件的一条")
+stream_buf = io.StringIO()
+sh = logging.StreamHandler(stream_buf)
+log.error("写到自定义流的一条")
 # 随后读文件取末行打印
 ```
 
-**输出结果**（`stdout`；同时 root logger 仍会往 `stderr` 打出一行 `ERROR root: 仅写入文件的一条`）：
+**输出结果**（`stdout`；同时 logger 仍会按既有配置往 `stderr` 打日志）：
 
 ```text
 FileHandler 末行: ERROR 仅写入文件的一条
+StreamHandler 末行: ERROR 写到自定义流的一条
 ```
 
 ## argparse
@@ -80,6 +92,7 @@ FileHandler 末行: ERROR 仅写入文件的一条
 ```python
 demo_argv = ["--verbose", "--out", "build/result.txt", "a.csv", "b.csv"]
 args = parser.parse_args(demo_argv)
+default_args = parser.parse_args([])
 ```
 
 **输出结果**（`stdout`）：
@@ -89,6 +102,10 @@ args = parser.parse_args(demo_argv)
   inputs = ['a.csv', 'b.csv']
   out    = build\result.txt
   verbose= True
+解析空 argv: []
+  inputs = []
+  out    = out.txt
+  verbose= False
 ```
 
 **输入代码**：无额外解析；脚本打印 `sys.argv` 前若干项。

@@ -36,11 +36,15 @@ def main() -> None:
     by_both = []
     for i, x in enumerate(nums):
         by_both.append(f"i={i}, x={x}")
+    by_both_from_one = []
+    for i, x in enumerate(nums, start=1):
+        by_both_from_one.append(f"i={i}, x={x}")
     print("range(len(nums)) ->", by_index)
     print("enumerate(nums) ->", by_both)
+    print("enumerate(nums, start=1) ->", by_both_from_one)
 
     section("zip：并行遍历")
-    names = ["Tom", "Amy"]
+    names = ["Tom", "Amy", "Bob"]
     scores = [90, 95]
     pairs = []
     for name, score in zip(names, scores):

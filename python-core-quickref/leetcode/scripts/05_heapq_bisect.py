@@ -62,6 +62,7 @@ def main() -> None:
     print("a =", a_sorted, " x =", x)
     print("bisect_left(a, x)  =", bisect.bisect_left(a_sorted, x))
     print("bisect_right(a, x) =", bisect.bisect_right(a_sorted, x))
+    print("bisect(a, x)       =", bisect.bisect(a_sorted, x))
     print("应插入以保持有序的下标（左/右）即上二值")
 
     y = 5
@@ -70,6 +71,13 @@ def main() -> None:
     tmp = [1, 3, 5]
     bisect.insort(tmp, 4)
     print("insort([1,3,5], 4) ->", tmp)
+    dup = [1, 3, 3, 5]
+    dup_left = dup.copy()
+    dup_right = dup.copy()
+    bisect.insort_left(dup_left, 3)
+    bisect.insort(dup_right, 3)
+    print("对重复值 3：bisect_left =", bisect.bisect_left(dup, 3), " bisect =", bisect.bisect(dup, 3))
+    print("insort_left / insort 后 ->", dup_left, dup_right, "（内容相同，但插入点分别对应 left/right）")
 
 
 if __name__ == "__main__":

@@ -47,6 +47,7 @@ filled = dt_df[["open", "close"]].ffill()
 **输出结果**：
 
 ```text
+原始 close -> [10.1, nan, 10.4]
 ffill 后 close -> [10.1, 10.1, 10.4]
 ```
 

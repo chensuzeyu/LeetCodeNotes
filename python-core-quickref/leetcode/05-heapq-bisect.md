@@ -112,13 +112,15 @@ merge([1,4,7], [2,5]) -> [1, 2, 4, 5, 7]
 | 函数 | 作用 |
 |------|------|
 | `bisect_left(a, x)` | 第一个 `>= x` 的下标 |
-| `bisect_right` / `bisect` | 第一个 `> x` 的下标 |
+| `bisect_right` / `bisect` | 第一个 `> x` 的下标（`bisect` 是 `bisect_right` 别名） |
 | `insort_left` / `insort` | 在有序列表中原地插入 |
 
-### `bisect_left` / `bisect_right` / `insort`
+### `bisect_left` / `bisect_right` / `bisect` / `insort_left` / `insort`
 
 - `bisect_left(a, x)` 找的是第一个 `>= x` 的位置；`bisect_right(a, x)` 找的是第一个 `> x` 的位置。
+- `bisect(a, x)` 就是 `bisect_right(a, x)` 的别名。
 - `insort` 会保持列表有序，但底层仍是 `list.insert`，插入本身不是 O(1)。
+- `insort_left` / `insort` 的区别只出现在“要插入的值和现有值相等”时：前者靠左，后者靠右。
 
 **输入代码**：
 
@@ -127,10 +129,14 @@ a_sorted = [1, 2, 2, 2, 6, 7]
 x = 2
 bisect.bisect_left(a_sorted, x)
 bisect.bisect_right(a_sorted, x)
+bisect.bisect(a_sorted, x)
 bisect.bisect_left(a_sorted, 5)
 
 tmp = [1, 3, 5]
 bisect.insort(tmp, 4)
+dup = [1, 3, 3, 5]
+bisect.insort_left(dup, 3)
+bisect.insort(dup, 3)
 ```
 
 **输出结果**：
@@ -139,9 +145,12 @@ bisect.insort(tmp, 4)
 a = [1, 2, 2, 2, 6, 7]  x = 2
 bisect_left(a, x)  = 1
 bisect_right(a, x) = 4
+bisect(a, x)       = 4
 应插入以保持有序的下标（左/右）即上二值
 bisect_left(a, 5)（不存在：落在第一个 >5 或 len）= 4
 insort([1,3,5], 4) -> [1, 3, 4, 5]
+对重复值 3：bisect_left = 1  bisect = 3
+insort_left / insort 后 -> [1, 3, 3, 3, 5] [1, 3, 3, 3, 5] （内容相同，但插入点分别对应 left/right）
 ```
 
 ## 官方文档

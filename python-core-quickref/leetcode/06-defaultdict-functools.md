@@ -99,6 +99,7 @@ cache_info = CacheInfo(hits=4, misses=7, maxsize=None, currsize=7)
 
 - 参数必须可哈希；`list` / `dict` 这类可变对象不能直接拿来做缓存键。
 - `maxsize` 有上限时，最近最少使用的旧结果会被淘汰；它更像“有限容量缓存”。
+- `maxsize=None` 时接口上还是 `lru_cache`，但效果会更接近“无上限缓存”。
 
 **输入代码**：
 
@@ -111,6 +112,13 @@ def path_count(m: int, n: int) -> int:
 
 path_count(3, 3)
 path_count.cache_info()
+
+@lru_cache(maxsize=None)
+def path_count_unbounded(m: int, n: int) -> int:
+    ...
+
+path_count_unbounded(3, 3)
+path_count_unbounded.cache_info()
 ```
 
 **输出结果**：
@@ -118,22 +126,29 @@ path_count.cache_info()
 ```text
 path_count(3,3) = 20  递归函数实际调用次数: 15
 lru_cache_info = CacheInfo(hits=4, misses=15, maxsize=32, currsize=15)
+path_count_unbounded(3,3) = 20  递归函数实际调用次数: 15
+lru_cache_none_info = CacheInfo(hits=4, misses=15, maxsize=None, currsize=15)
 ```
 
 ### `reduce`
 
 - `reduce` 是“把二元函数不断往前折叠”；读者不熟时，很多场景直接写 `for` 循环会更直观。
+- 给了初始值后，空序列也能正常返回这个初始值。
 
 **输入代码**：
 
 ```python
+reduce(add, [1, 2, 3, 4])
 reduce(add, [1, 2, 3, 4], 0)
+reduce(add, [], 0)
 ```
 
 **输出结果**：
 
 ```text
+reduce(add, [1,2,3,4]) = 10
 reduce(add, [1,2,3,4], 0) = 10
+reduce(add, [], 0) = 0
 ```
 
 ## 官方文档

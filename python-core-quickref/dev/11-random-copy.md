@@ -34,7 +34,7 @@ round(random.random(), 6), round(random.random(), 6)
 random.choices(["a", "b", "c"], k=5)
 random.choice(["a", "b", "c"])
 xs = [1, 2, 3, 4, 5]
-random.shuffle(xs)
+shuffle_result = random.shuffle(xs)
 random.sample(range(10), k=4)
 ```
 
@@ -46,7 +46,7 @@ randint(1, 6) 三次: [3, 2, 2]
 randrange(0, 10, 2) 两次: [2, 0]
 choices 可重复 5 次: ['c', 'c', 'a', 'b', 'a']
 choice(['a', 'b', 'c']): a
-shuffle 后: [5, 4, 3, 1, 2]
+shuffle 返回 -> None  shuffle 后: [5, 4, 3, 1, 2]
 sample(不重复): [8, 6, 3, 7]
 ```
 

@@ -34,6 +34,8 @@ with ThreadPoolExecutor(max_workers=3) as ex:
     futures = [ex.submit(slow_square, i) for i in (5, 6)]
     for fut in as_completed(futures):
         fut.result(timeout=2)
+    single = ex.submit(slow_square, 7)
+    single.result(timeout=2)
 ```
 
 **输出结果**（`stdout`）：
@@ -42,6 +44,7 @@ with ThreadPoolExecutor(max_workers=3) as ex:
 map -> [1, 4, 9, 16]
 done: 25
 done: 36
+future.result(timeout=2) -> 49
 ```
 
 或
@@ -50,6 +53,7 @@ done: 36
 map -> [1, 4, 9, 16]
 done: 36
 done: 25
+future.result(timeout=2) -> 49
 ```
 
 ## threading
@@ -76,12 +80,14 @@ def bump() -> None:
             counter["n"] += 1
 
 evt = threading.Event()
+evt.wait(timeout=0.01)
 ```
 
 **输出结果**（`stdout`）：
 
 ```text
 Lock 后 counter = 2000
+Event.wait(timeout=0.01) before set -> False
 Event 已收到信号
 ```
 

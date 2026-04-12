@@ -60,6 +60,7 @@ test_raises (__main__.TestAdd) ... ok
 Ran 2 tests in <ELAPSED>s
 
 OK
+lifecycle counts: {'setUp': 2, 'tearDown': 2}
 wasSuccessful: True
 ```
 

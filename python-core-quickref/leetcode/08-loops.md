@@ -67,6 +67,7 @@ for _ in range(3):
 - `range(len(nums))`：适合“必须按下标访问”的情况。
 - `enumerate(nums)`：适合“下标和值都要”的情况，通常更直观。
 - 只为了拿下标去反查元素时，先想想 `enumerate` 会不会更清晰。
+- `enumerate(nums, start=1)` 常用于题目里的“第 1 个、第 2 个”这种自然编号。
 
 **输入代码**：
 
@@ -78,6 +79,9 @@ for i in range(len(nums)):
 
 for i, x in enumerate(nums):
     print(i, x)
+
+for i, x in enumerate(nums, start=1):
+    print(i, x)
 ```
 
 **输出结果**：
@@ -85,6 +89,7 @@ for i, x in enumerate(nums):
 ```text
 range(len(nums)) -> ['i=0, nums[i]=10', 'i=1, nums[i]=20', 'i=2, nums[i]=30']
 enumerate(nums) -> ['i=0, x=10', 'i=1, x=20', 'i=2, x=30']
+enumerate(nums, start=1) -> ['i=1, x=10', 'i=2, x=20', 'i=3, x=30']
 ```
 
 ## `zip(A, B)`
@@ -95,7 +100,7 @@ enumerate(nums) -> ['i=0, x=10', 'i=1, x=20', 'i=2, x=30']
 **输入代码**：
 
 ```python
-names = ["Tom", "Amy"]
+names = ["Tom", "Amy", "Bob"]
 scores = [90, 95]
 for name, score in zip(names, scores):
     print(name, score)
@@ -104,7 +109,7 @@ for name, score in zip(names, scores):
 **输出结果**：
 
 ```text
-zip(names, scores) -> ['Tom:90', 'Amy:95']
+zip(names, scores) -> ['Tom:90', 'Amy:95']  （较长的 names 尾部 'Bob' 被截断）
 ```
 
 ## 倒序遍历：`reversed(nums)` 与 `range(..., -1, -1)`

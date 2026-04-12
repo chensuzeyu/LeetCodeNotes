@@ -59,7 +59,7 @@ reset_index() -> [{'trade_date': 20240108, 'etf': '510180.SH', 'score': 0.91}, {
 
 | 用法 | 说明 |
 |------|------|
-| `df.to_csv(path)` | 写出 CSV；默认把索引也写出去 |
+| `df.to_csv(path)` / `df.to_csv(path, index=False)` | 写出 CSV；默认把索引也写出去 |
 | 再 `read_csv(..., index_col=...)` | 很常见的“写盘再读回”套路 |
 
 - `to_csv` 默认会把索引写成第一列；后面读回时常要显式告诉 pandas 哪一列是索引。
@@ -67,6 +67,8 @@ reset_index() -> [{'trade_date': 20240108, 'etf': '510180.SH', 'score': 0.91}, {
 **输入代码**：
 
 ```python
+df_set.to_csv()
+df_plain.to_csv(index=False)
 df_set.to_csv(out)
 read_back = pd.read_csv(out, index_col="trade_date")
 ```
@@ -74,11 +76,13 @@ read_back = pd.read_csv(out, index_col="trade_date")
 **输出结果**：
 
 ```text
+to_csv() 前两行 -> ['trade_date,etf,score', '20240108,510180.SH,0.91']
+to_csv(index=False) 前两行 -> ['trade_date,etf,score', '20240108,510180.SH,0.91']
 写入 -> <TMP_PATH>\quant_scores_*.csv
 read back -> {20240108: {'etf': '510180.SH', 'score': 0.91}, 20240109: {'etf': '159915.SZ', 'score': 1.08}}
 ```
 
-**注意点**：`read back` 里最外层 key 是整数 `20240108` / `20240109`，因为 `read_csv` 会把纯数字索引自动推断成整数；如果你想和 `hkcodex` / 回测脚本里的 `YYYYMMDD` 字符串完全对齐，后面通常还会显式转成字符串。
+**注意点**：`to_csv()` 和 `to_csv(index=False)` 虽然表头都能看见 `trade_date`，但前者那一列来自索引，后者来自普通列。`read back` 里最外层 key 是整数 `20240108` / `20240109`，因为 `read_csv` 会把纯数字索引自动推断成整数；如果你想和 `hkcodex` / 回测脚本里的 `YYYYMMDD` 字符串完全对齐，后面通常还会显式转成字符串。
 
 ## 官方文档
 

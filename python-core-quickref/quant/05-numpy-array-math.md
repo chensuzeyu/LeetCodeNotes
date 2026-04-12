@@ -66,15 +66,17 @@ np.where(a > 1.5, 'high', 'low') -> ['low', 'high', 'high']
 | 用法 | 说明 |
 |------|------|
 | `np.mean(scores)` | 均值 |
+| `np.var(scores)` | 总体方差（默认 `ddof=0`） |
 | `np.var(scores, ddof=1)` | 样本方差 |
 
-- `ddof=1` 表示按样本方差算；这和很多统计、量化教材里的默认口径更接近。
+- `np.var(scores)` 默认按总体方差口径算；`ddof=1` 则更接近样本方差口径。
 
 **输入代码**：
 
 ```python
 scores = np.array([0.9, 1.1, 1.0, 1.2])
 np.mean(scores)
+np.var(scores)
 np.var(scores, ddof=1)
 ```
 
@@ -83,6 +85,7 @@ np.var(scores, ddof=1)
 ```text
 scores -> [0.9, 1.1, 1.0, 1.2]
 np.mean(scores) -> 1.05
+np.var(scores) -> 0.0125
 np.var(scores, ddof=1) -> 0.016667
 ```
 

@@ -27,6 +27,8 @@ w0.writerow(["a", "b"])
 w0.writerow(["1", "2"])
 raw_rows = buf_rw.getvalue()
 list(csv.reader(io.StringIO(raw_rows)))
+with open(csv_path, "w", encoding="utf-8", newline="") as fh:
+    ...
 ```
 
 **输出结果**（`stdout`；Windows 下 `writer` 默认 `\r\n` 行尾）：
@@ -34,6 +36,7 @@ list(csv.reader(io.StringIO(raw_rows)))
 ```text
 writer -> repr: 'a,b\r\n1,2\r\n'
 reader rows: [['a', 'b'], ['1', '2']]
+disk csv repr: 'a,b\r\n1,2\r\n'
 ```
 
 **输入代码**（`04_csv_config.py`）：
@@ -106,12 +109,15 @@ title = "demo"
 count = 3
 '''
 tomllib.loads(toml_b.decode())
+with open(p, "rb") as fh:
+    tomllib.load(fh)
 ```
 
 **输出结果**（`stdout`）：
 
 ```text
 tomllib.loads -> {'title': 'demo', 'nested': {'count': 3}}
+tomllib.load(rb) -> {'title': 'demo', 'nested': {'count': 3}}
 ```
 
 **输入代码**：`sys.version_info < (3, 11)` 分支。

@@ -38,6 +38,10 @@ def main() -> None:
     print("reset_index() ->", df_set.reset_index().to_dict(orient="records"))
 
     section("to_csv：写盘后再读回")
+    csv_with_index = df_set.to_csv()
+    csv_without_index = df_plain.to_csv(index=False)
+    print("to_csv() 前两行 ->", csv_with_index.splitlines()[:2])
+    print("to_csv(index=False) 前两行 ->", csv_without_index.splitlines()[:2])
     fd, temp_name = tempfile.mkstemp(prefix="quant_scores_", suffix=".csv")
     os.close(fd)
     out = Path(temp_name)

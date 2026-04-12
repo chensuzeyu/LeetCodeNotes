@@ -33,6 +33,7 @@ class User:
 u = User("Ann", tags=["dev", "py"], score=97.5)
 v = User("Bob")
 v.tags.append("new")
+w = User("Cara")
 Point(3, 4)
 total_area(Square(2))  # Square(2).area() -> 4.0
 ```
@@ -42,6 +43,7 @@ total_area(Square(2))  # Square(2).area() -> 4.0
 ```text
 User(name='Ann', tags=['dev', 'py'], score=97.5)
 User(name='Bob', tags=['new'], score=None)
+v.tags is w.tags -> False
 frozen Point: Point(x=3, y=4)
 Protocol total_area(Square(2)): 4
 ```
@@ -61,12 +63,14 @@ Protocol total_area(Square(2)): 4
 
 ```python
 twice: Callable[[int], int] = lambda x: x * 2
+maybe_score: Optional[float] = None
 twice(21)
 ```
 
 **输出结果**（`stdout`）：
 
 ```text
+Optional score -> None
 twice(21) = 42
 ```
 

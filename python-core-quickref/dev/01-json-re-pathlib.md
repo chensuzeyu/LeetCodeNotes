@@ -90,6 +90,7 @@ compile.findall -> ['abc', 'def']
 **输入代码**（`01_json_re_pathlib.py`，在 `tempfile.TemporaryDirectory()` 内）：
 
 ```python
+rel = Path("a") / "b" / "c.txt"
 cfg = base / "conf" / "app.json"
 cfg.write_text('{"ok": true}\n', encoding="utf-8")
 cfg.read_text(encoding="utf-8")
@@ -99,6 +100,9 @@ Path.cwd()
 **输出结果**（`stdout`；`写入:` 一行为临时目录，因本机路径不同而变化）：
 
 ```text
+relative path -> a/b/c.txt
+relative parts -> ('a', 'b', 'c.txt')
+base / 'conf' / 'app.json' -> <TMP_PATH>/conf/app.json
 写入: <TMP_PATH>/conf/app.json
 read_text -> '{"ok": true}\n'
 cwd = <CWD>

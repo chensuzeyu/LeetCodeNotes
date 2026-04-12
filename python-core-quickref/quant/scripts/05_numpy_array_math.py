@@ -36,6 +36,7 @@ def main() -> None:
     scores = np.array([0.9, 1.1, 1.0, 1.2])
     print("scores ->", scores.tolist())
     print("np.mean(scores) ->", round(float(np.mean(scores)), 6))
+    print("np.var(scores) ->", round(float(np.var(scores)), 6))
     print("np.var(scores, ddof=1) ->", round(float(np.var(scores, ddof=1)), 6))
 
 

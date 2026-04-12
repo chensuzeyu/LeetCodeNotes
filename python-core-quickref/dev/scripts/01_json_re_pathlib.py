@@ -39,10 +39,14 @@ def main() -> None:
     print("compile.findall ->", pat.findall(s))
 
     section("pathlib：Path、read_text、write_text、/ 拼接")
+    rel = Path("a") / "b" / "c.txt"
+    print("relative path ->", rel)
+    print("relative parts ->", rel.parts)
     with tempfile.TemporaryDirectory() as td:
         base = Path(td)
         cfg = base / "conf" / "app.json"
         cfg.parent.mkdir(parents=True, exist_ok=True)
+        print("base / 'conf' / 'app.json' ->", cfg)
         cfg.write_text('{"ok": true}\n', encoding="utf-8")
         print("写入:", cfg)
         print("read_text ->", repr(cfg.read_text(encoding="utf-8")))

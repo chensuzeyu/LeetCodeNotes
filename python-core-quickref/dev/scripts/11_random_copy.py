@@ -26,8 +26,8 @@ def main() -> None:
     print("choices 可重复 5 次:", random.choices(["a", "b", "c"], k=5))
     print("choice(['a', 'b', 'c']):", random.choice(["a", "b", "c"]))
     xs = [1, 2, 3, 4, 5]
-    random.shuffle(xs)
-    print("shuffle 后:", xs)
+    shuffle_result = random.shuffle(xs)
+    print("shuffle 返回 ->", shuffle_result, " shuffle 后:", xs)
     print("sample(不重复):", random.sample(range(10), k=4))
 
     section("copy：浅拷贝 vs 深拷贝")

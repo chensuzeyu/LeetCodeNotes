@@ -35,6 +35,7 @@ def main() -> None:
 
     section("ffill：补齐缺失行情")
     filled = dt_df[["open", "close"]].ffill()
+    print("原始 close ->", dt_df["close"].tolist())
     print("ffill 后 close ->", filled["close"].tolist())
 
     section("strftime：改回 YYYYMMDD 字符串索引")

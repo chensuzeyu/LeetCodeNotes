@@ -52,12 +52,16 @@ def main() -> None:
     v = User("Bob")
     v.tags.append("new")
     print(v)
+    w = User("Cara")
+    print("v.tags is w.tags ->", v.tags is w.tags)
     p = Point(3, 4)
     print("frozen Point:", p)
     print("Protocol total_area(Square(2)):", total_area(Square(2)))
 
     section("typing：Callable 粗略标注")
     twice: Callable[[int], int] = lambda x: x * 2
+    maybe_score: Optional[float] = None
+    print("Optional score ->", maybe_score)
     print("twice(21) =", twice(21))
 
 

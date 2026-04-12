@@ -34,8 +34,10 @@ def main() -> None:
     print("df[df['score'] > 1.0][['etf', 'score']] ->", picked.to_dict(orient="records"))
 
     section("sort_values / drop_duplicates")
+    sorted_asc = df.sort_values("score")
     sorted_df = df.sort_values("score", ascending=False)
     dedup = sorted_df.drop_duplicates(subset=["etf"], keep="first")
+    print("sort_values('score') ->", sorted_asc.reset_index().to_dict(orient="records"))
     print("sort_values('score', ascending=False) ->", sorted_df.reset_index().to_dict(orient="records"))
     print("drop_duplicates(subset=['etf']) ->", dedup.reset_index().to_dict(orient="records"))
 
