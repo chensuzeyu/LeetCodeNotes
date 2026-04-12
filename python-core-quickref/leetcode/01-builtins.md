@@ -100,6 +100,8 @@ for i, j in zip(a, b): (1+10) (2+20)
 
 - `sorted(...)` 返回新列表，不修改原对象。
 - `list.sort()` 原地排序，返回 `None`。
+- `key=f` 表示：排序前先对每个元素算一次 `f(元素)`，再按这个结果比较。
+- `lambda x: ...` 是匿名小函数，刷题里很常见，常配合 `key=` / `min(..., key=...)` / `max(..., key=...)` 使用。
 
 **输入代码**：
 
@@ -110,6 +112,12 @@ arr.sort()
 
 words = ["bb", "a", "ccc"]
 sorted(words, key=len)
+students = [
+    {"name": "Tom", "age": 18},
+    {"name": "Amy", "age": 16},
+    {"name": "Bob", "age": 17},
+]
+sorted(students, key=lambda x: x["age"])
 sorted(arr, reverse=True)
 ```
 
@@ -120,7 +128,15 @@ sorted(arr, reverse=True)
 sorted(arr) -> [1, 1, 3, 4, 5]  原 arr 仍为 [3, 1, 4, 1, 5]
 arr.sort() 后 arr = [1, 1, 3, 4, 5] （list.sort 原地排序，返回 None）
 sorted(words, key=len) -> ['a', 'bb', 'ccc']
+sorted(students, key=lambda x: x['age']) -> [{'name': 'Amy', 'age': 16}, {'name': 'Bob', 'age': 17}, {'name': 'Tom', 'age': 18}]
 sorted(arr, reverse=True) -> [5, 4, 3, 1, 1]
+```
+
+速记：`lambda x: x["age"]` 等价于
+
+```python
+def get_age(x):
+    return x["age"]
 ```
 
 ## `min` / `max`

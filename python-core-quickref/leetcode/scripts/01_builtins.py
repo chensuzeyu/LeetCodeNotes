@@ -52,6 +52,15 @@ def main() -> None:
 
     words = ["bb", "a", "ccc"]
     print('sorted(words, key=len) ->', sorted(words, key=len))
+    students = [
+        {"name": "Tom", "age": 18},
+        {"name": "Amy", "age": 16},
+        {"name": "Bob", "age": 17},
+    ]
+    print(
+        "sorted(students, key=lambda x: x['age']) ->",
+        sorted(students, key=lambda x: x["age"]),
+    )
     print("sorted(arr, reverse=True) ->", sorted(arr, reverse=True))
 
     section("min / max：可 key=；多标量用 min(a,b,c)；序列用 min(seq)")
