@@ -1,4 +1,4 @@
-# 02 · 容器常用方法（list / dict / str / set）
+# 02 · 容器常用方法（list / tuple / dict / str / set）
 
 完整演示：[scripts/02_containers.py](scripts/02_containers.py)  
 运行：`python3 02_containers.py`（在 `leetcode/scripts` 目录）
@@ -109,6 +109,33 @@ sliced[::-1]
 ```text
 nums[1:3]（左闭右开）-> [2, 3]
 nums[::-1]（新序列，原列表不变）-> [4, 3, 2, 9]  原 nums = [9, 2, 3, 4]
+```
+
+### `list` 与 `tuple`
+
+- `[]` 是 **list**，可修改；`()` 是 **tuple**，通常表示固定记录，不可原地改元素。
+- 在 `min([[1, 9], [5, 2], [3, 7]])` 这类场景里，**换成列表也能比**；列表和元组都按逐项比较。
+- 刷题里若只是临时存一组固定值，常写成 tuple；若后面还要改内容，用 list 更自然。
+
+**输入代码**：
+
+```python
+pairs_tuple = [(1, 9), (5, 2), (3, 7)]
+pairs_list = [[1, 9], [5, 2], [3, 7]]
+min(pairs_tuple)
+min(pairs_list)
+pairs_list[0][0] = 8
+t = (1, 9)
+t[0] = 8
+```
+
+**输出结果**：
+
+```text
+min([(1, 9), (5, 2), (3, 7)]) -> (1, 9)
+min([[1, 9], [5, 2], [3, 7]]) -> [1, 9]
+列表可改：pairs_list[0][0] = 8 后 -> [[8, 9], [5, 2], [3, 7]]
+元组不可改：t[0] = 8 -> TypeError: 'tuple' object does not support item assignment
 ```
 
 ## dict

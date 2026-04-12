@@ -1,4 +1,4 @@
-"""对应 02-containers.md：list / dict / str / set 常用方法"""
+"""对应 02-containers.md：list / tuple / dict / str / set 常用方法"""
 
 from __future__ import annotations
 
@@ -41,6 +41,19 @@ def main() -> None:
     sliced = [9, 2, 3, 4]
     print("nums[1:3]（左闭右开）->", sliced[1:3])
     print("nums[::-1]（新序列，原列表不变）->", sliced[::-1], " 原 nums =", sliced)
+
+    section("list 与 tuple：可变 / 不可变")
+    pairs_tuple = [(1, 9), (5, 2), (3, 7)]
+    pairs_list = [[1, 9], [5, 2], [3, 7]]
+    print("min([(1, 9), (5, 2), (3, 7)]) ->", min(pairs_tuple))
+    print("min([[1, 9], [5, 2], [3, 7]]) ->", min(pairs_list))
+    pairs_list[0][0] = 8
+    print("列表可改：pairs_list[0][0] = 8 后 ->", pairs_list)
+    t = (1, 9)
+    try:
+        t[0] = 8
+    except TypeError as e:
+        print("元组不可改：t[0] = 8 -> TypeError:", e)
 
     section("dict：[] / get / setdefault / pop / popitem / update / keys / values / items / copy / clear")
     d: dict[str, int] = {"a": 1}
