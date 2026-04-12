@@ -13,6 +13,7 @@
 | `os.environ` | 环境变量映射；值为字符串 |
 | `os.environ.get("PATH")` | 安全读取 |
 | `os.getcwd()` / `os.chdir(...)` | 当前目录 / 切换目录 |
+| `os.makedirs(path, exist_ok=True)` | 递归创建多级目录；目录已存在时不报错 |
 
 ### `os.environ.get(...)` 与 `getcwd()` / `chdir()`
 
@@ -37,6 +38,34 @@ PATH 前 80 字: <PATH_PREVIEW>
 getcwd: <CWD>
 chdir 临时目录后 getcwd: <TMP_PATH>
 恢复后 getcwd: <CWD>
+```
+
+### `os.makedirs(path, exist_ok=True)`
+
+- `os.makedirs(...)` 适合一次创建多级目录；语义上对应 `Path(path).mkdir(parents=True, exist_ok=True)`。
+- `exist_ok=True` 很常用，像 `os.makedirs("ETF轮动", exist_ok=True)` 这样写时，目录已存在也不会抛异常。
+- `os.makedirs(...)` 一般返回 `None`；真正关心的是目录是否已经存在 / 创建成功。
+
+**输入代码**：
+
+```python
+with tempfile.TemporaryDirectory() as td:  # td 是临时目录的路径
+    target = os.path.join(td, "ETF轮动", "data")
+    makedirs_result = os.makedirs(target, exist_ok=True)
+    print("target =", target)
+    print("os.makedirs(target, exist_ok=True) ->", makedirs_result)
+    print("os.path.isdir(target) =", os.path.isdir(target))
+    os.makedirs(target, exist_ok=True)
+    print("再次调用后 os.path.isdir(target) =", os.path.isdir(target))
+```
+
+**输出结果**（`stdout`）：
+
+```text
+target = <TMP_PATH>/ETF轮动/data
+os.makedirs(target, exist_ok=True) -> None
+os.path.isdir(target) = True
+再次调用后 os.path.isdir(target) = True
 ```
 
 ## sys

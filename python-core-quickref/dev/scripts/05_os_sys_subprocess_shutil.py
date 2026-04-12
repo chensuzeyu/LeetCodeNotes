@@ -34,6 +34,14 @@ def main() -> None:
         finally:
             os.chdir(old_cwd)
     print("恢复后 getcwd:", os.getcwd())
+    with tempfile.TemporaryDirectory() as td:
+        target = os.path.join(td, "ETF轮动", "data")
+        makedirs_result = os.makedirs(target, exist_ok=True)
+        print("target =", target)
+        print("os.makedirs(target, exist_ok=True) ->", makedirs_result)
+        print("os.path.isdir(target) =", os.path.isdir(target))
+        os.makedirs(target, exist_ok=True)
+        print("再次调用后 os.path.isdir(target) =", os.path.isdir(target))
 
     section("sys：argv / path / version / executable")
     print("sys.argv:", sys.argv)
