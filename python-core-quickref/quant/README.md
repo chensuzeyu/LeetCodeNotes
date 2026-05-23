@@ -30,6 +30,15 @@ python3 run_all.py
 | [09-hkcodex-dates-marketdata.md](09-hkcodex-dates-marketdata.md) | [scripts/09_hkcodex_dates_marketdata.py](scripts/09_hkcodex_dates_marketdata.py) | `get_trade_days`、`fund_daily`、`index_daily` |
 | [10-1etf-chain.md](10-1etf-chain.md) | [scripts/10_1etf_chain.py](scripts/10_1etf_chain.py) | `1_ETF轮动` 的 `txt` 链路、`portfolio.csv` 与 `cwd` |
 
+## 策略现场手册（数据流）
+
+完整数据流、缓存路径、变量对齐见 HKCodex 策略目录下的 **`DATAFLOW.md`**。本仓索引：
+
+- [strategies/README.md](strategies/README.md) — 多策略总表  
+- [strategies/01-ETF轮动.md](strategies/01-ETF轮动.md) — `1_ETF轮动` 先修课 + 链接  
+
+读 `1_ETF轮动` 最低路径：`01`～`06` + `09` + `10` + 上述 **DATAFLOW**。
+
 ## 学习顺序
 
 `01` → `02` → `03` → `04` → `05` → `06` → `07` → `08` → `09` → `10`
