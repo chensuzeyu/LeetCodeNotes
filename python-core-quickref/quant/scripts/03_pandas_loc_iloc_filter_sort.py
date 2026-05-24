@@ -17,6 +17,7 @@ def section(title: str) -> None:
 def main() -> None:
     utf8_stdout()
 
+    # index 可重复（同 dict 键唯一不同）；20240109 两行用于演示 df.loc 多行返回
     df = pd.DataFrame(
         {
             "trade_date": ["20240108", "20240109", "20240109", "20240110"],
@@ -28,6 +29,28 @@ def main() -> None:
     section("loc / iloc")
     print("df.loc['20240109'].to_dict(orient='records') ->", df.loc["20240109"].to_dict(orient="records"))
     print("df.iloc[1].to_dict() ->", df.iloc[1].to_dict())
+
+    section("iloc 行切片 + 取列（1_ETF轮动）")
+    bars = pd.DataFrame(
+        {"close": [3.50, 3.52, 3.55, 3.53, 3.58, 3.60, 3.62, 3.65]},
+        index=[
+            "20240102",
+            "20240103",
+            "20240105",
+            "20240108",
+            "20240109",
+            "20240110",
+            "20240111",
+            "20240112",
+        ],
+    )
+    df_all = {"510180.SH": bars}
+    stk, reg_num, idx = "510180.SH", 3, 5
+    temp_close = df_all[stk].iloc[idx - reg_num : idx]["close"]
+    print("temp_close.index ->", temp_close.index.tolist())
+    print("temp_close.tolist() ->", temp_close.tolist())
+    print("len(temp_close) ->", len(temp_close))
+    print("type(temp_close) ->", type(temp_close).__name__)
 
     section("布尔筛选 / 列子集")
     picked = df.loc[df["score"] > 1.0, ["etf", "score"]]

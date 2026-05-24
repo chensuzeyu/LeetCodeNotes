@@ -17,8 +17,8 @@
 
 | 顺序 | 文档 | 对应能力 |
 |:----:|------|----------|
-| 1 | [01-pandas-series-dataframe](../01-pandas-series-dataframe.md) | `Series`、`DataFrame` |
-| 2 | [03-pandas-loc-iloc-filter-sort](../03-pandas-loc-iloc-filter-sort.md) | `iloc`、切片 |
+| 1 | [01-pandas-series-dataframe](../01-pandas-series-dataframe.md) | `Series`、`DataFrame`；含 `1_1` 第 65 行 `scores` / `idxmax` |
+| 2 | [03-pandas-loc-iloc-filter-sort](../03-pandas-loc-iloc-filter-sort.md) | `iloc`、行切片；含 `1_1` 第 67 行 `df_all[stk].iloc[...]['close']` |
 | 3 | [06-numpy-polyfit-score](../06-numpy-polyfit-score.md) | 得分公式 |
 | 4 | [09-hkcodex-dates-marketdata](../09-hkcodex-dates-marketdata.md) | `get_trade_days`、`fund_daily` |
 | 5 | [10-1etf-chain](../10-1etf-chain.md) | txt 读写、`cwd`、portfolio |

@@ -24,6 +24,14 @@ def main() -> None:
     print("Series.index ->", s.index.tolist())
     print("Series.name ->", s.name)
 
+    section("空 Series 填分 + idxmax（1_ETF轮动）")
+    etf_libs = ["510180.SH", "159915.SZ", "513100.SH", "518880.SH"]
+    scores = pd.Series(index=etf_libs, dtype="float64")
+    for stk, val in zip(etf_libs, [12.3, 8.1, 45.6, 3.2]):
+        scores[stk] = val
+    print("scores:\n", scores.to_string())
+    print("scores.idxmax() ->", scores.idxmax())
+
     section("DataFrame：从 dict/list 构造")
     df = pd.DataFrame(
         {

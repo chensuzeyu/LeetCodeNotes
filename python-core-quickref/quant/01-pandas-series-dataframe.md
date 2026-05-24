@@ -32,6 +32,41 @@ Series.index -> ['510180.SH', '159915.SZ', '513100.SH']
 Series.name -> score
 ```
 
+## 空 Series 填分 + idxmax（1_ETF轮动）
+
+`1_1_ETF轮动_选.py` 第 65 行：先建 **四格空积分榜**，内层循环按 ETF 代码填分，再用 `idxmax()` 选当日持仓。
+
+| 用法 | 说明 |
+|------|------|
+| `pd.Series(index=etf_libs, dtype='float64')` | 只指定 **index**（四只 ETF 代码），值先为 `NaN`；`dtype` 声明格子存浮点分 |
+| `scores[stk] = ...` | 按代码写入该只 ETF 的得分（与 `dict[stk]=` 相同写法） |
+| `scores.idxmax()` | 返回 **分数最大** 对应的 index（即 ETF 代码）；并列时取 index 里 **第一个** 最大值 |
+| `scores.sort_values(ascending=False)` | 调试时按分从高到低查看（`DATAFLOW` §5.3.5） |
+
+**输入代码**（与 `etf_libs` 顺序一致，分数为示意）：
+
+```python
+etf_libs = ["510180.SH", "159915.SZ", "513100.SH", "518880.SH"]
+scores = pd.Series(index=etf_libs, dtype="float64")
+for stk, val in zip(etf_libs, [12.3, 8.1, 45.6, 3.2]):
+    scores[stk] = val
+winner = scores.idxmax()
+```
+
+**输出结果**：
+
+```text
+scores.idxmax() -> 513100.SH
+```
+
+**为何本脚本用 Series 而不是 `dict`**
+
+- 全文已在用 pandas（`fund_daily`、`close` 切片等），积分榜也用 **「代码 → 一个数」** 的 `Series`，风格一致。
+- 选股一句 `idxmax()`、调试 `sort_values()` 是量化里常见写法。
+- 按 `etf_libs` 顺序建表时，并列最高与 `dict` + `max(..., key=...)`（插入顺序）可对齐；**并非 dict 做不到**，此处选 Series 主要是顺手与可读。
+
+现场数据流见 [`1_ETF轮动/DATAFLOW.md`](file:///E:/develop/Quant/HKCodex/HKCodex-CodeSets_v3/1_ETF轮动/DATAFLOW.md) §5.3.1 中层。
+
 ## DataFrame
 
 | 用法 | 说明 |
@@ -41,6 +76,7 @@ Series.name -> score
 | `df.to_dict(orient="index")` / `orient="records"` | 快速看“索引 → 一整行”或“按行记录列表” |
 
 - `DataFrame` 更像二维表：行索引常是日期，列名常是字段名，如 `close`、`score`、`hold`。
+- **index 与 `dict` 键**：`dict` 同键会覆盖；pandas 的 **index 可重复**，`loc[标签]` 可能返回多行（详见 [03-pandas-loc-iloc-filter-sort · loc/iloc](03-pandas-loc-iloc-filter-sort.md#loc--iloc)）。
 
 **输入代码**：
 
