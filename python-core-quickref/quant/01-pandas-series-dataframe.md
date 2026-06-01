@@ -65,7 +65,7 @@ scores.idxmax() -> 513100.SH
 - 选股一句 `idxmax()`、调试 `sort_values()` 是量化里常见写法。
 - 按 `etf_libs` 顺序建表时，并列最高与 `dict` + `max(..., key=...)`（插入顺序）可对齐；**并非 dict 做不到**，此处选 Series 主要是顺手与可读。
 
-现场数据流见 [`1_ETF轮动/DATAFLOW.md`](file:///E:/develop/Quant/HKCodex/HKCodex-CodeSets_v3/1_ETF轮动/DATAFLOW.md) §5.3.1 中层。
+现场数据流见 [`1_ETF轮动/DATAFLOW.md`](../../../Quant/HKCodex/HKCodex-CodeSets_v3/1_ETF轮动/DATAFLOW.md) §5.3.1 中层。
 
 ## DataFrame
 

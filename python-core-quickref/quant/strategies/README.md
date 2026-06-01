@@ -8,7 +8,8 @@
 
 | 编号 | HKCodex 目录 | 现场手册 | 索引卡 |
 |:----:|--------------|----------|--------|
-| 1 | `1_ETF轮动` | [DATAFLOW.md](file:///E:/develop/Quant/HKCodex/HKCodex-CodeSets_v3/1_ETF轮动/DATAFLOW.md) | [01-ETF轮动.md](./01-ETF轮动.md) |
+| 1 | `1_ETF轮动` | [DATAFLOW.md](../../../../Quant/HKCodex/HKCodex-CodeSets_v3/1_ETF轮动/DATAFLOW.md) | [01-ETF轮动.md](./01-ETF轮动.md) |
+| 13 | `13_ETF轮动_v3` | [DATAFLOW.md](../../../../Quant/HKCodex/HKCodex-CodeSets_v3/13_ETF轮动_v3/DATAFLOW.md) | [13-ETF轮动_v3.md](./13-ETF轮动_v3.md) |
 
 新增策略时：在 HKCodex 对应目录新建 `DATAFLOW.md`，在本表加一行，并增加 `NN-策略简称.md` 索引卡。
 

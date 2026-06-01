@@ -38,6 +38,7 @@ def main() -> None:
         "08_backtrader_order_broker_analyzer",
         "09_hkcodex_dates_marketdata",
         "10_1etf_chain",
+        "11_etf_v3_hkcodex",
     ]
     print("Python:", sys.version.split()[0])
     print("【量化代码阅读速查】工作目录:", Path(__file__).resolve().parent)

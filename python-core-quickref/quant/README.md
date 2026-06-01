@@ -29,6 +29,7 @@ python3 run_all.py
 | [08-backtrader-order-broker-analyzer.md](08-backtrader-order-broker-analyzer.md) | [scripts/08_backtrader_order_broker_analyzer.py](scripts/08_backtrader_order_broker_analyzer.py) | 下单、broker、`notify_order`、`notify_trade`、`TimeReturn` |
 | [09-hkcodex-dates-marketdata.md](09-hkcodex-dates-marketdata.md) | [scripts/09_hkcodex_dates_marketdata.py](scripts/09_hkcodex_dates_marketdata.py) | `get_trade_days`、`fund_daily`、`index_daily` |
 | [10-1etf-chain.md](10-1etf-chain.md) | [scripts/10_1etf_chain.py](scripts/10_1etf_chain.py) | `1_ETF轮动` 的 `txt` 链路、`portfolio.csv` 与 `cwd` |
+| [11-etf-v3-hkcodex.md](11-etf-v3-hkcodex.md) | [scripts/11_etf_v3_hkcodex.py](scripts/11_etf_v3_hkcodex.py) | `13_ETF轮动_v3` 全部 hkcodex 用法（三脚本对照） |
 
 ## 策略现场手册（数据流）
 
@@ -36,14 +37,17 @@ python3 run_all.py
 
 - [strategies/README.md](strategies/README.md) — 多策略总表  
 - [strategies/01-ETF轮动.md](strategies/01-ETF轮动.md) — `1_ETF轮动` 先修课 + 链接  
+- [strategies/13-ETF轮动_v3.md](strategies/13-ETF轮动_v3.md) — `13_ETF轮动_v3` 先修课 + 链接  
 
-读 `1_ETF轮动` 最低路径：`01`～`06` + `09` + `10` + 上述 **DATAFLOW**。
+读 `1_ETF轮动` 最低路径：`01`～`06` + `09` + `10` + 上述 **DATAFLOW**。  
+读 `13_ETF轮动_v3` 在同样基础上加 **`11`**（hkcodex 三脚本对照）+ **v3 DATAFLOW**。
 
 ## 学习顺序
 
-`01` → `02` → `03` → `04` → `05` → `06` → `07` → `08` → `09` → `10`
+`01` → `02` → `03` → `04` → `05` → `06` → `07` → `08` → `09` → `10` → `11`
 
-读 `1_ETF轮动` 的最低顺序建议是：`01`～`06` + `09` + `10`；做回测细读再加 `07`、`08`。
+读 `1_ETF轮动` 的最低顺序建议是：`01`～`06` + `09` + `10`；做回测细读再加 `07`、`08`。  
+读 `13_ETF轮动_v3` 时在第 9 课后加 `11`。
 
 ## 编写规范
 

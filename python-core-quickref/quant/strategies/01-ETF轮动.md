@@ -4,7 +4,7 @@
 
 | 项 | 链接 |
 |----|------|
-| **现场手册（主笔记）** | [`DATAFLOW.md`](file:///E:/develop/Quant/HKCodex/HKCodex-CodeSets_v3/1_ETF轮动/DATAFLOW.md) |
+| **现场手册（主笔记）** | [`DATAFLOW.md`](../../../../Quant/HKCodex/HKCodex-CodeSets_v3/1_ETF轮动/DATAFLOW.md) |
 | 选股脚本 | `.../1_ETF轮动/1_1_ETF轮动_选.py` |
 | 回测脚本 | `.../1_ETF轮动/1_2_ETF轮动_回测.py` |
 | 聚宽迁移 | `.../1_ETF轮动/聚宽迁移说明.md` |

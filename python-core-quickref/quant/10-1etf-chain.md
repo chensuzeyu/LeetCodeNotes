@@ -100,12 +100,12 @@ portfolio logical path -> <CWD>\_tmp_1etf_chain_demo\ETF轮动_portfolio.csv
 
 ## 本地脚本参考
 
-- [1_1_ETF轮动_选.py](/d:/develop/Quant/HKCodex/HKCodex-CodeSets_v3/1_ETF轮动/1_1_ETF轮动_选.py)  
-- [1_2_ETF轮动_回测.py](/d:/develop/Quant/HKCodex/HKCodex-CodeSets_v3/1_ETF轮动/1_2_ETF轮动_回测.py)
+- [`1_1_ETF轮动_选.py`](../../../Quant/HKCodex/HKCodex-CodeSets_v3/1_ETF轮动/1_1_ETF轮动_选.py)  
+- [`1_2_ETF轮动_回测.py`](../../../Quant/HKCodex/HKCodex-CodeSets_v3/1_ETF轮动/1_2_ETF轮动_回测.py)
 
 ## 完整数据流（策略主笔记）
 
 本课只演示 **txt 读写与 cwd**。变量语义、`df_all`、tushare 缓存、`iloc` 对齐等见：
 
-- **[1_ETF轮动/DATAFLOW.md](file:///E:/develop/Quant/HKCodex/HKCodex-CodeSets_v3/1_ETF轮动/DATAFLOW.md)**（HKCodex，与代码同仓）  
+- **[1_ETF轮动/DATAFLOW.md](../../../Quant/HKCodex/HKCodex-CodeSets_v3/1_ETF轮动/DATAFLOW.md)**（HKCodex，与代码同仓）  
 - [strategies/01-ETF轮动.md](strategies/01-ETF轮动.md)（本仓库索引卡）

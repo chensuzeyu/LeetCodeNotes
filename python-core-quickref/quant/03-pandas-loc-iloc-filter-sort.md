@@ -82,7 +82,7 @@ len(temp_close) -> 3
 type(temp_close) -> Series
 ```
 
-- 下标 `idx=5` 对应行 `20240110`，切片 `iloc[2:5]` 取 **第 2、3、4 行**（`20240105`、`20240108`、`20240109`），**不含** 第 5 行 `20240110`（当日）。完整时间对齐见 [`1_ETF轮动/DATAFLOW.md`](file:///E:/develop/Quant/HKCodex/HKCodex-CodeSets_v3/1_ETF轮动/DATAFLOW.md) §5.3.2。
+- 下标 `idx=5` 对应行 `20240110`，切片 `iloc[2:5]` 取 **第 2、3、4 行**（`20240105`、`20240108`、`20240109`），**不含** 第 5 行 `20240110`（当日）。完整时间对齐见 [`1_ETF轮动/DATAFLOW.md`](../../../Quant/HKCodex/HKCodex-CodeSets_v3/1_ETF轮动/DATAFLOW.md) §5.3.2。
 
 ## 布尔筛选
 
