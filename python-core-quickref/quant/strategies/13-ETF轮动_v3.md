@@ -18,8 +18,8 @@
 
 | 顺序 | 文档 | 对应能力 |
 |:----:|------|----------|
-| 1 | [01-pandas-series-dataframe](../01-pandas-series-dataframe.md) | `factor_df`、`combined_scores` |
-| 2 | [03-pandas-loc-iloc-filter-sort](../03-pandas-loc-iloc-filter-sort.md) | `iloc[:idx]` 行情切片 |
+| 1 | [01-pandas-series-dataframe](../01-pandas-series-dataframe.md) | `weights`（dict→Series）、`factor_df`、`z_factors`、`combined_scores`、`g.df`、`pnl` |
+| 2 | [03-pandas-loc-iloc-filter-sort](../03-pandas-loc-iloc-filter-sort.md) | `iloc[:idx]`、`loc` 筛交易日、`g.df.loc` 回填 |
 | 3 | [04-pandas-datetime-ffill-shape](../04-pandas-datetime-ffill-shape.md) | 回测 `to_datetime` / `ffill` |
 | 4 | [06-numpy-polyfit-score](../06-numpy-polyfit-score.md) | 斜率动量 `LinearRegression` |
 | 5 | [09-hkcodex-dates-marketdata](../09-hkcodex-dates-marketdata.md) | hkcodex 返回形状 |

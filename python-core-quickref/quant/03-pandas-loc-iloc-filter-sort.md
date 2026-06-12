@@ -84,6 +84,82 @@ type(temp_close) -> Series
 
 - 下标 `idx=5` 对应行 `20240110`，切片 `iloc[2:5]` 取 **第 2、3、4 行**（`20240105`、`20240108`、`20240109`），**不含** 第 5 行 `20240110`（当日）。完整时间对齐见 [`1_ETF轮动/DATAFLOW.md`](../../../Quant/HKCodex/HKCodex-CodeSets_v3/1_ETF轮动/DATAFLOW.md) §5.3.2。
 
+## `iloc[:idx]` 历史行情（13_ETF轮动_v3 · `1_1`）
+
+`1_1` 在 `reset_index(drop=True)` 后，行情行号与 `enumerate(trade_days)` 的 `idx` **一一对齐**：
+
+```python
+history = df_all[stk].iloc[:idx]   # 行 0 … idx-1，不含当日 idx
+```
+
+| 用法 | 说明 |
+|------|------|
+| `iloc[:idx]` | 左闭右开，等价 `iloc[0:idx]`，共 `idx` 行 |
+| `history['close']` | 切完再取列 → `Series`，传入因子函数 |
+| `history` 整体 | `DataFrame`，传入 `efficiency_momentum` |
+
+**输入代码**（`idx=5`，表已 `reset_index`，index 为 `0…5`）：
+
+```python
+history = df_all["510880.SH"].iloc[:idx]
+close_series = history["close"]
+```
+
+**输出结果**：
+
+```text
+len(history) -> 5
+history.index.tolist() -> [0, 1, 2, 3, 4]
+close_series.tolist() -> [1.05, 1.15, 1.25, 1.35, 1.45]
+```
+
+**注意点**：`warmup_bars=25` 时，第一次算分 `idx=25`，`history` 恰好 25 根 K 线。`generate_stock_selection` **不用** `iloc[:idx]`，而用截至昨日的整表 + 价格归一化，见 [11-etf-v3-hkcodex](11-etf-v3-hkcodex.md)。
+
+## 布尔筛选定位交易日（13_ETF轮动_v3 · `generate`）
+
+| 用法 | 说明 |
+|------|------|
+| `df.loc[df['cal_date'] == trading_date]` | 布尔条件筛行 → 子 `DataFrame` |
+| `current_row['pretrade_date'].iloc[0]` | 从筛出的 1 行里取「前一交易日」 |
+
+**输入代码**：
+
+```python
+current_row = trade_days.loc[trade_days["cal_date"] == "20240102"]
+yesterday = current_row["pretrade_date"].iloc[0]
+```
+
+**输出结果**：
+
+```text
+current_row.to_dict(orient='records') -> [{'cal_date': '20240102', 'pretrade_date': '20231228'}]
+yesterday -> 20231228
+```
+
+## `loc` 按日回填台账（1_2_ETF轮动_回测 · `g.df`）
+
+策略 `next` 里用 **index 标签 = 交易日字符串** 写回当日台账：
+
+| 用法 | 说明 |
+|------|------|
+| `g.df.loc[dt_str, 'cash'] = ...` | 单格赋值 |
+| `g.df.loc[dt_str, 'hold1'] = stk` | 同日多列可连续写 |
+
+空表构造见 [01-pandas-series-dataframe · 回测台账](01-pandas-series-dataframe.md#回测台账空表1_2etf轮动_回测--gdf)。
+
+**输入代码**：
+
+```python
+portfolio_df.loc["20240102", "cash"] = 100000.0
+portfolio_df.loc["20240102", "hold1"] = "513100.SH"
+```
+
+**输出结果**：
+
+```text
+portfolio_df.loc[dt_str].to_dict() -> {'hold1': '513100.SH', 'cash': 100000.0, 'value': nan}
+```
+
 ## 布尔筛选
 
 | 用法 | 说明 |
@@ -109,11 +185,13 @@ df[df['score'] > 1.0][['etf', 'score']] -> [{'etf': '159915.SZ', 'score': 1.08},
 
 | 用法 | 说明 |
 |------|------|
-| `sort_values("score")` | 默认升序 |
+| `sort_values("score")` | 默认升序（`DataFrame` 按列） |
 | `sort_values("score", ascending=False)` | 按分数从高到低排 |
+| `series.sort_values(ascending=False)` | **`Series` 按值排序**（v3 的 `combined_scores`） |
 | `drop_duplicates(subset=["etf"])` | 每个 ETF 只保留一行 |
 
 - `drop_duplicates(..., keep="first")` 会保留当前顺序里的第一条，所以常和 `sort_values(...)` 连起来用。
+- v3 排序后取第一名用 `combined_scores.index[0]`，见 [01 · Z-Score 加权融合](01-pandas-series-dataframe.md#z-score-加权融合--combined_scores13etf轮动_v3)。
 
 **输入代码**：
 

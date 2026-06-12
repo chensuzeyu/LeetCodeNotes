@@ -52,6 +52,46 @@ def main() -> None:
     print("len(temp_close) ->", len(temp_close))
     print("type(temp_close) ->", type(temp_close).__name__)
 
+    section("iloc[:idx] 历史行情（13_ETF轮动_v3 · 1_1）")
+    ohlc = pd.DataFrame(
+        {
+            "open": [1.0, 1.1, 1.2, 1.3, 1.4, 1.5],
+            "high": [1.1, 1.2, 1.3, 1.4, 1.5, 1.6],
+            "low": [0.9, 1.0, 1.1, 1.2, 1.3, 1.4],
+            "close": [1.05, 1.15, 1.25, 1.35, 1.45, 1.55],
+        }
+    )
+    df_all_v3 = {"510880.SH": ohlc}
+    idx = 5
+    history = df_all_v3["510880.SH"].iloc[:idx]
+    close_series = history["close"]
+    print("len(history) ->", len(history))
+    print("history.index.tolist() ->", history.index.tolist())
+    print("close_series.tolist() ->", close_series.tolist())
+
+    section("布尔筛选定位交易日（13_ETF轮动_v3 · generate）")
+    trade_days = pd.DataFrame(
+        {
+            "cal_date": ["20231227", "20231228", "20240102"],
+            "pretrade_date": ["20231226", "20231227", "20231228"],
+        }
+    )
+    trading_date = "20240102"
+    current_row = trade_days.loc[trade_days["cal_date"] == trading_date]
+    yesterday = current_row["pretrade_date"].iloc[0]
+    print("current_row.to_dict(orient='records') ->", current_row.to_dict(orient="records"))
+    print("yesterday ->", yesterday)
+
+    section("loc 按日回填台账（1_2_ETF轮动_回测 · g.df）")
+    portfolio_df = pd.DataFrame(
+        index=trade_days["cal_date"],
+        columns=["hold1", "cash", "value"],
+    )
+    dt_str = "20240102"
+    portfolio_df.loc[dt_str, "cash"] = 100000.0
+    portfolio_df.loc[dt_str, "hold1"] = "513100.SH"
+    print("portfolio_df.loc[dt_str].to_dict() ->", portfolio_df.loc[dt_str].to_dict())
+
     section("布尔筛选 / 列子集")
     picked = df.loc[df["score"] > 1.0, ["etf", "score"]]
     print("df[df['score'] > 1.0][['etf', 'score']] ->", picked.to_dict(orient="records"))

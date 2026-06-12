@@ -19,7 +19,7 @@ python3 run_all.py
 
 | 文档 | 演示脚本 | 内容 |
 |------|----------|------|
-| [01-pandas-series-dataframe.md](01-pandas-series-dataframe.md) | [scripts/01_pandas_series_dataframe.py](scripts/01_pandas_series_dataframe.py) | `Series`、`DataFrame`、列与索引 |
+| [01-pandas-series-dataframe.md](01-pandas-series-dataframe.md) | [scripts/01_pandas_series_dataframe.py](scripts/01_pandas_series_dataframe.py) | `Series`/`DataFrame` 构造、v3 因子表与 `combined_scores` |
 | [02-pandas-readwrite-index.md](02-pandas-readwrite-index.md) | [scripts/02_pandas_readwrite_index.py](scripts/02_pandas_readwrite_index.py) | `read_csv`、`to_csv`、`index_col`、`set_index`、`reset_index` |
 | [03-pandas-loc-iloc-filter-sort.md](03-pandas-loc-iloc-filter-sort.md) | [scripts/03_pandas_loc_iloc_filter_sort.py](scripts/03_pandas_loc_iloc_filter_sort.py) | `[]`、`.loc`、`.iloc`、筛选、排序、去重 |
 | [04-pandas-datetime-ffill-shape.md](04-pandas-datetime-ffill-shape.md) | [scripts/04_pandas_datetime_ffill_shape.py](scripts/04_pandas_datetime_ffill_shape.py) | `to_datetime`、`DatetimeIndex`、`strftime`、`ffill` |
