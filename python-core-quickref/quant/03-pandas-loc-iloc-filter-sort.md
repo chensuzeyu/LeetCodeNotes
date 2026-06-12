@@ -138,7 +138,7 @@ yesterday -> 20231228
 
 ## `loc` 按日回填台账（1_2_ETF轮动_回测 · `g.df`）
 
-策略 `next` 里用 **index 标签 = 交易日字符串** 写回当日台账：
+策略 `next` 里用 **index 标签 = 交易日字符串** 写回当日台账。选股侧填因子用 `.at`，与回测 `.loc` 的对照见 [01 · at 与 loc 对照](01-pandas-series-dataframe.md#对照factor_df-用-at回测台账用-loc)。
 
 | 用法 | 说明 |
 |------|------|

@@ -205,6 +205,8 @@ index -> ['20240108', '20240109']
 | `history['close']` | 从行情表取单列 → `Series`，传入 `bias_momentum` / `slope_momentum` |
 | `efficiency_momentum(history)` | 入参为 **DataFrame**（需 `open/high/low/close` 四列） |
 
+与回测台账 `.loc` 为何不同 → [对照：factor_df 用 at、回测台账用 loc](#对照factor_df-用-at回测台账用-loc)。
+
 **输入代码**：
 
 ```python
@@ -322,6 +324,26 @@ dropna 后 index -> ['513100.SH', '159915.SZ', '518880.SH']
 ```
 
 **v1 vs v3 选股容器**：`1_ETF轮动` 用空 `Series` + `idxmax()`；v3 用 `factor_df` → `combined_scores` + `sort_values` + `index[0]`。
+
+### 对照：factor_df 用 at、回测台账用 loc
+
+**`.loc` / `.at` 各是什么**
+
+| 访问器 | 全称 / 含义 | 能做什么 |
+|--------|-------------|----------|
+| `.loc` | **loc**ation，按**标签**定位 | 单格、**整行**（`loc[dt_str]`）、**整列**（`loc[:, 'cash']`）、多列、布尔筛选等；读写范围见 [03 课](03-pandas-loc-iloc-filter-sort.md) |
+| `.at` | 单格标量访问（atomic） | **只能**「一行标签 + 一列名 → 一个数」；不能一次选中整行或整列 |
+
+单格写入时 `.at[行, 列]` 与 `.loc[行, 列]` 结果一致；差别在 **`.loc` 管一片，`.at` 只管一格**。
+
+**v3 为何各用各的**：`.at` 是「填这一格」——选股循环里换一只 ETF、写一个因子；`.loc` 是「先圈定这一行，再往里面填」——回测 `portfolio_summary` 里固定 `dt_str`，连续写 `hold` / `vol` / `cash` / `value` 等列。这是读写习惯，不是硬性规定。
+
+| 场景 | 写法 | 为何这样写 |
+|------|------|------------|
+| 选股 `factor_df` | `.at[stk, 'bias']` | 外层换 ETF（行在变），每次写一个标量 |
+| 回测 `g.df` | `.loc[dt_str, 'cash']` | 固定当日一行，连续填多列台账 |
+
+`1_2_ETF轮动_回测.py` 现场写法是链式 `g.df.loc[dt_str]['cash'] = ...`；本课示例用规范的 `loc[行, 列]`。二者皆可，日后统一成 `loc[行, 列]` 或 `.at` 均可。回测 `loc` 细节见 [03 · loc 按日回填](03-pandas-loc-iloc-filter-sort.md#loc-按日回填台账1_2etf轮动_回测--gdf)。
 
 ## 回测台账空表（1_2_ETF轮动_回测 · g.df）
 
