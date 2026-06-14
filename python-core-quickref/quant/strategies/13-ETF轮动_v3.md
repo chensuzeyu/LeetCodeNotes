@@ -18,7 +18,7 @@
 
 | 顺序 | 文档 | 对应能力 |
 |:----:|------|----------|
-| 1 | [01-pandas-series-dataframe](../01-pandas-series-dataframe.md) | `weights`（dict→Series）、`factor_df`、`z_factors`、`combined_scores`、`g.df`、`pnl` |
+| 1 | [01-pandas-series-dataframe](../01-pandas-series-dataframe.md) | `weights`、`factor_df`、**[axis 与 dim 0/1](../01-pandas-series-dataframe.md#axis-与-dim-01factor_df-必读)**、`zscore`（自定义）、`z_factors`、`combined_scores`、`g.df`、`pnl` |
 | 2 | [03-pandas-loc-iloc-filter-sort](../03-pandas-loc-iloc-filter-sort.md) | `iloc[:idx]`、`loc` 筛交易日、`g.df.loc` 回填 |
 | 3 | [04-pandas-datetime-ffill-shape](../04-pandas-datetime-ffill-shape.md) | 回测 `to_datetime` / `ffill` |
 | 4 | [06-numpy-polyfit-score](../06-numpy-polyfit-score.md) | 斜率动量 `LinearRegression` |

@@ -75,6 +75,24 @@ def main() -> None:
     print("columns ->", df.columns.tolist())
     print("index ->", df.index.tolist())
 
+    section("axis 与 dim 0/1（factor_df 必读）")
+    etf_libs_axis = ["510880.SH", "159915.SZ", "513100.SH", "518880.SH"]
+    bias_col = pd.Series([12.3, 8.1, 45.6, 3.2], index=etf_libs_axis)
+    z_bias = zscore(bias_col)
+    print("bias 列原始值 ->", bias_col.tolist())
+    print("zscore(bias) 列:\n", z_bias.to_string())
+    mini = pd.DataFrame(
+        {"bias": [12.3, 8.1, 45.6, 3.2]},
+        index=etf_libs_axis,
+    )
+    arr = mini.values
+    print("mini.shape ->", mini.shape, "  # (行, 列) = dim0, dim1")
+    print("np.mean(arr, axis=0) ->", np.mean(arr, axis=0).tolist(), "  # 沿行聚合，每列一个数")
+    # 固定 vs 全选：arr[:, j] 固定列、沿行切；arr[i, :] 固定行、沿列切
+    grid = np.array([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0], [10.0, 11.0, 12.0]])
+    print("arr[:, 1] 固定列1、沿dim0 ->", grid[:, 1].tolist(), "  # 竖条，长度4")
+    print("arr[0, :] 固定行0、沿dim1 ->", grid[0, :].tolist(), "  # 横条，长度3")
+
     section("空 DataFrame 预建因子表 + at + apply（13_ETF轮动_v3 · factor_df）")
     etf_libs_v3 = ["510880.SH", "159915.SZ", "513100.SH", "518880.SH"]
     factor_df = pd.DataFrame(index=etf_libs_v3, columns=["bias", "slope", "efficiency"], dtype="float64")

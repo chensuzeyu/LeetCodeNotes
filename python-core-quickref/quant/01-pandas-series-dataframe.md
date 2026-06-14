@@ -193,6 +193,47 @@ columns -> ['etf', 'score', 'hold']
 index -> ['20240108', '20240109']
 ```
 
+## axis 与 dim 0/1（factor_df 必读）
+
+把 `factor_df`（或 `arr = factor_df.values`）想成 **平面上的 2D 数组 (2D array)**：`shape (4, 3)`，**dim 0 = 行（竖向）**，**dim 1 = 列（横向）**。`arr` 只是底下的 NumPy 数字网格，不是策略里另一个表；`factor_df['bias']` 用列名，`arr[:, j]` 用列下标。
+
+### 固定 vs 全选（核心）
+
+切片时：**数字 = 固定这一维**；**`:` = 全选这一维**（二者相反）。
+
+```text
+arr.shape = (4, 3)     # arr = factor_df.values
+         j=0   j=1   j=2
+i=0      ·     ·     ·
+i=1      ·     ·     ·
+i=2      ·     ·     ·
+i=3      ·     ·     ·
+```
+
+```python
+arr[:, j]   # 固定 j（列），: (向下)扫行 → 竖条 → 取列，沿 dim 0 变
+arr[i, :]   # 固定 i（行），: (向右)扫列 → 横条 → 取行，沿 dim 1 变
+```
+
+常见误区：
+
+把 **一行数据**（横条，`arr[i, :]`）的「横向」，当成 **行轴 dim 0** 的方向
+
+在 NumPy / pandas / PyTorch 等二维 shape (行, 列) 里：
+- dim 0 是行轴，索引增大 ≈ 往下；
+- dim 1 是列轴，索引增大 ≈ 向右
+
+| pandas | NumPy | 得到 |
+|--------|-------|------|
+| `factor_df['bias']` | `arr[:, j]` | 一列（4 只 ETF 同一因子） |
+| `factor_df.loc['510880.SH']` | `arr[i, :]` | 一行（一只 ETF 三个因子） |
+| `apply(zscore, axis=0)` | 轮流 `arr[:, j]` | 每列横截面 zscore，仍 4×3 |
+| `mul(weights, axis=1).sum(axis=1)` | — | 每行加权求和 → 4 个综合分 |
+
+`zscore` 为脚本自定义（非 `pd` 内置）。`mean(axis=0)` 沿 dim 0 **压扁**（每列一个数），与 `apply(axis=0)` **按列切开**不同，但 `axis` 编号一致。
+
+可运行例子 → [scripts/01_pandas_series_dataframe.py](scripts/01_pandas_series_dataframe.py)（`axis 与 dim 0/1` 段）。v3 现场 → [DATAFLOW §5.3](../../../../Quant/HKCodex/HKCodex-CodeSets_v3/13_ETF轮动_v3/DATAFLOW.md#531-横截面-z-score)。
+
 ## 空 DataFrame 预建因子表（13_ETF轮动_v3 · factor_df）
 
 三脚本每日（或单次）算分前，先建 **4 行 × 3 列** 空表，再逐 ETF 填因子原始值。
@@ -201,7 +242,7 @@ index -> ['20240108', '20240109']
 |------|------|
 | `pd.DataFrame(index=etf_libs, columns=[...], dtype='float64')` | 行 index = ETF 代码，列 = 因子名；初值 `NaN` |
 | `factor_df.at[stk, 'bias'] = ...` | 按 **行标签 + 列名** 写单个标量（比 `loc` 更适合单格赋值） |
-| `factor_df.apply(zscore, axis=0)` | **按列**做 Z-Score；每列跨 4 只 ETF 标准化 |
+| `factor_df.apply(zscore, axis=0)` | **按列**做 Z-Score；每列跨 4 只 ETF 标准化（`axis` 见 [上一节](#axis-与-dim-01factor_df-必读)） |
 | `history['close']` | 从行情表取单列 → `Series`，传入 `bias_momentum` / `slope_momentum` |
 | `efficiency_momentum(history)` | 入参为 **DataFrame**（需 `open/high/low/close` 四列） |
 
